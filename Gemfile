@@ -35,7 +35,6 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry-rails'
   gem 'rubocop'
-  gem 'foreman'  #追記
 end
 
 group :development do

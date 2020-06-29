@@ -1,40 +1,24 @@
 {
-  "application.css": "/packs/css/application-b21f8a7a.css",
-  "application.css.map": "/packs/css/application-b21f8a7a.css.map",
-  "application.js": "/packs/js/application-2925a4a340c7a09b6415.js",
-  "application.js.map": "/packs/js/application-2925a4a340c7a09b6415.js.map",
+  "application.js": "/packs/js/application-7192d73f5bac6a78b4be.js",
+  "application.js.map": "/packs/js/application-7192d73f5bac6a78b4be.js.map",
   "entrypoints": {
     "application": {
-      "css": [
-        "/packs/css/application-b21f8a7a.css"
-      ],
       "js": [
-        "/packs/js/application-2925a4a340c7a09b6415.js"
-      ],
-      "css.map": [
-        "/packs/css/application-b21f8a7a.css.map"
+        "/packs/js/application-7192d73f5bac6a78b4be.js"
       ],
       "js.map": [
-        "/packs/js/application-2925a4a340c7a09b6415.js.map"
+        "/packs/js/application-7192d73f5bac6a78b4be.js.map"
       ]
     },
     "hello_vue": {
-      "css": [
-        "/packs/css/hello_vue-ef4d3a49.css"
-      ],
       "js": [
-        "/packs/js/hello_vue-ef731b7e4efc4c288a9c.js"
-      ],
-      "css.map": [
-        "/packs/css/hello_vue-ef4d3a49.css.map"
+        "/packs/js/hello_vue-5d812a3280f75b70858f.js"
       ],
       "js.map": [
-        "/packs/js/hello_vue-ef731b7e4efc4c288a9c.js.map"
+        "/packs/js/hello_vue-5d812a3280f75b70858f.js.map"
       ]
     }
   },
-  "hello_vue.css": "/packs/css/hello_vue-ef4d3a49.css",
-  "hello_vue.css.map": "/packs/css/hello_vue-ef4d3a49.css.map",
-  "hello_vue.js": "/packs/js/hello_vue-ef731b7e4efc4c288a9c.js",
-  "hello_vue.js.map": "/packs/js/hello_vue-ef731b7e4efc4c288a9c.js.map"
+  "hello_vue.js": "/packs/js/hello_vue-5d812a3280f75b70858f.js",
+  "hello_vue.js.map": "/packs/js/hello_vue-5d812a3280f75b70858f.js.map"
 }
