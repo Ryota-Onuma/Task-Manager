@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   root to: 'top#top'
 
   namespace :api do
-   #API用のルーティングはここに書く
+    # API用のルーティングはここに書く
+    resources :tasks
   end
 
-  get '*path', to: 'top#top', format: false   #getのリクエストをまとめる
+  get '*path', to: 'top#top', format: false # getのリクエストをまとめる
 end
