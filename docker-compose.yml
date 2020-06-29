@@ -38,3 +38,11 @@ services:
         max-size: "100k"
     dns:
       - 8.8.8.8
+  webpack:
+    command: bash -c "rm -rf /app/public/packs; /app/bin/webpack-dev-server"
+    ports:
+      - "3035:3035"
+    depends_on:
+      - app
+    tty: false
+    stdin_open: false
