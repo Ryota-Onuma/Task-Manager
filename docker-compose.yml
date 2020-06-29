@@ -45,8 +45,6 @@ services:
     volumes:
       - ./frontend:/var/src/app/frontend:delegated
       - /var/src/app/frontend/node_modules
-    ports:
-      - 8080:8080
     command: ./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --inline --progress --config build/webpack.dev.conf.js
     container_name: node
   selenium_chrome:
