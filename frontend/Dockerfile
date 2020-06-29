@@ -1,4 +1,4 @@
-FROM node:8.12-jessie
+FROM node:14.4
 
 WORKDIR /var/src/app/frontend
 COPY package-lock.json .
