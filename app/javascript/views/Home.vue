@@ -1,6 +1,7 @@
 <template>
   <section id="home">
     <h1>{{ title }}</h1>
+    おっ！！！！
   </section>
 </template>
 

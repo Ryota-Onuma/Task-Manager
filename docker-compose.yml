@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: pass
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
     container_name: db
-  app:
+  app:  &app_base
     build:
       context: .
     volumes:
@@ -17,6 +17,7 @@ services:
     ports:
       - '3000:3000'
     environment:
+      WEBPACKER_DEV_SERVER_HOST: webpack-dev-server
       RAILS_ENV: development
       PG_DATABASE: postgres
       PG_PASSWORD: pass
@@ -38,11 +39,17 @@ services:
         max-size: "100k"
     dns:
       - 8.8.8.8
-  webpack:
-    command: bash -c "rm -rf /app/public/packs; /app/bin/webpack-dev-server"
+  webpack-dev-server:
+    build: .
+    command: /bin/sh -c "bin/webpack-dev-server --hot --inline"
     ports:
-      - "3035:3035"
+      - '3035:3035'
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    volumes:
+      - .:/var/src/app
+    tty: true
+    stdin_open: true
     depends_on:
       - app
-    tty: false
-    stdin_open: false
+
