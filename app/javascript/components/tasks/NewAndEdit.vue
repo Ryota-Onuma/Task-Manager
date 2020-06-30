@@ -66,6 +66,14 @@ export default {
           'X-Requested-With': 'XMLHttpRequest',
           'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       };
+      if (inputTask.title === ''){
+        alert('タスクのタイトルが入力されていません。')
+        return
+      }
+      if(inputTask.content === ''){
+        alert('タスク内容が入力されていません。')
+        return
+      }
       if (this.is_new === true){  //新規登録の場合
          url = '/api/tasks'
           this.axios
