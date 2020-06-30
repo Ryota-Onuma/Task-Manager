@@ -6,16 +6,6 @@ class Api::TasksController < ApplicationController
        
     end
 
-    def show
-        task = Task.find(params[:id])
-        user = User.find(task.user_id)
-        info = {
-            task: task,
-            user:user
-        }
-        render :json => info
-    end
-
     def create
         task = Task.new(task_params)
         task.deadline= DateTime.now
