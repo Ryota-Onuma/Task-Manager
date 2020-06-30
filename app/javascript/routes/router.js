@@ -3,7 +3,6 @@ import Router from "vue-router";
 Vue.use(Router);
 import About from "../views/About.vue";
 import TaskIndex from "../views/tasks/Index.vue"
-import TaskShow from "../views/tasks/Show.vue"
 const router = new Router({
   mode: "history",
   routes: [
@@ -15,10 +14,6 @@ const router = new Router({
     {
       path:"/tasks/index",
       component: TaskIndex,
-    },
-    {
-      path: "/task/:id",
-      component: TaskShow
     },
     {
       path: "/about",

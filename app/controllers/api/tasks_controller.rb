@@ -3,7 +3,12 @@
 class Api::TasksController < ApplicationController
     def index
         tasks = Task.all
-        render :json => tasks
+        users = User.all
+        info = {
+            tasks: tasks,
+            users:users
+        }
+        render :json => info
     end
     def show
         task = Task.find(params[:id])
@@ -13,5 +18,20 @@ class Api::TasksController < ApplicationController
             user:user
         }
         render :json => info
+    end
+    def create
+        task = Task.create(task_params)
+        
+
+    end
+    def update
+
+
+    end
+
+    private
+
+    def task_params
+        params.require(:inputTask).permit(:name, :email, recommend_book: [:user_id, :comment])
     end
 end
