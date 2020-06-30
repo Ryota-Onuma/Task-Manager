@@ -5,11 +5,22 @@
     </div>
     <div id='task-show-white-box'> <!-- showの白いBox -->
         <h1 id="task-show-title">Task Info</h1>
+       
         <div id='todo-info-container'>
-          <div id="task-id" class='task-info-parts'>id：{{task.id}}</div>
-          <div id="task-title" class='task-info-parts'>Title：{{ task.title}}</div>
-          <div id='assigned-user' class='task-info-parts'>Assignee:{{ user.name}} </div>
-          <div id='task-content' class='task-info-parts'>Content:{{ task.content }}</div>
+          <div id="task-id" class='task-info-parts'>id：&ensp;{{task.id}}</div>
+          <div id="task-title" class='task-info-parts'>Title：&ensp;{{ task.title}}</div>
+          <div class='status-marker task-info-parts'>
+            Status：&ensp;
+            <span v-if='task.status === 1' class="yet">Yet</span>
+            <span v-else-if='task.status === 2' class="doing">Doing</span>
+            <span v-else-if='task.status === 3' class='done'>Done</span>
+         </div>
+          <div id='assigned-user' class='task-info-parts'>Assignee:&ensp;{{ user.name}} </div>
+          <div id='task-content' class='task-info-parts'>Content</div>
+            <div id='task-content-box'>
+              {{ task.content }}
+            </div> 
+          
         </div>
     </div>
   </section>
@@ -29,8 +40,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-$background-color:white;
-$close-button-color:white;
+  $background-color:white;
+  $close-button-color:white;
+  $yet:red;
+  $doing:yellow;
+  $done:#186de9;
+  $yet-color:white;
+  $doing-color:black;
+  $done-color:white;
   @media only screen and (max-width: 1365px) {}
   @media screen and (min-width: 1366px) {
     #task-show{
@@ -61,6 +78,7 @@ $close-button-color:white;
           color:resd;
           text-align: center;
         }
+   
         #todo-info-container{
           width: 80%;
           margin: 50px auto 0 auto;
@@ -68,9 +86,40 @@ $close-button-color:white;
           flex-direction: column;
           align-items: flex-start;
           justify-content: center;
+        .status-marker{
+            width: 80%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+         span{
+           font-size: 1.4rem;
+           display: inline-block;
+           padding: 5px 10px;
+           border-radius: 5px;
+         }
+         .yet{
+           background-color: $yet;
+           color:$yet-color;
+         }
+         .doing{
+          background-color: $doing;
+          color:$doing-color;
+         }
+         .done{
+          background-color: $done;
+          color:$done-color;
+         }
+       }
           .task-info-parts{
             margin: 10px;
             font-size: 1.4rem;
+          }
+          #task-content-box{
+          
+            width: 80%;
+            padding: 10px 10px 10px 20px;
+            box-sizing: border-box;
           }
         }
         }

@@ -6,19 +6,19 @@
                 Add a Task
             </span>
         </div>
-        <div id="tasks-container" v-if="tasks && users"> 
+        <div id="tasks-container" v-if="tasks && users" v-show="!is_show && !is_new_and_edit"> 
             <span v-for='(task,index) in tasks' :key="index" class="each-todo"> 
                 <TaskListCard :task='task' :showFunc='showFunc' :editFunc='editFunc'></TaskListCard>
             </span>
         </div>
         <transition name='fade'>
             <div id='task-show-modal-container' class='modal-container' v-if='whichTaskIsLookedInShow' v-show="is_show"> <!-- showページのモーダルです -->
-                <TaskShow :task='whichTaskIsLookedInShow' :user="relatedUser(whichTaskIsLookedInShow.id)" :is_show.sync='is_show'></TaskShow>
+                <TaskShow :task='whichTaskIsLookedInShow' :user="relatedUser(whichTaskIsLookedInShow.user_id)" :is_show.sync='is_show'></TaskShow>
             </div>
         </transition>
         <transition name='fade'>
             <div id='task-new-and-edit-modal-container' class='modal-container' v-if='taskNewOrEdit' v-show="is_new_and_edit"> <!-- newとeditページのモーダルです -->
-                <TaskNewAndEdit :task='taskNewOrEdit' :is_new_and_edit.sync='is_new_and_edit' :is_new='is_new'></TaskNewAndEdit>
+                <TaskNewAndEdit :task='taskNewOrEdit' :is_new_and_edit.sync='is_new_and_edit' :is_new='is_new' :refreshTasksAllData='refreshTasksAllData'> </TaskNewAndEdit>
             </div>
         </transition>
     </section>
@@ -86,7 +86,11 @@ export default {
             }
             this.is_new = true
             this.is_new_and_edit = true
-        }
+        },
+         refreshTasksAllData(data){
+             this.tasks = data.tasks
+             this.users = data.users
+         }
     },
     computed: {
         relatedUser: function(){
@@ -119,6 +123,8 @@ export default {
   @media only screen and (max-width: 1365px) {}
   @media screen and (min-width: 1366px) {
       #tasks-index{
+          padding-bottom: 50px;
+          box-sizing: border-box;
           #tasks-index-title{
               font-size: 1.8rem;
               text-align: center;
