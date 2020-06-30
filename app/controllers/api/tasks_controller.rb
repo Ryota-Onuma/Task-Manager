@@ -12,6 +12,8 @@ class Api::TasksController < ApplicationController
         task.user_id = 1   #まだログイン機能をつけてないので
          if  task.save!
             returnTasksAndUsersAllData
+         else
+            render :json => {message: 'failed'}
          end
     end
 
@@ -24,9 +26,19 @@ class Api::TasksController < ApplicationController
         task.important = params[:inputTask][:important]
          if  task.save!
             returnTasksAndUsersAllData
+         else
+            render :json => {message: 'failed'}
          end
     end
 
+    def destroy
+        task = Task.find(params[:id])
+        if task.destroy
+            returnTasksAndUsersAllData
+        else
+            render :json => {message: 'failed'}
+        end
+    end
 
 
     private

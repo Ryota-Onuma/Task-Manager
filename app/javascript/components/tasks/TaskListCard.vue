@@ -9,7 +9,7 @@
       </span>
       <span class="show-task-button" @click='SetShowFunc(task)'><i class="fas fa-info-circle"></i></span>
       <span class="edit-task-button" @click="SetEditFunc(task)"><i class="fas fa-edit"></i></span>
-      <span class="delete-task-button"><i class="fas fa-trash"></i></span>
+      <span class="delete-task-button" @click="Destroy()"><i class="fas fa-trash"></i></span>
     </div>
   </div>
 </template>
@@ -18,16 +18,37 @@ export default {
   props:{
     task: Object,
     showFunc: Function,
-    editFunc: Function
+    editFunc: Function,
+    refreshTasksAllData: Function
   },
   methods:{
- 
     SetShowFunc(task){
       this.showFunc(task)
     },
     SetEditFunc(task){
       this.editFunc(task)
     },
+    Destroy(){
+      const result = window.confirm('本当に削除してもよろしいですか？？');
+      if (result === false){
+        return;
+      }
+      const url = '/api/tasks/' + this.task.id
+      this.axios.defaults.headers.common = {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      };
+          this.axios
+            .delete(url)
+            .then(response => {
+              this.refreshTasksAllData(response.data)
+              alert('削除が完了しました！')
+            })
+            .catch(error => {
+                console.log(error);
+                alert('エラーが起きました！')
+            });
+    }
   }
 }
 </script>

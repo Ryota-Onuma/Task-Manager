@@ -106,6 +106,12 @@ $background-color:white;
 $close-button-color:white;
 $label-background-color: #186de9;
 $label-font-color:white;
+$yet:red;
+$doing:yellow;
+$done:#186de9;
+$yet-color:white;
+$doing-color:black;
+$done-color:white;
   @media only screen and (max-width: 1365px) {}
   @media screen and (min-width: 1366px) {
     #task-new-and-edit{
@@ -168,8 +174,6 @@ $label-font-color:white;
                 display: none;
                 + label{
                     margin:0 10px;
-                    border:1px solid $label-background-color;  
-                    color:$label-background-color;  
                     display: inline-block;
                     padding: 5px 10px;
                     font-size: 1.2rem;
@@ -177,12 +181,32 @@ $label-font-color:white;
                 }
                 &:checked + label{
                   display: inline-block;
-                  margin: 10px;
-                  background-color: $label-background-color;  
-                  color:$label-font-color;   
-              }
-           }
-          
+                }
+                }
+                #yet + label{
+                  border:1px solid $yet;
+                  color:$yet;  
+                }
+                #doing + label{
+                  border:1px solid $doing; 
+                  color:black;
+                }
+                #done + label{
+                  border:1px solid $done; 
+                  color:$done; 
+                }
+                #yet:checked + label{
+                  background-color: $yet;  
+                  color:$yet-color; 
+                }
+                #doing:checked + label{
+                  background-color: $doing;  
+                  color:$doing-color; 
+                }
+                #done:checked +label{
+                  background-color: $done;  
+                  color:$done-color
+                }
           }
         }
         #task-submit-container{

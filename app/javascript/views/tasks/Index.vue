@@ -8,7 +8,7 @@
         </div>
         <div id="tasks-container" v-if="tasks && users" v-show="!is_show && !is_new_and_edit"> 
             <span v-for='(task,index) in tasks' :key="index" class="each-todo"> 
-                <TaskListCard :task='task' :showFunc='showFunc' :editFunc='editFunc'></TaskListCard>
+                <TaskListCard :task='task' :showFunc='showFunc' :editFunc='editFunc' :refreshTasksAllData='refreshTasksAllData'></TaskListCard>
             </span>
         </div>
         <transition name='fade'>
