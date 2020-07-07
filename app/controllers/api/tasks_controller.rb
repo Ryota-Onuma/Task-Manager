@@ -10,14 +10,12 @@ class Api::TasksController < ApplicationController
         task = Task.new(task_params)
         task.deadline= DateTime.now
         task.user_id = 1   #まだログイン機能をつけてないので
-         if  task.save!
-            returnTasksAndUsersAllData
-         end
+        returnTasksAndUsersAllData　if task.save!
     end
 
     def update
          task = Task.find(params[:id])
-         returnTasksAndUsersAllData if task.update(task_params)
+         returnTasksAndUsersAllData if task.update！(task_params)
     end
 
 
