@@ -14,13 +14,13 @@ class Api::TasksController < ApplicationController
 
   def update
     task = Task.find(params[:id])
-                                             task.title = params[:inputTask][:title]
+                                            task.title = params[:inputTask][:title]
                                          task.deadline = params[:inputTask][:deadline]
     task.content = params[:inputTask][:content]
                                 
                         task.status = params[:inputTask][:status]
     task.important = params[:inputTask][:important]
-    
+
     returnTasksAndUsersAllData if task.save!
   end
 
