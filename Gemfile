@@ -38,7 +38,7 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec'
-   gem 'pre-commit' #git commit 時にrubocopを走らせる
+  gem 'pre-commit' #git commit 時にrubocopを走らせる
 end
 
 group :development do
