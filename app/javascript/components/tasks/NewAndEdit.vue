@@ -1,32 +1,40 @@
 <template>
   <section id="task-new-and-edit">
-    <div id='task-new-and-edit-close-container'> <!-- closeボタン -->
-      <span id='task-new-and-edit-close' @click="close()">×</span>
+    <div id="task-new-and-edit-close-container">
+      <!-- closeボタン -->
+      <span id="task-new-and-edit-close" @click="close()">×</span>
     </div>
-    <div id='task-new-and-edit-white-box'> <!-- new-and-editの白いBox -->
-        <h1 id="task-new-and-edit-title" v-if='is_new'>New Task</h1>
-        <h1 id="task-new-and-edit-title" v-else>Edit Task</h1>
-        <div id='todo-info-container'>
-          <div id='todo-status-container'>
-              
-              <input type="radio" id="yet" value="1" v-model="inputTask.status">
-              <label for="yet">Yet</label>
+    <div id="task-new-and-edit-white-box">
+      <!-- new-and-editの白いBox -->
+      <h1 v-if="is_new" id="task-new-and-edit-title">New Task</h1>
+      <h1 v-else id="task-new-and-edit-title">Edit Task</h1>
+      <div id="todo-info-container">
+        <div id="todo-status-container">
+          type="radio" id="yet" value="1" v-model="inputTask.status" />
+          <label for="yet">Yet</label>
+          <input id="doing" v-model="inputTask.status" type="radio" value="2" />
+          <label for="doing"> Doing</label>
 
-
-              <input type="radio" id="doing" value="2" v-model="inputTask.status">
-              <label for="doing">Doing</label>
-
-              <input type="radio" id="done" value="3" v-model="inputTask.status">
-              <label for="done">Done</label>
-          </div>
-          <input type='text' placeholder="Enter your task title" id="task-form-title" class='task-form-parts' v-model="inputTask.title">
-          <textarea placeholder="Enter your task content" id='task-form-content' class='task-form-parts' v-model="inputTask.content"></textarea>
+          <input id="done" v-model="inputTask.status" type="radio" value="3" />
+          <label for="done">Done</label>
         </div>
-        <div id='task-submit-container'>
-          <span id='submit' @click="submit()">
-            Submit
-          </span>
-        </div>
+        <input
+          id="task-form-title"
+          v-model="inputTask.title"
+          type="text"
+          placeholder="Enter your task title"
+          class="task-form-parts"/>
+        <textarea
+          id="task-form-content"
+          v-model="inputTask.content"
+          placeholder="Enter your task content"
+          class="task-form-parts"></textarea>
+      </div>
+      <div id="task-submit-container">
+        <span id="submit" @click="submit()">
+          Submit
+        </span>
+      </div>
     </div>
   </section>
 </template>
