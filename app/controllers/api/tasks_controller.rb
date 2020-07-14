@@ -14,12 +14,7 @@ class Api::TasksController < ApplicationController
 
   def update
     task = Task.find(params[:id])
-    task.title = params[:inputTask][:title]
-    task.deadline = params[:inputTask][:deadline]
-    task.content = params[:inputTask][:content]
-    task.status = params[:inputTask][:status]
-    task.important = params[:inputTask][:important]
-    returnTasksAndUsersAllData if task.save!
+    returnTasksAndUsersAllData if task.update!(task_params)
   end
 
   private
@@ -35,6 +30,7 @@ class Api::TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:inputTask).permit(:title, :content, :status, :deadline, :important)
+    params.require(:inputTask).permit(:id, :user_id, :created_at, :updated_at, :title, :content, :status, :deadline, :important)
   end
 end
+
