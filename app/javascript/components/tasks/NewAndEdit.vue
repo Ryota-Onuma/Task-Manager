@@ -131,114 +131,114 @@ $done-color: white;
 @media only screen and (max-width: 1365px) {
 }
 @media screen and (min-width: 1366px) {
-    #task-new-and-edit {
-        width: 100%;
+  #task-new-and-edit {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    #task-new-and-edit-close-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      width: 90%;
+      margin: 0 auto 30px auto;
+      #task-new-and-edit-close {
+        font-size: 4rem;
+        color: $close-button-color;
+        cursor: pointer;
+      }
+    }
+    #task-new-and-edit-white-box {
+      width: 80%;
+      background-color: $background-color;
+      padding: 50px 100px;
+      #task-new-and-edit-title {
+        font-size: 1.8rem;
+        color: resd;
+        text-align: center;
+      }
+      #todo-info-container {
+        width: 80%;
+        margin: 50px auto 0 auto;
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
         justify-content: center;
-        align-items: center;
-        #task-new-and-edit-close-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            align-items: center;
-            width: 90%;
-            margin: 0 auto 30px auto;
-            #task-new-and-edit-close {
-                font-size: 4rem;
-                color: $close-button-color;
-                cursor: pointer;
-            }
-        }
-        #task-new-and-edit-white-box {
-            width: 80%;
-            background-color: $background-color;
-            padding: 50px 100px;
-            #task-new-and-edit-title {
-                font-size: 1.8rem;
-                color: resd;
-                text-align: center;
-            }
-            #todo-info-container {
-                width: 80%;
-                margin: 50px auto 0 auto;
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: center;
 
-                .task-form-parts {
-                    margin: 10px;
-                    font-size: 1.4rem;
-                    padding: 5px;
-                }
-                #task-form-title {
-                    width: 80%;
-                }
-                #task-form-content {
-                    width: 100%;
-                    min-height: 300px;
-                }
-                #todo-status-container {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: flex-end;
-                    align-items: center;
-                    box-sizing: border-box;
-                    padding: 30px 50px;
-                    input[type='radio'] {
-                        display: none;
-                        + label {
-                            margin: 0 10px;
-                            display: inline-block;
-                            padding: 5px 10px;
-                            font-size: 1.2rem;
-                            cursor: pointer;
-                        }
-                        &:checked + label {
-                            display: inline-block;
-                        }
-                    }
-                    #yet + label {
-                        border: 1px solid $yet;
-                        color: $yet;
-                    }
-                    #doing + label {
-                        border: 1px solid $doing;
-                        color: black;
-                    }
-                    #done + label {
-                        border: 1px solid $done;
-                        color: $done;
-                    }
-                    #yet:checked + label {
-                        background-color: $yet;
-                        color: $yet-color;
-                    }
-                    #doing:checked + label {
-                        background-color: $doing;
-                        color: $doing-color;
-                    }
-                    #done:checked + label {
-                        background-color: $done;
-                        color: $done-color;
-                    }
-                }
-            }
-            #task-submit-container {
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
-                width: 100%;
-                padding: 50px 50px 0 0;
-                box-sizing: border-box;
-                #submit {
-                    font-size: 1.4rem;
-                    cursor: pointer;
-                }
-            }
+        .task-form-parts {
+          margin: 10px;
+          font-size: 1.4rem;
+          padding: 5px;
         }
+        #task-form-title {
+          width: 80%;
+        }
+        #task-form-content {
+          width: 100%;
+          min-height: 300px;
+        }
+        #todo-status-container {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          align-items: center;
+          box-sizing: border-box;
+          padding: 30px 50px;
+          input[type='radio'] {
+            display: none;
+            + label {
+              margin: 0 10px;
+              display: inline-block;
+              padding: 5px 10px;
+              font-size: 1.2rem;
+              cursor: pointer;
+            }
+            &:checked + label {
+              display: inline-block;
+            }
+          }
+          #yet + label {
+            border: 1px solid $yet;
+            color: $yet;
+          }
+          #doing + label {
+            border: 1px solid $doing;
+            color: black;
+          }
+          #done + label {
+            border: 1px solid $done;
+            color: $done;
+          }
+          #yet:checked + label {
+            background-color: $yet;
+            color: $yet-color;
+          }
+          #doing:checked + label {
+            background-color: $doing;
+            color: $doing-color;
+          }
+          #done:checked + label {
+            background-color: $done;
+            color: $done-color;
+          }
+        }
+      }
+      #task-submit-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        padding: 50px 50px 0 0;
+        box-sizing: border-box;
+        #submit {
+          font-size: 1.4rem;
+          cursor: pointer;
+        }
+      }
     }
+  }
 }
 </style>
