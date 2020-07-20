@@ -25,6 +25,7 @@ export default {
     task: Object,
     showFunc: Function,
     editFunc: Function,
+    refreshTasksAllData: Function,
   },
   methods: {
     SetShowFunc(task) {
