@@ -16,7 +16,16 @@ class Api::TasksController < ApplicationController
     task = Task.find(params[:id])
     returnTasksAndUsersAllData if task.update!(task_params)
   end
-
+  
+  def destroy
+    task = Task.find(params[:id])
+    if task.destroy
+      returnTasksAndUsersAllData
+    else
+      render json: { message: 'failed' }
+    end
+  end
+  
   private
 
   def returnTasksAndUsersAllData
