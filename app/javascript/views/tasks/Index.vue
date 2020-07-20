@@ -12,7 +12,7 @@
       id="tasks-container"
     >
       <span v-for="(task, index) in tasks" :key="index" class="each-todo">
-        <TaskListCard :task="task" :show-func="showFunc" :edit-func="editFunc">
+        <TaskListCard :task="task" :show-func="showFunc" :edit-func="editFunc" :refreshTasksAllData="refreshTasksAllData">
         </TaskListCard>
       </span>
     </div>
