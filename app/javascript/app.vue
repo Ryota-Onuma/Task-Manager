@@ -11,11 +11,6 @@
     components: {
       Header,
     },
-    data: function() {
-      return {
-        message: "Hello Vue!",
-      };
-    },
   };
 </script>
 
