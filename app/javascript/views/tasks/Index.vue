@@ -12,7 +12,12 @@
       id="tasks-container"
     >
       <span v-for="(task, index) in tasks" :key="index" class="each-todo">
-        <TaskListCard :task="task" :show-func="showFunc" :edit-func="editFunc" :refreshTasksAllData="refreshTasksAllData">
+        <TaskListCard
+          :task="task"
+          :show-func="showFunc"
+          :edit-func="editFunc"
+          :refreshTasksAllData="refreshTasksAllData"
+        >
         </TaskListCard>
       </span>
     </div>
@@ -21,12 +26,14 @@
         v-if="whichTaskIsLookedInShow"
         v-show="is_show"
         id="task-show-modal-container"
-        class="modal-container">
+        class="modal-container"
+      >
         <!-- showページのモーダルです -->
         <TaskShow
           :task="whichTaskIsLookedInShow"
           :user="relatedUser(whichTaskIsLookedInShow.user_id)"
-          :is_show.sync="is_show"></TaskShow>
+          :is_show.sync="is_show"
+        ></TaskShow>
       </div>
     </transition>
     <transition name="fade">
@@ -41,93 +48,95 @@
           :task="taskNewOrEdit"
           :is_new_and_edit.sync="is_new_and_edit"
           :is_new="is_new"
-          :refresh-tasks-all-data="refreshTasksAllData">
+          :refresh-tasks-all-data="refreshTasksAllData"
+        >
         </TaskNewAndEdit>
       </div>
     </transition>
   </section>
 </template>
 <script>
-import TaskListCard from '../../components/tasks/TaskListCard'
-import TaskShow from '../../components/tasks/Show'
-import TaskNewAndEdit from '../../components/tasks/NewAndEdit.vue'
+import TaskListCard from "../../components/tasks/TaskListCard";
+import TaskShow from "../../components/tasks/Show";
+import TaskNewAndEdit from "../../components/tasks/NewAndEdit.vue";
 export default {
-    components:{
-        TaskListCard,
-        TaskShow,
-        TaskNewAndEdit
+  components: {
+    TaskListCard,
+    TaskShow,
+    TaskNewAndEdit,
+  },
+  data() {
+    return {
+      tasks: null,
+      users: null,
+      whichTaskIsLookedInShow: null,
+      taskNewOrEdit: {
+        title: "",
+        content: "",
+        status: 1,
+        deadline: "",
+        important: false,
+      },
+      is_show: false,
+      is_new_and_edit: false,
+      is_new: true,
+    };
+  },
+  created() {
+    this.getTodosAndUsers();
+  },
+  methods: {
+    getTodosAndUsers() {
+      const url = "/api/tasks";
+      this.axios
+        .get(url)
+        .then((response) => {
+          this.tasks = response.data.tasks;
+          this.users = response.data.users;
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("エラーが起きました！");
+        });
     },
-    data(){
-        return{
-            tasks: null,
-            users: null,
-            whichTaskIsLookedInShow: null,
-            taskNewOrEdit: {
-                title:'',
-                content:'',
-                status:1,
-                deadline:'',
-                important:false
-            },
-            is_show: false,
-            is_new_and_edit:false,
-            is_new:true
+    showFunc(task) {
+      this.whichTaskIsLookedInShow = task;
+      this.is_show = true;
+    },
+    editFunc(task) {
+      this.taskNewOrEdit = task;
+      this.is_new = false;
+      this.is_new_and_edit = true;
+    },
+    newFunc() {
+      this.taskNewOrEdit = {
+        // taskNewOrEditを初期化
+        title: "",
+        content: "",
+        status: 1,
+        deadline: "",
+        important: false,
+      };
+      this.is_new = true;
+      this.is_new_and_edit = true;
+    },
+    refreshTasksAllData(data) {
+      this.tasks = data.tasks;
+      this.users = data.users;
+    },
+  },
+  computed: {
+    relatedUser: function () {
+      return function (task_id) {
+        for (let i = 0; i < this.users.length; i++) {
+          if (this.users[i]["id"] === task_id) {
+            return this.users[i];
+          }
         }
+      };
     },
-    created(){
-        this.getTodosAndUsers()
-    },
-    methods:{
-        getTodosAndUsers(){
-            const url = "/api/tasks";
-            this.axios
-            .get(url)
-            .then(response => {
-                this.tasks = response.data.tasks
-                this.users = response.data.users
-            })
-            .catch(error => {
-                console.log(error);
-                alert('エラーが起きました！')
-            });
-        },
-        showFunc(task){
-            this.whichTaskIsLookedInShow = task
-            this.is_show = true
-        },
-        editFunc(task){
-            this.taskNewOrEdit = task
-            this.is_new = false
-            this.is_new_and_edit = true
-        },
-        newFunc(){
-            this.taskNewOrEdit = {　　// taskNewOrEditを初期化
-                title:'',
-                content:'',
-                status:1,
-                deadline:'',
-                important:false
-            }
-            this.is_new = true
-            this.is_new_and_edit = true
-        },
-         refreshTasksAllData(data){
-             this.tasks = data.tasks
-             this.users = data.users
-         }
-    },
-    computed: {
-        relatedUser: function(){
-            return function(task_id){
-                for (let i = 0; i < this.users.length; i++){
-                    if (this.users[i]['id'] === task_id){
-                        return this.users[i]
-                    }
-                }
-            }
-        }
-    }
-}
+  },
+};
 </script>
 <style lang="scss" scoped>
 $link-color: #186de9;
