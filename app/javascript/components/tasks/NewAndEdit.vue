@@ -10,7 +10,7 @@
       <h1 v-else id="task-new-and-edit-title">Edit Task</h1>
       <div id="todo-info-container">
         <div id="todo-status-container">
-          type="radio" id="yet" value="1" v-model="inputTask.status" />
+          <input type="radio" id="yet" value="1" v-model="inputTask.status" />
           <label for="yet">Yet</label>
           <input id="doing" v-model="inputTask.status" type="radio" value="2" />
           <label for="doing"> Doing</label>
@@ -23,12 +23,14 @@
           v-model="inputTask.title"
           type="text"
           placeholder="Enter your task title"
-          class="task-form-parts"/>
+          class="task-form-parts"
+        />
         <textarea
           id="task-form-content"
           v-model="inputTask.content"
           placeholder="Enter your task content"
-          class="task-form-parts"></textarea>
+          class="task-form-parts"
+        ></textarea>
       </div>
       <div id="task-submit-container">
         <span id="submit" @click="submit()">
@@ -40,82 +42,86 @@
 </template>
 <script>
 export default {
-  props:{
+  props: {
     task: Object,
-    refreshTasksAllData:Function,
+    refreshTasksAllData: Function,
     is_new_and_edit: Boolean,
-    is_new: Boolean
+    is_new: Boolean,
   },
-  data(){
-    return{
+  data() {
+    return {
       inputTask: {
-        title:'',
-        content:'',
-        status:1,
-        deadline:'',
-        important:false
-      }
-    }
+        title: "",
+        content: "",
+        status: 1,
+        deadline: "",
+        important: false,
+      },
+    };
   },
-  watch:{
-    task:function(task){
-      this.inputTask = task
-    }
+  watch: {
+    task: function (task) {
+      this.inputTask = task;
+    },
   },
 
-  methods:{
-    close(){
-      this.$emit('update:is_new_and_edit', false); 
+  methods: {
+    close() {
+      this.$emit("update:is_new_and_edit", false);
     },
-    submit(){
+    submit() {
       let url;
-      const inputTask = this.inputTask
+      const inputTask = this.inputTask;
       this.axios.defaults.headers.common = {
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRF-TOKEN": document
+          .querySelector('meta[name="csrf-token"]')
+          .getAttribute("content"),
       };
-      if (inputTask.title === ''){
-        alert('タスクのタイトルが入力されていません。')
-        return
+      if (inputTask.title === "") {
+        alert("タスクのタイトルが入力されていません。");
+        return;
       }
-      if(inputTask.content === ''){
-        alert('タスク内容が入力されていません。')
-        return
+      if (inputTask.content === "") {
+        alert("タスク内容が入力されていません。");
+        return;
       }
-      if (this.is_new === true){  //新規登録の場合
-         url = '/api/tasks'
-          this.axios
-            .post(url,{
-              inputTask
-            })
-            .then(response => {
-              this.refreshTasksAllData(response.data)
-              alert('新規投稿が完了しました！')
-              this.$emit('update:is_new_and_edit', false); 
-            })
-            .catch(error => {
-                console.log(error);
-                alert('エラーが起きました！')
-            });
-      }else{　//更新の場合
-        url = '/api/tasks/' + this.task.id  
-         this.axios
-            .patch(url,{
-               inputTask
-            })
-            .then(response => {
-              this.refreshTasksAllData(response.data)
-              alert('更新が完了しました！')
-              this.$emit('update:is_new_and_edit', false); 
-            })
-            .catch(error => {
-                console.log(error);
-                alert('エラーが起きました！')
-            });
+      if (this.is_new === true) {
+        //新規登録の場合
+        url = "/api/tasks";
+        this.axios
+          .post(url, {
+            inputTask,
+          })
+          .then((response) => {
+            this.refreshTasksAllData(response.data);
+            alert("新規投稿が完了しました！");
+            this.$emit("update:is_new_and_edit", false);
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("エラーが起きました！");
+          });
+      } else {
+        //更新の場合
+        url = "/api/tasks/" + this.task.id;
+        this.axios
+          .patch(url, {
+            inputTask,
+          })
+          .then((response) => {
+            this.refreshTasksAllData(response.data);
+            alert("更新が完了しました！");
+            this.$emit("update:is_new_and_edit", false);
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("エラーが起きました！");
+          });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 $background-color: white;
@@ -187,7 +193,7 @@ $done-color: white;
           align-items: center;
           box-sizing: border-box;
           padding: 30px 50px;
-          input[type='radio'] {
+          input[type="radio"] {
             display: none;
             + label {
               margin: 0 10px;
