@@ -28,7 +28,7 @@ module App
     #　以下の記述を追記する(設定必須)
     # デフォルトのlocaleを日本語(:ja)にする
     config.i18n.default_locale = :ja
-   config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml').to_s]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml').to_s]
     config.generators.system_tests = nil
   end
 end
