@@ -10,10 +10,10 @@
       <h1 v-else id="task-new-and-edit-title">Edit Task</h1>
       <div id="todo-info-container">
         <div id="todo-status-container">
-          type="radio" id="yet" value="1" v-model="inputTask.status" />
+          <input type="radio" id="yet" value="1" v-model="inputTask.status" />
           <label for="yet">Yet</label>
           <input id="doing" v-model="inputTask.status" type="radio" value="2" />
-          <label for="doing"> Doing</label>
+          <label for="doing">Doing</label>
 
           <input id="done" v-model="inputTask.status" type="radio" value="3" />
           <label for="done">Done</label>
@@ -23,17 +23,17 @@
           v-model="inputTask.title"
           type="text"
           placeholder="Enter your task title"
-          class="task-form-parts"/>
+          class="task-form-parts"
+        />
         <textarea
           id="task-form-content"
           v-model="inputTask.content"
           placeholder="Enter your task content"
-          class="task-form-parts"></textarea>
+          class="task-form-parts"
+        ></textarea>
       </div>
       <div id="task-submit-container">
-        <span id="submit" @click="submit()">
-          Submit
-        </span>
+        <span id="submit" @click="submit()">Submit</span>
       </div>
     </div>
   </section>
@@ -187,7 +187,7 @@ $done-color: white;
           align-items: center;
           box-sizing: border-box;
           padding: 30px 50px;
-          input[type='radio'] {
+          input[type="radio"] {
             display: none;
             + label {
               margin: 0 10px;
