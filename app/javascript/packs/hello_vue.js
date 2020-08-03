@@ -1,11 +1,11 @@
 import Vue from "vue";
-import Vuex from "vuex"
+import Vuex from "vuex";
 import VueRouter from "vue-router";
 import store from "../store/store.js";
 import router from "../routes/router.js";
 import App from "../app.vue";
-import axios from "axios"; 
-import VueAxios from "vue-axios"; 
+import axios from "axios";
+import VueAxios from "vue-axios";
 Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
