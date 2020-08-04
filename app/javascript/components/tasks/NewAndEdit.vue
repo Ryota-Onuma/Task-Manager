@@ -13,7 +13,7 @@
           <input type="radio" id="yet" value="1" v-model="inputTask.status" />
           <label for="yet">Yet</label>
           <input id="doing" v-model="inputTask.status" type="radio" value="2" />
-          <label for="doing"> Doing</label>
+          <label for="doing">Doing</label>
 
           <input id="done" v-model="inputTask.status" type="radio" value="3" />
           <label for="done">Done</label>
@@ -33,9 +33,7 @@
         ></textarea>
       </div>
       <div id="task-submit-container">
-        <span id="submit" @click="submit()">
-          Submit
-        </span>
+        <span id="submit" @click="submit()">Submit</span>
       </div>
     </div>
   </section>
