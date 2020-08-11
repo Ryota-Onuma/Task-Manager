@@ -1,5 +1,8 @@
 <template>
   <div class="todo-card">
+    <span class="todo-created-at">{{
+      task.created_at | convert_time_format
+    }}</span>
     <span class="task-title">{{ task.title }}</span>
     <div class="task-card-buttons">
       <span class="status-marker">
@@ -7,19 +10,20 @@
         <span v-else-if="task.status === 2" class="doing">Doing</span>
         <span v-else-if="task.status === 3" class="done">Done</span>
       </span>
-      <span class="show-task-button" @click="SetShowFunc(task)"
-        ><i class="fas fa-info-circle"></i
-      ></span>
-      <span class="edit-task-button" @click="SetEditFunc(task)"
-        ><i class="fas fa-edit"></i
-      ></span>
-      <span class="delete-task-button" @click="Destroy()"
-        ><i class="fas fa-trash"></i
-      ></span>
+      <span class="show-task-button" @click="SetShowFunc(task)">
+        <i class="fas fa-info-circle"></i>
+      </span>
+      <span class="edit-task-button" @click="SetEditFunc(task)">
+        <i class="fas fa-edit"></i>
+      </span>
+      <span class="delete-task-button" @click="Destroy()">
+        <i class="fas fa-trash"></i>
+      </span>
     </div>
   </div>
 </template>
 <script>
+import moment from "moment";
 export default {
   props: {
     task: Object,
@@ -58,6 +62,11 @@ export default {
         });
     },
   },
+  filters: {
+    convert_time_format: function (value) {
+      return moment(value).format("YYYY年 MM月DD日 HH:mm");
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -81,6 +90,15 @@ $done-color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    position: relative;
+    margin: 20px 0;
+    .todo-created-at {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      padding: 5px 10px;
+      font-size: 1rem;
+    }
     .task-title {
       font-size: 1.3rem;
     }

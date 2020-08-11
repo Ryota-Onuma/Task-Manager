@@ -29,7 +29,7 @@ class Api::TasksController < ApplicationController
   private
 
   def returnTasksAndUsersAllData
-    tasks = Task.all.order(created_at: 'DESC') # 新しい順
+    tasks = Task.all.order(created_at: 'DESC') # 新しい順です
     users = User.all
     info = {
       tasks: tasks,
