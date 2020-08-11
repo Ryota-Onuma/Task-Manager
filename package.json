@@ -4,6 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "5.1.1",
     "axios": "^0.19.2",
+    "moment": "^2.27.0",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-eslint-parser": "^7.1.0",
