@@ -11,21 +11,20 @@ class Api::TasksController < ApplicationController
     task.user_id = 1 # まだログイン機能をつけてないので
     begin
       returnTasksAndUsersAllData if task.save!
-    rescue => error
-      render status:500 ,json: { error: error }
+    rescue StandardError => e
+      render status: :internal_server_error, json: { error: e }
     end
-    
   end
 
   def update
     task = Task.find(params[:id])
     begin
-    returnTasksAndUsersAllData if task.update!(task_params)
-    rescue => error
-      render status:500 ,json: { error: error }
+      returnTasksAndUsersAllData if task.update!(task_params)
+    rescue StandardError => e
+      render status: :internal_server_error, json: { error: e }
     end
   end
-  
+
   def destroy
     task = Task.find(params[:id])
     if task.destroy
@@ -34,7 +33,7 @@ class Api::TasksController < ApplicationController
       render json: { message: 'failed' }
     end
   end
-  
+
   private
 
   def returnTasksAndUsersAllData
@@ -51,4 +50,3 @@ class Api::TasksController < ApplicationController
     params.require(:inputTask).permit(:id, :user_id, :created_at, :updated_at, :title, :content, :status, :deadline, :important)
   end
 end
-
