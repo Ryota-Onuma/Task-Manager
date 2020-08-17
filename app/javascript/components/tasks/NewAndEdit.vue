@@ -113,7 +113,7 @@ export default {
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
-            console.log(error);
+            console.dir(error);
             alert(error.response.data.error.replace('バリデーションに失敗しました:', ""));
           });
       }
