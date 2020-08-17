@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :tasks, dependent: :destroy
 
-  validates :name, presence:true ,length: { maximum: 20} # 名前は１文字以上20文字以下
+  validates :name, presence: true, length: { maximum: 20 } # 名前は１文字以上20文字以下
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false } # uniqueness:{ case_sensitive: false }で、メールアドレスのバリデーションで、大文字・小文字の区別を無くしている　
   validates :password_digest, presence: true
   validates :introduction, length: { maximum: 150 }
