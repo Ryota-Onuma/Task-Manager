@@ -9,12 +9,21 @@ class Api::TasksController < ApplicationController
     task = Task.new(task_params)
     task.deadline = DateTime.now
     task.user_id = 1 # まだログイン機能をつけてないので
-    returnTasksAndUsersAllData if task.save!
+    begin
+      returnTasksAndUsersAllData if task.save!
+    rescue => error
+      render status:500 ,json: { error: error }
+    end
+    
   end
 
   def update
     task = Task.find(params[:id])
+    begin
     returnTasksAndUsersAllData if task.update!(task_params)
+    rescue => error
+      render status:500 ,json: { error: error }
+    end
   end
   
   def destroy

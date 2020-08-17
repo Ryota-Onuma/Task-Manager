@@ -2,23 +2,16 @@
   <section id="tasks-index">
     <h1 id="tasks-index-title">Your Tasks</h1>
     <div id="task-new-button-container">
-      <span id="task-new-button" @click="newFunc()">
-        Add a Task
-      </span>
+      <span id="task-new-button" @click="newFunc()">Add a Task</span>
     </div>
-    <div
-      v-if="tasks && users"
-      v-show="!is_show && !is_new_and_edit"
-      id="tasks-container"
-    >
+    <div v-if="tasks && users" v-show="!is_show && !is_new_and_edit" id="tasks-container">
       <span v-for="(task, index) in tasks" :key="index" class="each-todo">
         <TaskListCard
           :task="task"
           :show-func="showFunc"
           :edit-func="editFunc"
           :refreshTasksAllData="refreshTasksAllData"
-        >
-        </TaskListCard>
+        ></TaskListCard>
       </span>
     </div>
     <transition name="fade">
@@ -49,13 +42,13 @@
           :is_new_and_edit.sync="is_new_and_edit"
           :is_new="is_new"
           :refresh-tasks-all-data="refreshTasksAllData"
-        >
-        </TaskNewAndEdit>
+        ></TaskNewAndEdit>
       </div>
     </transition>
   </section>
 </template>
 <script>
+'use strict';
 import TaskListCard from "../../components/tasks/TaskListCard";
 import TaskShow from "../../components/tasks/Show";
 import TaskNewAndEdit from "../../components/tasks/NewAndEdit.vue";
@@ -91,7 +84,7 @@ export default {
       this.axios
         .get(url)
         .then((response) => {
-          this.tasks = response.data.tasks;
+          this.tasks =  Object.freeze(response.data.tasks); //再代入を禁止にした。これがないと、v-modelの作用がglobalに影響を与えてしまうバグがでた。
           this.users = response.data.users;
         })
         .catch((error) => {

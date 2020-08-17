@@ -97,8 +97,8 @@ export default {
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
-            console.log(error);
-            alert("エラーが起きました！");
+            console.dir(error);
+            alert(error.response.data.error.replace('バリデーションに失敗しました:', ""));
           });
       } else {
         //更新の場合
@@ -114,7 +114,7 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-            alert("エラーが起きました！");
+            alert(error.response.data.error.replace('バリデーションに失敗しました:', ""));
           });
       }
     },
