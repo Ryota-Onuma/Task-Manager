@@ -9,6 +9,6 @@ class ApplicationController < ActionController::Base
   private
 
   def rescue_validation_error(error)
-    render status: :internal_server_error, json: { error: error}
+    render status: :internal_server_error, json: { error: error }
   end
 end
