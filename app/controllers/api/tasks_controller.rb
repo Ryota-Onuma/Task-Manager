@@ -9,7 +9,8 @@ class Api::TasksController < ApplicationController
     task = Task.new(task_params)
     task.deadline = DateTime.now
     task.user_id = 1 # まだログイン機能をつけてないので
-    returnTasksAndUsersAllData if task.save!
+    task.save!
+    returnTasksAndUsersAllData
     rescue ActiveRecord::RecordInvalid,
            ActiveRecord::RecordNotSave,
            ActiveRecord::RecordNotUnique,
@@ -19,7 +20,8 @@ class Api::TasksController < ApplicationController
 
   def update
     task = Task.find(params[:id])
-    returnTasksAndUsersAllData if task.update!(task_params)
+    task.update!(task_params)
+    returnTasksAndUsersAllData 
     rescue ActiveRecord::RecordInvalid,
            ActiveRecord::RecordNotSave,
            ActiveRecord::RecordNotUnique,
