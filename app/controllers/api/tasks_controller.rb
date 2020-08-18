@@ -11,27 +11,17 @@ class Api::TasksController < ApplicationController
     task.user_id = 1 # まだログイン機能をつけてないので
     task.save!
     returnTasksAndUsersAllData
-    rescue ActiveRecord::RecordInvalid,
-           ActiveRecord::RecordNotSave,
-           ActiveRecord::RecordNotUnique,
-           ActiveRecord::StatementInvalid => e
-      render status: :internal_server_error, json: { error: e }
   end
 
   def update
     task = Task.find(params[:id])
     task.update!(task_params)
-    returnTasksAndUsersAllData 
-    rescue ActiveRecord::RecordInvalid,
-           ActiveRecord::RecordNotSave,
-           ActiveRecord::RecordNotUnique,
-           ActiveRecord::StatementInvalid => e
-      render status: :internal_server_error, json: { error: e }
+    returnTasksAndUsersAllData
   end
 
   def destroy
     task = Task.find(params[:id])
-    if task.destroy
+    if task.destroy!
       returnTasksAndUsersAllData
     else
       render json: { message: 'failed' }
