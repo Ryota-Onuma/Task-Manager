@@ -9,20 +9,22 @@ class Api::TasksController < ApplicationController
     task = Task.new(task_params)
     task.deadline = DateTime.now
     task.user_id = 1 # まだログイン機能をつけてないので
-    begin
-      returnTasksAndUsersAllData if task.save!
-    rescue StandardError => e
+    returnTasksAndUsersAllData if task.save!
+    rescue ActiveRecord::RecordInvalid,
+           ActiveRecord::RecordNotSave,
+           ActiveRecord::RecordNotUnique,
+           ActiveRecord::StatementInvalid => e
       render status: :internal_server_error, json: { error: e }
-    end
   end
 
   def update
     task = Task.find(params[:id])
-    begin
-      returnTasksAndUsersAllData if task.update!(task_params)
-    rescue StandardError => e
+    returnTasksAndUsersAllData if task.update!(task_params)
+    rescue ActiveRecord::RecordInvalid,
+           ActiveRecord::RecordNotSave,
+           ActiveRecord::RecordNotUnique,
+           ActiveRecord::StatementInvalid => e
       render status: :internal_server_error, json: { error: e }
-    end
   end
 
   def destroy
