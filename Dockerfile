@@ -1,12 +1,10 @@
 FROM ruby:2.6.2
 ENV LANG C.UTF-8
 ENV TZ=Asia/Tokyo 
-# Timezoneを日本にした↑
-
 RUN /bin/cp -f /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
   && apt-get update -qq \
-  && apt-get install -y build-essential nodejs postgresql-client git 
+  && apt-get install -y build-essential nodejs postgresql-client git vim
 
 ENV YARN_VERSION 1.13.0
 
@@ -20,9 +18,8 @@ RUN curl -L --compressed "https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YAR
 ENV APP_HOME /var/src/app
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
-ADD Gemfile $APP_HOME/Gemfile
-ADD Gemfile.lock $APP_HOME/Gemfile.lock
+COPY Gemfile $APP_HOME/Gemfile
+COPY Gemfile.lock $APP_HOME/Gemfile.lock
+RUN bundle install
+COPY . $APP_HOME
 
-ENV BUNDLE_DISABLE_SHARED_GEMS 1
-RUN bundle install -j4
-RUN bundle exec rails webpacker:install 
