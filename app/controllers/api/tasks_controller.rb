@@ -9,23 +9,25 @@ class Api::TasksController < ApplicationController
     task = Task.new(task_params)
     task.deadline = DateTime.now
     task.user_id = 1 # まだログイン機能をつけてないので
-    returnTasksAndUsersAllData if task.save!
+    task.save!
+    returnTasksAndUsersAllData
   end
 
   def update
     task = Task.find(params[:id])
-    returnTasksAndUsersAllData if task.update!(task_params)
+    task.update!(task_params)
+    returnTasksAndUsersAllData
   end
-  
+
   def destroy
     task = Task.find(params[:id])
-    if task.destroy
+    if task.destroy!
       returnTasksAndUsersAllData
     else
       render json: { message: 'failed' }
     end
   end
-  
+
   private
 
   def returnTasksAndUsersAllData
@@ -42,4 +44,3 @@ class Api::TasksController < ApplicationController
     params.require(:inputTask).permit(:id, :user_id, :created_at, :updated_at, :title, :content, :status, :deadline, :important)
   end
 end
-

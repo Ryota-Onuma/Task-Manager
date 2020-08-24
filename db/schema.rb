@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 2020_08_17_020422) do
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "tag_tasks", "tags"
