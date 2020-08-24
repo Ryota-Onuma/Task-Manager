@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  before_action :basic_auth, if: :production?
+  protect_from_forgery with: :exception
+
   rescue_from  ActiveRecord::RecordInvalid, with: :rescue_422_error
   rescue_from  ActiveRecord::RecordNotUnique, with: :rescue_500_error
   rescue_from  ActiveRecord::RecordNotSaved, with: :rescue_422_error
@@ -20,5 +23,15 @@ class ApplicationController < ActionController::Base
 
   def rescue_404_error(error)
     render status: :not_found, json: { error: error }
+  end
+
+  def production?
+    Rails.env.production?
+  end
+
+  def basic_auth
+    authenticate_or_request_with_http_basic do |username, password|
+      username == ENV['BASIC_AUTH_USER'] && password == ENV['BASIC_AUTH_PASSWORD']
+    end
   end
 end
