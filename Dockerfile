@@ -23,3 +23,10 @@ COPY Gemfile.lock $APP_HOME/Gemfile.lock
 RUN bundle install
 COPY . $APP_HOME
 
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 3000
+
+# Start the main process.
+CMD ["rails", "server", "-b", "0.0.0.0"]
