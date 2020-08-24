@@ -20,7 +20,7 @@ RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 COPY Gemfile $APP_HOME/Gemfile
 COPY Gemfile.lock $APP_HOME/Gemfile.lock
-RUN bundle install
+RUN bundle install && yarn 
 COPY . $APP_HOME
 
 COPY entrypoint.sh /usr/bin/
