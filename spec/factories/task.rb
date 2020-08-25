@@ -11,5 +11,5 @@ FactoryBot.define do
 end
 
 def create_task_title
-  return (1..3).map {|_i| Faker::Games::Pokemon.name }.join(', ')
+  (1..3).map { |_i| Faker::Games::Pokemon.name }.join(', ')
 end
