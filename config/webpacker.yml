@@ -4,11 +4,10 @@ default: &default
   source_path: app/javascript
   source_entry_path: packs
   public_root_path: public
-  public_output_path: assets/packs
+  public_output_path: packs
   cache_path: tmp/cache/webpacker
   check_yarn_integrity: false
   webpack_compile_output: true
-
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
@@ -70,12 +69,11 @@ development:
     quiet: false
     pretty: false
     headers:
-      'Access-Control-Allow-Origin': '*'
+      "Access-Control-Allow-Origin": "*"
     watch_options:
-      ignored: '**/node_modules/**'
+      ignored: "**/node_modules/**"
     contentBase: path.join(__dirname, 'public')
-    publicPath: '/assets/scripts/'
-
+    publicPath: "/assets/scripts/"
 
 test:
   <<: *default
