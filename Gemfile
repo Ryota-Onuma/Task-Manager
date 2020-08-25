@@ -39,6 +39,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec'
   gem 'pre-commit' #git commit 時にrubocopを走らせる
+  gem 'rspec-rails'
 end
 
 group :development do
@@ -52,9 +53,11 @@ end
 
 group :test do
   gem 'selenium-webdriver'
+  gem 'capybara'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'dotenv-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'rails-i18n'
+gem 'rails_12factor', group: :production
