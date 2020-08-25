@@ -12,8 +12,8 @@ end
 
 def create_task_title
   content = ''
-    3.times do
-      content << Faker::Games::Pokemon.name + ' , '
-    end
-  return content
+  3.times do
+    content << Faker::Games::Pokemon.name + ' , '
+  end
+  content
 end
