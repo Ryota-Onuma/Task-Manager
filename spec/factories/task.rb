@@ -6,10 +6,21 @@ FactoryBot.define do
     status { 1 }
     deadline { DateTime.now }
     important { false }
-    user_id { 1 }
+
+    trait :important do # 重要なtask
+      important { true }
+    end
+
+    trait :by_admin do # Adminによる投稿
+      association :user, factory: :user, admin: true
+    end
   end
 end
 
 def create_task_title
-  (1..3).map { |_i| Faker::Games::Pokemon.name }.join(', ')
+  content = ''
+  3.times do
+    content << Faker::Games::Pokemon.name + ' , '
+  end
+  content
 end
