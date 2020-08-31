@@ -7,6 +7,9 @@ FactoryBot.define do
     introduction { Faker::ChuckNorris.fact }
     permission { true }
     admin { false }
+    trait :banned_user do 
+      permission { false }
+    end
     trait :admin_user do
       admin { true }
     end
