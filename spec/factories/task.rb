@@ -7,7 +7,7 @@ FactoryBot.define do
     deadline { DateTime.now }
     important { false }
 
-    user 
+    user
 
     trait :important do # 重要なtask
       important { true }
@@ -16,7 +16,6 @@ FactoryBot.define do
     trait :by_admin do # Adminによる投稿
       association :user, factory: :user, admin: true
     end
-    
   end
 end
 
