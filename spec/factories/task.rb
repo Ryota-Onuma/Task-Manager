@@ -6,7 +6,15 @@ FactoryBot.define do
     status { 1 }
     deadline { DateTime.now }
     important { false }
-    user_id { 1 }
+
+    trait :important do  #重要なtask
+      important { true }
+    end
+
+    trait :by_admin  do #Adminによる投稿  
+      association :user, factory: :user, admin: true
+    end
+
   end
 end
 

@@ -18,6 +18,12 @@
           <input id="done" v-model="inputTask.status" type="radio" value="3" />
           <label for="done">Done</label>
         </div>
+        <datepicker
+          :format="DatePickerFormat"
+          :bootstrap-styling="true"
+          :language="ja"
+          placeholder="日付を選択してください"
+        ></datepicker>
         <input
           id="task-form-title"
           v-model="inputTask.title"
@@ -39,12 +45,23 @@
   </section>
 </template>
 <script>
+import Datepicker from 'vuejs-datepicker'
+
+//日本語化
+import {ja} from 'vuejs-datepicker/dist/locale'
 export default {
   props: {
     task: Object,
     refreshTasksAllData: Function,
     is_new_and_edit: Boolean,
     is_new: Boolean,
+    //フォーマット
+    DatePickerFormat: 'yyyy-MM-dd',
+    //日本語化
+    ja:ja
+  },
+  components: {
+    Datepicker
   },
   data() {
     return {
