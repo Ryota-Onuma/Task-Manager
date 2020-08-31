@@ -6,9 +6,9 @@ FactoryBot.define do
     image { 'https://stat.ameba.jp/user_images/20191108/21/hanakoko-info/3a/db/j/o0602080014634893674.jpg?caw=800' }
     introduction { Faker::ChuckNorris.fact }
     permission { true }
-    admin { false } 
+    admin { false }
     trait :admin_user do
       admin { true }
     end
-    end
   end
+end
