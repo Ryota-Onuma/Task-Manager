@@ -20,9 +20,5 @@ FactoryBot.define do
 end
 
 def create_task_title
-  content = ''
-  3.times do
-    content << Faker::Games::Pokemon.name + ' , '
-  end
-  content
+  (1..3).map {|_i| Faker::Games::Pokemon.name }.join(', ')
 end
