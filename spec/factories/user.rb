@@ -11,7 +11,7 @@ FactoryBot.define do
     trait :banned_user do
       permission { false }
     end
-    
+
     trait :admin_user do
       admin { true }
     end
