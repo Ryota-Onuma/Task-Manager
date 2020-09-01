@@ -154,6 +154,7 @@ a {
   #tasks-index {
     padding-bottom: 50px;
     box-sizing: border-box;
+
     #tasks-index-title {
       font-size: 1.8rem;
       text-align: center;
