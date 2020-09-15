@@ -9,7 +9,11 @@
       v-show="!is_show && !is_new_and_edit"
       id="tasks-container"
     >
-      <span v-for="(task, index) in tasks" :key="index" class="each-todo">
+      <span
+        v-for="(task, index) in sorted_tasks"
+        :key="index"
+        class="each-todo"
+      >
         <TaskListCard
           :task="task"
           :show-func="showFunc"
@@ -56,6 +60,7 @@
 import TaskListCard from "../../components/tasks/TaskListCard";
 import TaskShow from "../../components/tasks/Show";
 import TaskNewAndEdit from "../../components/tasks/NewAndEdit.vue";
+
 export default {
   components: {
     TaskListCard,
@@ -74,6 +79,7 @@ export default {
         deadline: "",
         important: false,
       },
+      sort_property: "asc",
       is_show: false,
       is_new_and_edit: false,
       is_new: true,
@@ -132,6 +138,22 @@ export default {
         }
       };
     },
+    sorted_tasks: function () {
+      const array = this.tasks.map((el) => el);
+      if (this.tasks) {
+        if (this.sort_property === "asc") {
+          const sorted = array.sort((a, b) => {
+            return a.deadline < b.deadline ? 1 : -1;
+          });
+          return sorted;
+        } else if (this.sort_property === "desc") {
+          const sorted = array.sort((a, b) => {
+            return a.deadline > b.deadline ? 1 : -1;
+          });
+          return sorted;
+        }
+      }
+    },
   },
 };
 </script>
@@ -143,15 +165,7 @@ a {
   text-decoration: none;
   color: $link-color;
 }
-.fade-enter-active,
-.fade-leave-active {
-  will-change: opacity;
-  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
+
 @media only screen and (max-width: 1365px) {
 }
 @media screen and (min-width: 1366px) {

@@ -1,9 +1,7 @@
 <template>
   <div class="todo-card">
     <span class="todo-created-at">
-      {{
-      task.created_at | convert_time_format
-      }}
+      〆 {{ task.deadline | convert_time_format }}
     </span>
     <span class="task-title">{{ task.title }}</span>
     <div class="task-card-buttons">

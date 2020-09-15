@@ -10,11 +10,60 @@
       <h1 v-else id="task-new-and-edit-title">Edit Task</h1>
       <div id="todo-info-container">
         <div id="todo-status-container">
-          <input type="radio" id="yet" value="1" v-model="inputTask.status" />
+          <transition name="fade">
+            <div id="datepicker-calender-container" v-show="datepicker">
+              <div id="datepicker-calender-container-top">
+                <div id="close-container">
+                  <span @click="datepicker = false">×</span>
+                </div>
+                <h1>日付を選択</h1>
+                <h3 v-if="deadline_date">
+                  終了期限：&ensp;&ensp;
+                  {{ deadline_date | dateFormant }}&ensp;&ensp;{{ stringTime }}
+                </h3>
+                <h3 v-else>日付と時間を選択してください</h3>
+              </div>
+              <div id="pickers">
+                <div class="picker">
+                  <h4>日付を選択</h4>
+                  <Datepicker
+                    :language="ja"
+                    :format="DatePickerFormat"
+                    v-model="deadline_date"
+                    placeholder="日付を選択してください"
+                    id="datepicker"
+                    :inline="true"
+                  ></Datepicker>
+                </div>
+                <div class="picker">
+                  <h4>時間を選択</h4>
+                  <Timepicker
+                    id="timepicker"
+                    :format="format"
+                    :minute-interval="minInterval"
+                    placeholder="時間"
+                    hour-label="時"
+                    minute-label="分"
+                    v-model="stringTime"
+                  />
+                </div>
+              </div>
+              <div id="deadline-confirm">
+                <span @click="datepicker = false">確定</span>
+              </div>
+            </div>
+          </transition>
+          <div id="deadline-button-container">
+            <h3 v-if="deadline_date">
+              終了期限：&ensp;&ensp;
+              {{ deadline_date | dateFormant }}&ensp;&ensp;{{ stringTime }}
+            </h3>
+            <button @click="datepicker = true">{{ isDateSelected() }}</button>
+          </div>
+          <input v-model="inputTask.status" type="radio" id="yet" value="1" />
           <label for="yet">Yet</label>
           <input id="doing" v-model="inputTask.status" type="radio" value="2" />
           <label for="doing">Doing</label>
-
           <input id="done" v-model="inputTask.status" type="radio" value="3" />
           <label for="done">Done</label>
         </div>
@@ -39,7 +88,17 @@
   </section>
 </template>
 <script>
+import Datepicker from "vuejs-datepicker";
+import VueTimepicker from "vue2-timepicker";
+import "vue2-timepicker/dist/VueTimepicker.css";
+import { ja } from "vuejs-datepicker/dist/locale";
+import moment from "moment";
+
 export default {
+  components: {
+    Datepicker,
+    Timepicker: VueTimepicker,
+  },
   props: {
     task: Object,
     refreshTasksAllData: Function,
@@ -52,9 +111,16 @@ export default {
         title: "",
         content: "",
         status: 1,
-        deadline: "",
+        deadline: null,
         important: false,
       },
+      format: "HH:mm", // 形式 AMなどの指定もできる
+      minInterval: 5,
+      stringTime: "15:00",
+      deadline_date: null,
+      datepicker: false,
+      DatePickerFormat: "yyyy年 M/d",
+      ja: ja,
     };
   },
   watch: {
@@ -84,6 +150,20 @@ export default {
         alert("タスク内容が入力されていません。");
         return;
       }
+      if (this.deadline_date === null || this.stringTime === "") {
+        alert("終了期限が追加されていません");
+        return;
+      } else {
+        let deadline = moment(this.deadline_date);
+        const stringTime = this.stringTime;
+        const hh = Number(stringTime.slice(0, 2));
+        const mm = Number(stringTime.slice(-2));
+        deadline.set("hour", hh);
+        deadline.set("minute", mm);
+        // deadline.add(9, "hours");
+        console.log(deadline);
+        this.inputTask.deadline = deadline;
+      }
       if (this.is_new === true) {
         //新規登録の場合
         url = "/api/tasks";
@@ -98,7 +178,12 @@ export default {
           })
           .catch((error) => {
             console.dir(error);
-            alert(error.response.data.error.replace('バリデーションに失敗しました:', ""));
+            alert(
+              error.response.data.error.replace(
+                "バリデーションに失敗しました:",
+                ""
+              )
+            );
           });
       } else {
         //更新の場合
@@ -114,14 +199,28 @@ export default {
           })
           .catch((error) => {
             console.dir(error);
-            alert(error.response.data.error.replace('バリデーションに失敗しました:', ""));
+            alert(
+              error.response.data.error.replace(
+                "バリデーションに失敗しました:",
+                ""
+              )
+            );
           });
       }
+    },
+    isDateSelected() {
+      return this.inputTask.deadline ? "終了期限を変更" : "終了期限を設定";
+    },
+  },
+  filters: {
+    dateFormant(value) {
+      return moment(value).format("YYYY年MM月DD日");
     },
   },
 };
 </script>
 <style lang="scss" scoped>
+@import "../../assets/stylesheets/application.scss";
 $background-color: white;
 $close-button-color: white;
 $label-background-color: #186de9;
@@ -132,20 +231,15 @@ $done: #186de9;
 $yet-color: white;
 $doing-color: black;
 $done-color: white;
+
 @media only screen and (max-width: 1365px) {
 }
 @media screen and (min-width: 1366px) {
   #task-new-and-edit {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include flex-column(center, center);
     #task-new-and-edit-close-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
+      @include flex-row(flex-end, center);
       width: 90%;
       margin: 0 auto 30px auto;
       #task-new-and-edit-close {
@@ -166,11 +260,7 @@ $done-color: white;
       #todo-info-container {
         width: 80%;
         margin: 50px auto 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-
+        @include flex-column(flex-start, center);
         .task-form-parts {
           margin: 10px;
           font-size: 1.4rem;
@@ -185,10 +275,7 @@ $done-color: white;
         }
         #todo-status-container {
           width: 100%;
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-end;
-          align-items: center;
+          @include flex-row(flex-end, center);
           box-sizing: border-box;
           padding: 30px 50px;
           input[type="radio"] {
@@ -228,12 +315,79 @@ $done-color: white;
             background-color: $done;
             color: $done-color;
           }
+          #deadline-button-container {
+            @include flex-row(flex-end, center);
+            width: 40%;
+            padding-right: 100px;
+
+            button {
+              background-color: transparent;
+              border: 1px solid black;
+              padding: 5px 10px;
+              cursor: pointer;
+              margin-left: 50px;
+            }
+          }
+          #datepicker-calender-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            @include flex-column(center, center);
+            padding-bottom: 200px;
+            box-sizing: border-box;
+            #datepicker-calender-container-top {
+              width: 70%;
+              @include flex-column(center, center);
+              h1 {
+                text-align: center;
+                font-size: 2rem;
+                color: white;
+                margin: 50px 0;
+              }
+              h3 {
+                text-align: center;
+                color: white;
+                margin: 50px 0;
+                font-weight: thin;
+              }
+              #close-container {
+                width: 100%;
+                @include flex-row(flex-end, center);
+                span {
+                  font-size: 4rem;
+                  color: white;
+                  cursor: pointer;
+                }
+              }
+            }
+            #pickers {
+              width: 60%;
+              @include flex-row(space-around, flex-start);
+              .picker {
+                @include flex-column(center, center);
+                h4 {
+                  color: white;
+                  margin: 20px;
+                }
+              }
+            }
+            #deadline-confirm {
+              width: 60%;
+              @include flex-row(flex-end, center);
+              span {
+                font-size: 1.6rem;
+                color: white;
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
       #task-submit-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
+        @include flex-row(flex-end, center);
         width: 100%;
         padding: 50px 50px 0 0;
         box-sizing: border-box;
