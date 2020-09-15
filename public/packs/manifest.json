@@ -12,6 +12,7 @@
     },
     "hello_vue": {
       "js": [
+<<<<<<< HEAD
         "/packs/js/hello_vue-0b23661334b598e1a4dd.js"
       ],
       "js.map": [
@@ -21,4 +22,15 @@
   },
   "hello_vue.js": "/packs/js/hello_vue-0b23661334b598e1a4dd.js",
   "hello_vue.js.map": "/packs/js/hello_vue-0b23661334b598e1a4dd.js.map"
+=======
+        "/packs/js/hello_vue-d55121e1e0253060263a.js"
+      ],
+      "js.map": [
+        "/packs/js/hello_vue-d55121e1e0253060263a.js.map"
+      ]
+    }
+  },
+  "hello_vue.js": "/packs/js/hello_vue-d55121e1e0253060263a.js",
+  "hello_vue.js.map": "/packs/js/hello_vue-d55121e1e0253060263a.js.map"
+>>>>>>> origin/feature/set-deadline
 }

@@ -67,6 +67,7 @@
           <input id="done" v-model="inputTask.status" type="radio" value="3" />
           <label for="done">Done</label>
         </div>
+        <datepicker :format="DatePickerFormat" :language="ja" placeholder="日付を選択してください"></datepicker>
         <input
           id="task-form-title"
           v-model="inputTask.title"
@@ -104,6 +105,9 @@ export default {
     refreshTasksAllData: Function,
     is_new_and_edit: Boolean,
     is_new: Boolean,
+  },
+  components: {
+    Datepicker
   },
   data() {
     return {
