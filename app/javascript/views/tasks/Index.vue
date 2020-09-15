@@ -2,6 +2,25 @@
   <section id="tasks-index">
     <h1 id="tasks-index-title">Your Tasks</h1>
     <div id="task-new-button-container">
+      <div id="pulldown-container">
+        <dropdown-menu
+          v-model="dropdown_show"
+          :hover="hover"
+          :interactive="interactive"
+        >
+          <button>
+            {{ sort_property }}
+          </button>
+          <div slot="dropdown" id="pulldown">
+            <button @click="sortClicked('締め切りが近い順')">
+              締め切りが近い順
+            </button>
+            <button @click="sortClicked('締め切りが遠い順')">
+              締め切りが遠い順
+            </button>
+          </div>
+        </dropdown-menu>
+      </div>
       <span id="task-new-button" @click="newFunc()">Add a Task</span>
     </div>
     <div
@@ -60,12 +79,13 @@
 import TaskListCard from "../../components/tasks/TaskListCard";
 import TaskShow from "../../components/tasks/Show";
 import TaskNewAndEdit from "../../components/tasks/NewAndEdit.vue";
-
+import DropdownMenu from "@innologica/vue-dropdown-menu";
 export default {
   components: {
     TaskListCard,
     TaskShow,
     TaskNewAndEdit,
+    DropdownMenu,
   },
   data() {
     return {
@@ -79,10 +99,13 @@ export default {
         deadline: "",
         important: false,
       },
-      sort_property: "asc",
+      sort_property: "締め切りが近い順",
       is_show: false,
       is_new_and_edit: false,
       is_new: true,
+      dropdown_show: false,
+      hover: false,
+      interactive: false,
     };
   },
   created() {
@@ -127,6 +150,14 @@ export default {
       this.tasks = data.tasks;
       this.users = data.users;
     },
+    sortClicked(property) {
+      if (property === "締め切りが近い順") {
+        this.sort_property = "締め切りが近い順";
+      } else if (property === "締め切りが遠い順") {
+        this.sort_property = "締め切りが遠い順";
+      }
+      this.dropdown_show = false;
+    },
   },
   computed: {
     relatedUser: function () {
@@ -141,12 +172,12 @@ export default {
     sorted_tasks: function () {
       const array = this.tasks.map((el) => el);
       if (this.tasks) {
-        if (this.sort_property === "asc") {
+        if (this.sort_property === "締め切りが近い順") {
           const sorted = array.sort((a, b) => {
             return a.deadline < b.deadline ? 1 : -1;
           });
           return sorted;
-        } else if (this.sort_property === "desc") {
+        } else if (this.sort_property === "締め切りが遠い順") {
           const sorted = array.sort((a, b) => {
             return a.deadline > b.deadline ? 1 : -1;
           });
@@ -182,8 +213,35 @@ a {
       flex-direction: row;
       justify-content: flex-end;
       margin: 50px auto 0 auto;
+      #pulldown-container {
+        position: relative;
+        button {
+          font-size: 1.2rem;
+          display: inline-block;
+          margin-right: 30px;
+          border: 2px solid $new-button-border-color;
+          padding: 10px 20px;
+          background-color: white;
+          cursor: pointer;
+        }
+        #pulldown {
+          position: absolute;
+          top: 60px;
+          z-index: 2;
+          display: flex;
+          flex-direction: column;
+          button {
+            display: inline-block;
+            margin-top: 10px;
+            &:hover {
+              background: $new-button-border-color;
+              color: white;
+            }
+          }
+        }
+      }
       #task-new-button {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         display: inline-block;
         margin-right: 30px;
         border: 2px solid $new-button-border-color;

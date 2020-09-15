@@ -54,7 +54,7 @@
             </div>
           </transition>
           <div id="deadline-button-container">
-            <h3 v-if="deadline_date">
+            <h3 v-if="deadline_date && stringTime">
               終了期限：&ensp;&ensp;
               {{ deadline_date | dateFormant }}&ensp;&ensp;{{ stringTime }}
             </h3>
@@ -154,14 +154,12 @@ export default {
         alert("終了期限が追加されていません");
         return;
       } else {
-        let deadline = moment(this.deadline_date);
+        const deadline = moment(this.deadline_date);
         const stringTime = this.stringTime;
         const hh = Number(stringTime.slice(0, 2));
         const mm = Number(stringTime.slice(-2));
         deadline.set("hour", hh);
         deadline.set("minute", mm);
-        // deadline.add(9, "hours");
-        console.log(deadline);
         this.inputTask.deadline = deadline;
       }
       if (this.is_new === true) {
@@ -209,7 +207,9 @@ export default {
       }
     },
     isDateSelected() {
-      return this.inputTask.deadline ? "終了期限を変更" : "終了期限を設定";
+      return this.deadline_date && this.stringTime
+        ? "終了期限を変更"
+        : "終了期限を設定";
     },
   },
   filters: {
@@ -317,7 +317,7 @@ $done-color: white;
           }
           #deadline-button-container {
             @include flex-row(flex-end, center);
-            width: 40%;
+            width: 70%;
             padding-right: 100px;
 
             button {
