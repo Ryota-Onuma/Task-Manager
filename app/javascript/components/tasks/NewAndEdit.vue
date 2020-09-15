@@ -126,11 +126,17 @@ export default {
   watch: {
     task: function (task) {
       this.inputTask = task;
+      if (this.inputTask.deadline) {
+        this.deadline_date = this.inputTask.deadline;
+        this.stringTime = moment(this.inputTask.deadline).format("HH:mm");
+      }
     },
   },
 
   methods: {
     close() {
+      this.stringTime = "";
+      this.deadline_date = null;
       this.$emit("update:is_new_and_edit", false);
     },
     submit() {
@@ -172,6 +178,8 @@ export default {
           .then((response) => {
             this.refreshTasksAllData(response.data);
             alert("新規投稿が完了しました！");
+            this.stringTime = "";
+            this.deadline_date = null;
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
@@ -193,6 +201,8 @@ export default {
           .then((response) => {
             this.refreshTasksAllData(response.data);
             alert("更新が完了しました！");
+            this.stringTime = "";
+            this.deadline_date = null;
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {

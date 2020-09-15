@@ -12,11 +12,11 @@
             {{ sort_property }}
           </button>
           <div slot="dropdown" id="pulldown">
-            <button @click="sortClicked('締め切りが近い順')">
-              締め切りが近い順
+            <button @click="sortClicked('締め切りが早い順')">
+              締め切りが早い順
             </button>
-            <button @click="sortClicked('締め切りが遠い順')">
-              締め切りが遠い順
+            <button @click="sortClicked('締め切りが遅い順')">
+              締め切りが遅い順
             </button>
           </div>
         </dropdown-menu>
@@ -99,7 +99,7 @@ export default {
         deadline: "",
         important: false,
       },
-      sort_property: "締め切りが近い順",
+      sort_property: "締め切りが早い順",
       is_show: false,
       is_new_and_edit: false,
       is_new: true,
@@ -151,10 +151,10 @@ export default {
       this.users = data.users;
     },
     sortClicked(property) {
-      if (property === "締め切りが近い順") {
-        this.sort_property = "締め切りが近い順";
-      } else if (property === "締め切りが遠い順") {
-        this.sort_property = "締め切りが遠い順";
+      if (property === "締め切りが早い順") {
+        this.sort_property = "締め切りが早い順";
+      } else if (property === "締め切りが遅い順") {
+        this.sort_property = "締め切りが遅い順";
       }
       this.dropdown_show = false;
     },
@@ -172,14 +172,14 @@ export default {
     sorted_tasks: function () {
       const array = this.tasks.map((el) => el);
       if (this.tasks) {
-        if (this.sort_property === "締め切りが近い順") {
-          const sorted = array.sort((a, b) => {
-            return a.deadline < b.deadline ? 1 : -1;
-          });
-          return sorted;
-        } else if (this.sort_property === "締め切りが遠い順") {
+        if (this.sort_property === "締め切りが早い順") {
           const sorted = array.sort((a, b) => {
             return a.deadline > b.deadline ? 1 : -1;
+          });
+          return sorted;
+        } else if (this.sort_property === "締め切りが遅い順") {
+          const sorted = array.sort((a, b) => {
+            return a.deadline < b.deadline ? 1 : -1;
           });
           return sorted;
         }
