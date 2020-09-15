@@ -40,6 +40,8 @@ group :development, :test do
   gem 'rubocop-rspec'
   gem 'pre-commit' #git commit 時にrubocopを走らせる
   gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do

@@ -1,24 +1,24 @@
 {
-  "application.js": "/packs/js/application-38bc4c44e1ddb4a40a22.js",
-  "application.js.map": "/packs/js/application-38bc4c44e1ddb4a40a22.js.map",
+  "application.js": "/packs/js/application-8102313bc68615e02f74.js",
+  "application.js.map": "/packs/js/application-8102313bc68615e02f74.js.map",
   "entrypoints": {
     "application": {
       "js": [
-        "/packs/js/application-38bc4c44e1ddb4a40a22.js"
+        "/packs/js/application-8102313bc68615e02f74.js"
       ],
       "js.map": [
-        "/packs/js/application-38bc4c44e1ddb4a40a22.js.map"
+        "/packs/js/application-8102313bc68615e02f74.js.map"
       ]
     },
     "hello_vue": {
       "js": [
-        "/packs/js/hello_vue-36a43fe5af546c32c237.js"
+        "/packs/js/hello_vue-68941266834431789b75.js"
       ],
       "js.map": [
-        "/packs/js/hello_vue-36a43fe5af546c32c237.js.map"
+        "/packs/js/hello_vue-68941266834431789b75.js.map"
       ]
     }
   },
-  "hello_vue.js": "/packs/js/hello_vue-36a43fe5af546c32c237.js",
-  "hello_vue.js.map": "/packs/js/hello_vue-36a43fe5af546c32c237.js.map"
+  "hello_vue.js": "/packs/js/hello_vue-68941266834431789b75.js",
+  "hello_vue.js.map": "/packs/js/hello_vue-68941266834431789b75.js.map"
 }
