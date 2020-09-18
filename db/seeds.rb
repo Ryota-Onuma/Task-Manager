@@ -25,6 +25,7 @@ end
     status: 1,
     deadline: DateTime.now,
     important: false,
-    user_id: n + 1
+    user_id: 1
   )
 end
+
