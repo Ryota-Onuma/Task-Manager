@@ -67,7 +67,7 @@
           <input id="done" v-model="inputTask.status" type="radio" value="3" />
           <label for="done">Done</label>
         </div>
-        <datepicker :format="DatePickerFormat" :language="ja" placeholder="日付を選択してください"></datepicker>
+
         <input
           id="task-form-title"
           v-model="inputTask.title"
@@ -106,9 +106,6 @@ export default {
     is_new_and_edit: Boolean,
     is_new: Boolean,
   },
-  components: {
-    Datepicker
-  },
   data() {
     return {
       inputTask: {
@@ -139,9 +136,17 @@ export default {
 
   methods: {
     close() {
-      this.stringTime = "";
-      this.deadline_date = null;
+      this.reset();
       this.$emit("update:is_new_and_edit", false);
+    },
+    reset() {
+      this.stringTime = "15:00";
+      this.deadline_date = null;
+      this.title = "";
+      this.content = "";
+      this.status = 1;
+      this.deadline = null;
+      this.important = false;
     },
     submit() {
       let url;
@@ -160,8 +165,13 @@ export default {
         alert("タスク内容が入力されていません。");
         return;
       }
-      if (this.deadline_date === null || this.stringTime === "") {
-        alert("終了期限が追加されていません");
+      if (
+        this.deadline_date === null ||
+        this.stringTime === "" ||
+        /mm/.test(this.stringTime) ||
+        /HH/.test(this.stringTime)
+      ) {
+        alert("終了期限が追加されていない、もしくは正しくありません");
         return;
       } else {
         const deadline = moment(this.deadline_date);
@@ -182,8 +192,7 @@ export default {
           .then((response) => {
             this.refreshTasksAllData(response.data);
             alert("新規投稿が完了しました！");
-            this.stringTime = "";
-            this.deadline_date = null;
+            this.reset();
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
@@ -205,8 +214,7 @@ export default {
           .then((response) => {
             this.refreshTasksAllData(response.data);
             alert("更新が完了しました！");
-            this.stringTime = "";
-            this.deadline_date = null;
+            this.reset();
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
@@ -221,7 +229,11 @@ export default {
       }
     },
     isDateSelected() {
-      return this.deadline_date && this.stringTime
+      return this.deadline_date &&
+        this.stringTime !== "" &&
+        this.stringTime &&
+        !/mm/.test(this.stringTime) &&
+        !/HH/.test(this.stringTime)
         ? "終了期限を変更"
         : "終了期限を設定";
     },
