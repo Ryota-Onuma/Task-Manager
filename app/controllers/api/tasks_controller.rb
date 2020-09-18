@@ -7,7 +7,6 @@ class Api::TasksController < ApplicationController
 
   def create
     task = Task.new(task_params)
-    task.deadline = DateTime.now
     task.user_id = 1 # まだログイン機能をつけてないので
     task.save!
     returnTasksAndUsersAllData
