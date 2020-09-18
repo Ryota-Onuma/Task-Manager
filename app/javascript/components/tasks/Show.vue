@@ -19,6 +19,12 @@
           <span v-else-if="task.status === 2" class="doing">Doing</span>
           <span v-else-if="task.status === 3" class="done">Done</span>
         </div>
+        <div class="status-marker task-info-parts">
+          Priority ：&ensp;
+          <span v-if="task.important === 1" class="yet">High</span>
+          <span v-else-if="task.important === 2" class="doing">Middle</span>
+          <span v-else-if="task.important === 3" class="done">Log</span>
+        </div>
         <div id="assigned-user" class="task-info-parts">
           Assignee:&ensp;{{ user.name }}
         </div>

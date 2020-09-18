@@ -34,6 +34,12 @@
             <button @click="sortClicked(2)">
               締め切りが遅い順
             </button>
+            <button @click="sortClicked(3)">
+              優先度が高い順
+            </button>
+            <button @click="sortClicked(4)">
+              優先度が低い順
+            </button>
           </div>
         </dropdown-menu>
       </div>
@@ -174,6 +180,10 @@ export default {
         this.sort_property = "締め切りが早い順";
       } else if (property === 2) {
         this.sort_property = "締め切りが遅い順";
+      } else if (property === 3) {
+        this.sort_property = "優先度が高い順";
+      } else if (property === 4) {
+        this.sort_property = "優先度が低い順";
       }
       this.dropdown_show = false;
     },
@@ -199,6 +209,16 @@ export default {
         } else if (this.sort_property === "締め切りが遅い順") {
           const sorted = array.sort((a, b) => {
             return a.deadline < b.deadline ? 1 : -1;
+          });
+          return sorted;
+        } else if (this.sort_property === "優先度が高い順") {
+          const sorted = array.sort((a, b) => {
+            return a.important > b.important ? 1 : -1;
+          });
+          return sorted;
+        } else if (this.sort_property === "優先度が低い順") {
+          const sorted = array.sort((a, b) => {
+            return a.important < b.important ? 1 : -1;
           });
           return sorted;
         }

@@ -24,7 +24,7 @@ end
     content: 'ああああああ',
     status: 1,
     deadline: DateTime.now,
-    important: false,
+    important: rand(1..3),
     user_id: n + 1
   )
 end

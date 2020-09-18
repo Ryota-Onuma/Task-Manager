@@ -55,17 +55,61 @@
           </transition>
           <div id="deadline-button-container">
             <h3 v-if="deadline_date && stringTime">
-              終了期限：&ensp;&ensp;
+              終了期限：&ensp;&ensp;<br />
               {{ deadline_date | dateFormant }}&ensp;&ensp;{{ stringTime }}
             </h3>
             <button @click="datepicker = true">{{ isDateSelected() }}</button>
           </div>
-          <input v-model="inputTask.status" type="radio" id="yet" value="1" />
-          <label for="yet">Yet</label>
-          <input id="doing" v-model="inputTask.status" type="radio" value="2" />
-          <label for="doing">Doing</label>
-          <input id="done" v-model="inputTask.status" type="radio" value="3" />
-          <label for="done">Done</label>
+          <div id="status-and-priority-container">
+            <div class="status-and-priority-container-inner">
+              <h3>Status</h3>
+              <input
+                v-model="inputTask.status"
+                type="radio"
+                id="status-yet"
+                value="1"
+              />
+              <label for="status-yet">Yet</label>
+              <input
+                id="status-doing"
+                v-model="inputTask.status"
+                type="radio"
+                value="2"
+              />
+              <label for="status-doing">Doing</label>
+              <input
+                id="status-done"
+                v-model="inputTask.status"
+                type="radio"
+                value="3"
+              />
+              <label for="status-done">Done</label>
+            </div>
+            <div class="status-and-priority-container-inner">
+              <h3>Priority</h3>
+              <input
+                v-model="inputTask.important"
+                type="radio"
+                id="priority-high"
+                value="1"
+              />
+              <label for="priority-high">High</label>
+              <input
+                id="priority-middle"
+                v-model="inputTask.important"
+                type="radio"
+                value="2"
+              />
+              <label for="priority-middle">Middle</label>
+              <input
+                id="priority-low"
+                v-model="inputTask.important"
+                type="radio"
+                value="3"
+              />
+              <label for="priority-low">Low</label>
+            </div>
+          </div>
         </div>
         <input
           id="task-form-title"
@@ -112,7 +156,7 @@ export default {
         content: "",
         status: 1,
         deadline: null,
-        important: false,
+        important: 3,
       },
       format: "HH:mm", // 形式 AMなどの指定もできる
       minInterval: 5,
@@ -300,45 +344,82 @@ $done-color: white;
         }
         #todo-status-container {
           width: 100%;
-          @include flex-row(flex-end, center);
+          @include flex-row(flex-end, flex-end);
           box-sizing: border-box;
           padding: 30px 50px;
-          input[type="radio"] {
-            display: none;
-            + label {
-              margin: 0 10px;
-              display: inline-block;
-              padding: 5px 10px;
-              font-size: 1.2rem;
-              cursor: pointer;
+
+          #status-and-priority-container {
+            width: 100%;
+            @include flex-row(space-between, center);
+            flex-wrap: wrap;
+            .status-and-priority-container-inner {
+              width: 50%;
+              h3 {
+                margin: 10px 0 20px 10px;
+                font-size: 1.3rem;
+              }
+              input[type="radio"] {
+                display: none;
+                + label {
+                  margin: 0 10px;
+                  display: inline-block;
+                  padding: 5px 10px;
+                  font-size: 1.2rem;
+                  cursor: pointer;
+                }
+                &:checked + label {
+                  display: inline-block;
+                }
+              }
+              #status-yet + label {
+                border: 1px solid $yet;
+                color: $yet;
+              }
+              #status-doing + label {
+                border: 1px solid $doing;
+                color: black;
+              }
+              #status-done + label {
+                border: 1px solid $done;
+                color: $done;
+              }
+              #status-yet:checked + label {
+                background-color: $yet;
+                color: $yet-color;
+              }
+              #status-doing:checked + label {
+                background-color: $doing;
+                color: $doing-color;
+              }
+              #status-done:checked + label {
+                background-color: $done;
+                color: $done-color;
+              }
+              #priority-high + label {
+                border: 1px solid $yet;
+                color: $yet;
+              }
+              #priority-middle + label {
+                border: 1px solid $doing;
+                color: black;
+              }
+              #priority-low + label {
+                border: 1px solid $done;
+                color: $done;
+              }
+              #priority-high:checked + label {
+                background-color: $yet;
+                color: $yet-color;
+              }
+              #priority-middle:checked + label {
+                background-color: $doing;
+                color: $doing-color;
+              }
+              #priority-low:checked + label {
+                background-color: $done;
+                color: $done-color;
+              }
             }
-            &:checked + label {
-              display: inline-block;
-            }
-          }
-          #yet + label {
-            border: 1px solid $yet;
-            color: $yet;
-          }
-          #doing + label {
-            border: 1px solid $doing;
-            color: black;
-          }
-          #done + label {
-            border: 1px solid $done;
-            color: $done;
-          }
-          #yet:checked + label {
-            background-color: $yet;
-            color: $yet-color;
-          }
-          #doing:checked + label {
-            background-color: $doing;
-            color: $doing-color;
-          }
-          #done:checked + label {
-            background-color: $done;
-            color: $done-color;
           }
           #deadline-button-container {
             @include flex-row(flex-end, center);

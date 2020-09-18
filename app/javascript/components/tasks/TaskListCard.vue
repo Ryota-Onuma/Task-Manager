@@ -11,6 +11,13 @@
         <span v-else-if="task.status === 2" class="doing">Doing</span>
         <span v-else-if="task.status === 3" class="done">Done</span>
       </span>
+      <span class="status-marker">
+        <span v-if="task.important === 1" class="yet">Priority High</span>
+        <span v-else-if="task.important === 2" class="doing"
+          >Priority Middle</span
+        >
+        <span v-else-if="task.important === 3" class="done">Priority Low</span>
+      </span>
       <span class="show-task-button" @click="SetShowFunc(task)">
         <i class="fas fa-info-circle"></i>
       </span>
