@@ -8,5 +8,5 @@ end
 
 private
 def search_params
-  params.require(:q).permit(:title, :status, :important)
+  params.require(:q).permit(:title_cont, :status_eq, :important_eq)
 end

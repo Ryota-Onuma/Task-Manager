@@ -67,7 +67,6 @@
           <input id="done" v-model="inputTask.status" type="radio" value="3" />
           <label for="done">Done</label>
         </div>
-
         <input
           id="task-form-title"
           v-model="inputTask.title"
