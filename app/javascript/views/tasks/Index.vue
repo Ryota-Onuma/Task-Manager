@@ -12,10 +12,10 @@
             {{ sort_property }}
           </button>
           <div slot="dropdown" id="pulldown">
-            <button @click="sortClicked('締め切りが早い順')">
+            <button @click="sortClicked(1)">
               締め切りが早い順
             </button>
-            <button @click="sortClicked('締め切りが遅い順')">
+            <button @click="sortClicked(2)">
               締め切りが遅い順
             </button>
           </div>
@@ -151,9 +151,9 @@ export default {
       this.users = data.users;
     },
     sortClicked(property) {
-      if (property === "締め切りが早い順") {
+      if (property === 1) {
         this.sort_property = "締め切りが早い順";
-      } else if (property === "締め切りが遅い順") {
+      } else if (property === 2) {
         this.sort_property = "締め切りが遅い順";
       }
       this.dropdown_show = false;
