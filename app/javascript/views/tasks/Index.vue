@@ -2,6 +2,22 @@
   <section id="tasks-index">
     <h1 id="tasks-index-title">Your Tasks</h1>
     <div id="task-new-button-container">
+      <button @click="getTodosAndUsers()" id="refresh">
+        <i class="fas fa-redo-alt"></i>
+      </button>
+      <button @click="is_search = !is_search" id="search-button">
+        <i class="fas fa-search"></i>
+      </button>
+      <transition name="fade">
+        <div v-show="is_search" id="search-container">
+          <div id="search-close-container">
+            <span id="search-close" @click="is_search = false">
+              ×
+            </span>
+          </div>
+          <Search :tasks.sync="tasks" :is_search.sync="is_search"></Search>
+        </div>
+      </transition>
       <div id="pulldown-container">
         <dropdown-menu
           v-model="dropdown_show"
@@ -25,7 +41,7 @@
     </div>
     <div
       v-if="tasks && users"
-      v-show="!is_show && !is_new_and_edit"
+      v-show="!is_show && !is_new_and_edit && !is_search"
       id="tasks-container"
     >
       <span
@@ -80,12 +96,14 @@ import TaskListCard from "../../components/tasks/TaskListCard";
 import TaskShow from "../../components/tasks/Show";
 import TaskNewAndEdit from "../../components/tasks/NewAndEdit.vue";
 import DropdownMenu from "@innologica/vue-dropdown-menu";
+import Search from "../../components/tasks/Search";
 export default {
   components: {
     TaskListCard,
     TaskShow,
     TaskNewAndEdit,
     DropdownMenu,
+    Search,
   },
   data() {
     return {
@@ -106,6 +124,7 @@ export default {
       dropdown_show: false,
       hover: false,
       interactive: false,
+      is_search: false,
     };
   },
   created() {
@@ -213,6 +232,51 @@ a {
       flex-direction: row;
       justify-content: flex-end;
       margin: 50px auto 0 auto;
+      #search-button {
+        font-size: 1.1rem;
+        display: inline-block;
+        margin-right: 30px;
+        border: 2px solid $new-button-border-color;
+        padding: 10px 20px;
+        background-color: white;
+        cursor: pointer;
+      }
+      #refresh {
+        font-size: 1.1rem;
+        display: inline-block;
+        margin-right: 30px;
+        border: 2px solid $new-button-border-color;
+        padding: 10px 20px;
+        background-color: white;
+        cursor: pointer;
+      }
+      #search-container {
+        width: 100vw;
+        height: 100vh;
+        padding: 100px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        background-color: white;
+        top: 0;
+        right: 0;
+        z-index: 5;
+        #search-close-container {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-end;
+          padding-right: 80px;
+          box-sizing: border-box;
+          #search-close {
+            font-size: 4rem;
+            cursor: pointer;
+          }
+        }
+      }
       #pulldown-container {
         position: relative;
         button {

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   namespace :api do
     # API用のルーティングはここに書く
     resources :tasks
+    get "task/search" => "search#todo_search"
   end
 
   get '*path', to: 'top#top', format: false # getのリクエストをまとめる

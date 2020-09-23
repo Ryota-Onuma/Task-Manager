@@ -1,0 +1,172 @@
+<template>
+  <div id="todo-search">
+    <h1>タスク検索</h1>
+    <div id="search-forms-container">
+      <h3 class="serch-headline">Title</h3>
+      <input
+        type="text"
+        v-model="query.title_cont"
+        placeholder="タイトルを入力"
+      />
+      <h3 class="serch-headline">Status</h3>
+      <div id="status-container">
+        <input v-model="query.status_eq" type="radio" id="yet" value="1" />
+        <label for="yet">Yet</label>
+        <input id="doing" v-model="query.status_eq" type="radio" value="2" />
+        <label for="doing">Doing</label>
+        <input id="done" v-model="query.status_eq" type="radio" value="3" />
+        <label for="done">Done</label>
+      </div>
+      <div id="serch-button-container">
+        <button @click="search">Search</button>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import Qs from "qs";
+export default {
+  props: {
+    tasks: Array,
+    is_search: Boolean,
+  },
+  data() {
+    return {
+      query: {
+        title_cont: null,
+        status_eq: 1,
+        important_eq: false,
+      },
+    };
+  },
+  methods: {
+    search() {
+      this.axios.defaults.headers.common = {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRF-TOKEN": document
+          .querySelector('meta[name="csrf-token"]')
+          .getAttribute("content"),
+      };
+      const url = "/api/task/search";
+      this.axios
+        .get(url, {
+          params: {
+            q: this.query,
+          },
+          paramsSerializer: function (params) {
+            return Qs.stringify(params, { arrayFormat: "brackets" });
+          },
+        })
+        .then((response) => {
+          console.log(response.data.tasks);
+          if (response.data.tasks.length > 0) {
+            this.$emit("update:tasks", response.data.tasks);
+            this.$emit("update:is_search", false);
+          } else {
+            alert("検索条件に当てはまるタスクが見つかりませんでした");
+          }
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+$yet: red;
+$doing: yellow;
+$done: #186de9;
+$yet-color: white;
+$doing-color: black;
+$done-color: white;
+#todo-search {
+  width: 100vw;
+  min-height: 80vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  h1 {
+    text-align: center;
+  }
+  #search-forms-container {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 50px;
+    .serch-headline {
+      margin: 10px;
+    }
+    input[type="text"] {
+      width: 60%;
+      padding: 5px 10px;
+      margin: 20px 10px;
+    }
+
+    #status-container {
+      display: flex;
+      flex-direction: row;
+      input[type="radio"] {
+        display: none;
+        + label {
+          margin: 0 20px;
+          display: inline-block;
+          padding: 5px 10px;
+          font-size: 1.2rem;
+          cursor: pointer;
+        }
+        &:checked + label {
+          display: inline-block;
+        }
+      }
+      #yet + label {
+        border: 1px solid $yet;
+        color: $yet;
+      }
+      #doing + label {
+        border: 1px solid $doing;
+        color: black;
+      }
+      #done + label {
+        border: 1px solid $done;
+        color: $done;
+      }
+      #yet:checked + label {
+        background-color: $yet;
+        color: $yet-color;
+      }
+      #doing:checked + label {
+        background-color: $doing;
+        color: $doing-color;
+      }
+      #done:checked + label {
+        background-color: $done;
+        color: $done-color;
+      }
+    }
+    #serch-button-container {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      padding-right: 100px;
+      box-sizing: border-box;
+      margin-top: 40px;
+      button {
+        padding: 5px 10px;
+        background-color: transparent;
+        border-radius: 5px;
+        box-shadow: none;
+        cursor: pointer;
+        font-size: 1.3rem;
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}
+</style>
