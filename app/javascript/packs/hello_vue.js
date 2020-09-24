@@ -9,7 +9,8 @@ import VueAxios from "vue-axios";
 Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-
+import VuePaginate from "vue-paginate";
+Vue.use(VuePaginate);
 document.addEventListener("DOMContentLoaded", () => {
   const app = new Vue({
     store,

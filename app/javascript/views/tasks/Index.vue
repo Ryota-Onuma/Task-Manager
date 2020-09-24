@@ -11,9 +11,7 @@
       <transition name="fade">
         <div v-show="is_search" id="search-container">
           <div id="search-close-container">
-            <span id="search-close" @click="is_search = false">
-              ×
-            </span>
+            <span id="search-close" @click="is_search = false">×</span>
           </div>
           <Search :tasks.sync="tasks" :is_search.sync="is_search"></Search>
         </div>
@@ -24,22 +22,12 @@
           :hover="hover"
           :interactive="interactive"
         >
-          <button>
-            {{ sort_property }}
-          </button>
+          <button>{{ sort_property }}</button>
           <div slot="dropdown" id="pulldown">
-            <button @click="sortClicked(1)">
-              締め切りが早い順
-            </button>
-            <button @click="sortClicked(2)">
-              締め切りが遅い順
-            </button>
-            <button @click="sortClicked(3)">
-              優先度が高い順
-            </button>
-            <button @click="sortClicked(4)">
-              優先度が低い順
-            </button>
+            <button @click="sortClicked(1)">締め切りが早い順</button>
+            <button @click="sortClicked(2)">締め切りが遅い順</button>
+            <button @click="sortClicked(3)">優先度が高い順</button>
+            <button @click="sortClicked(4)">優先度が低い順</button>
           </div>
         </dropdown-menu>
       </div>
@@ -50,18 +38,25 @@
       v-show="!is_show && !is_new_and_edit && !is_search"
       id="tasks-container"
     >
-      <span
-        v-for="(task, index) in sorted_tasks"
-        :key="index"
-        class="each-todo"
-      >
-        <TaskListCard
-          :task="task"
-          :show-func="showFunc"
-          :edit-func="editFunc"
-          :refreshTasksAllData="refreshTasksAllData"
-        ></TaskListCard>
-      </span>
+      <paginate name="paginate-task" :list="tasks" :per="2">
+        <li
+          v-for="(task, index) in paginated('paginate-task')"
+          :key="index"
+          class="each-todo"
+        >
+          <TaskListCard
+            :task="task"
+            :show-func="showFunc"
+            :edit-func="editFunc"
+            :refreshTasksAllData="refreshTasksAllData"
+          ></TaskListCard>
+        </li>
+      </paginate>
+      <paginate-links
+        for="paginate-task"
+        class="pagination"
+        :show-step-links="true"
+      ></paginate-links>
     </div>
     <transition name="fade">
       <div
@@ -103,6 +98,7 @@ import TaskShow from "../../components/tasks/Show";
 import TaskNewAndEdit from "../../components/tasks/NewAndEdit.vue";
 import DropdownMenu from "@innologica/vue-dropdown-menu";
 import Search from "../../components/tasks/Search";
+
 export default {
   components: {
     TaskListCard,
@@ -131,6 +127,7 @@ export default {
       hover: false,
       interactive: false,
       is_search: false,
+      paginate: ["paginate-task"],
     };
   },
   created() {
@@ -339,13 +336,18 @@ a {
       display: flex;
       flex-direction: column;
       align-items: center;
-      .each-todo {
-        width: 70%;
-        margin: 20px 0;
-        cursor: pointer;
-        transition: all 0.5s;
-        &:hover {
-          transform: scale(1.02, 1.02);
+
+      ul {
+        width: 100%;
+
+        .each-todo {
+          width: 70%;
+          margin: 20px 0;
+          cursor: pointer;
+          transition: all 0.5s;
+          &:hover {
+            transform: scale(1.02, 1.02);
+          }
         }
       }
     }
