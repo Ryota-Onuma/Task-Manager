@@ -9,13 +9,26 @@
         placeholder="タイトルを入力"
       />
       <h3 class="serch-headline">Status</h3>
-      <div id="status-container">
+      <div id="status-container" class="label-box">
         <input v-model="query.status_eq" type="radio" id="yet" value="1" />
         <label for="yet">Yet</label>
         <input id="doing" v-model="query.status_eq" type="radio" value="2" />
         <label for="doing">Doing</label>
         <input id="done" v-model="query.status_eq" type="radio" value="3" />
         <label for="done">Done</label>
+        <input id="no" v-model="query.status_eq" type="radio" value="" />
+        <label for="no">No Specification</label>
+      </div>
+      <h3 class="serch-headline">Priority</h3>
+      <div id="important-container" class="label-box">
+        <input v-model="query.important_eq" type="radio" id="high" value="1" />
+        <label for="high">High</label>
+        <input id="mid" v-model="query.important_eq" type="radio" value="2" />
+        <label for="mid">Middle</label>
+        <input id="low" v-model="query.important_eq" type="radio" value="3" />
+        <label for="low">Low</label>
+        <input id="no2" v-model="query.important_eq" type="radio" value="" />
+        <label for="no2">No Specification</label>
       </div>
       <div id="serch-button-container">
         <button @click="search">Search</button>
@@ -34,8 +47,8 @@ export default {
     return {
       query: {
         title_cont: null,
-        status_eq: 1,
-        important_eq: false,
+        status_eq: "",
+        important_eq: "",
       },
     };
   },
@@ -106,7 +119,7 @@ $done-color: white;
       margin: 20px 10px;
     }
 
-    #status-container {
+    .label-box {
       display: flex;
       flex-direction: row;
       input[type="radio"] {
@@ -134,6 +147,14 @@ $done-color: white;
         border: 1px solid $done;
         color: $done;
       }
+      #no + label {
+        border: 1px solid black;
+        color: black;
+      }
+      #no:checked + label {
+        background-color: black;
+        color: white;
+      }
       #yet:checked + label {
         background-color: $yet;
         color: $yet-color;
@@ -143,6 +164,38 @@ $done-color: white;
         color: $doing-color;
       }
       #done:checked + label {
+        background-color: $done;
+        color: $done-color;
+      }
+      #high + label {
+        border: 1px solid $yet;
+        color: $yet;
+      }
+      #mid + label {
+        border: 1px solid $doing;
+        color: black;
+      }
+      #low + label {
+        border: 1px solid $done;
+        color: $done;
+      }
+      #no2 + label {
+        border: 1px solid black;
+        color: black;
+      }
+      #no2:checked + label {
+        background-color: black;
+        color: white;
+      }
+      #high:checked + label {
+        background-color: $yet;
+        color: $yet-color;
+      }
+      #mid:checked + label {
+        background-color: $doing;
+        color: $doing-color;
+      }
+      #low:checked + label {
         background-color: $done;
         color: $done-color;
       }
