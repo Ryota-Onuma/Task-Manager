@@ -38,7 +38,7 @@
       v-show="!is_show && !is_new_and_edit && !is_search"
       id="tasks-container"
     >
-      <paginate name="paginate-task" :list="tasks" :per="2">
+      <paginate name="paginate-task" :list="sorted_tasks" :per="10">
         <li
           v-for="(task, index) in paginated('paginate-task')"
           :key="index"
@@ -224,6 +224,56 @@ export default {
   },
 };
 </script>
+<style>
+.pagination.paginate-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+.pagination.paginate-links > li.number {
+  list-style: none;
+  background-color: white;
+  margin: 0 10px 10px 10px;
+}
+.pagination.paginate-links > li.number > a {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #53c500;
+  cursor: pointer;
+}
+.pagination.paginate-links > li.left-arrow {
+  list-style: none;
+  cursor: pointer;
+  background-color: white;
+  margin: 0 10px 10px 10px;
+}
+.pagination.paginate-links > li.left-arrow > a {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #53c500;
+}
+.pagination.paginate-links > li.right-arrow {
+  list-style: none;
+  cursor: pointer;
+  background-color: white;
+  margin: 0 10px 10px 10px;
+}
+.pagination.paginate-links > li.right-arrow > a {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #53c500;
+}
+.pagination.paginate-links > li.ellipses {
+  list-style: none;
+  margin: 0;
+  margin: 0 10px 10px 10px;
+}
+.pagination.number.active > a {
+  background-color: #53c500;
+  color: white;
+}
+</style>
 <style lang="scss" scoped>
 $link-color: #186de9;
 $new-button-border-color: #186de9;
@@ -339,16 +389,25 @@ a {
 
       ul {
         width: 100%;
-
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         .each-todo {
           width: 70%;
           margin: 20px 0;
           cursor: pointer;
           transition: all 0.5s;
+          list-style: none;
           &:hover {
             transform: scale(1.02, 1.02);
           }
         }
+      }
+      .pagination {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
       }
     }
     .modal-container {
