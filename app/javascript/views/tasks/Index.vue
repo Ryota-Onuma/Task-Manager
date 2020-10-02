@@ -34,7 +34,7 @@
       v-show="!is_show && !is_new_and_edit && !is_search"
       id="tasks-container"
     >
-      <paginate name="paginate-task" :list="sorted_tasks" :per="10">
+      <paginate name="paginate-task" :list="sorted_tasks" :per="per">
         <li v-for="(task, index) in paginated('paginate-task')" :key="index" class="each-todo">
           <TaskListCard
             :task="task"
@@ -44,6 +44,12 @@
           ></TaskListCard>
         </li>
       </paginate>
+      <div id="how-many-tasks">
+        <button @click="per = 10" :class="{ displayedNumActive: per === 10 }">10件表示</button>
+        <button @click="per = 30" :class="{ displayedNumActive: per === 30 }">30件表示</button>
+        <button @click="per = 50" :class="{ displayedNumActive: per === 50 }">50件表示</button>
+        <button @click="per = 100" :class="{ displayedNumActive: per === 100 }">100件表示</button>
+      </div>
       <paginate-links for="paginate-task" class="pagination" :show-step-links="true"></paginate-links>
     </div>
     <transition name="fade">
@@ -116,6 +122,7 @@ export default {
       interactive: false,
       is_search: false,
       paginate: ["paginate-task"],
+      per:10
     };
   },
   created() {
@@ -396,6 +403,26 @@ a {
         display: flex;
         flex-direction: row;
         justify-content: center;
+      }
+      #how-many-tasks {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        button {
+          background-color: white;
+          padding: 5px 10px;
+          border: 1px solid #53c500;
+          margin: 10px;
+          cursor: pointer;
+          &:hover {
+            background-color: #53c500;
+            color: white;
+          }
+        }
+        button.displayedNumActive {
+          background-color: #53c500;
+          color: white;
+        }
       }
     }
     .modal-container {
