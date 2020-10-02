@@ -11,9 +11,7 @@
       <transition name="fade">
         <div v-show="is_search" id="search-container">
           <div id="search-close-container">
-            <span id="search-close" @click="is_search = false">
-              ×
-            </span>
+            <span id="search-close" @click="is_search = false">×</span>
           </div>
           <Search :tasks.sync="tasks" :is_search.sync="is_search"></Search>
         </div>
@@ -24,22 +22,12 @@
           :hover="hover"
           :interactive="interactive"
         >
-          <button>
-            {{ sort_property }}
-          </button>
+          <button>{{ sort_property }}</button>
           <div slot="dropdown" id="pulldown">
-            <button @click="sortClicked(1)">
-              締め切りが早い順
-            </button>
-            <button @click="sortClicked(2)">
-              締め切りが遅い順
-            </button>
-            <button @click="sortClicked(3)">
-              優先度が高い順
-            </button>
-            <button @click="sortClicked(4)">
-              優先度が低い順
-            </button>
+            <button @click="sortClicked(1)">締め切りが早い順</button>
+            <button @click="sortClicked(2)">締め切りが遅い順</button>
+            <button @click="sortClicked(3)">優先度が高い順</button>
+            <button @click="sortClicked(4)">優先度が低い順</button>
           </div>
         </dropdown-menu>
       </div>
@@ -50,18 +38,39 @@
       v-show="!is_show && !is_new_and_edit && !is_search"
       id="tasks-container"
     >
-      <span
-        v-for="(task, index) in sorted_tasks"
-        :key="index"
-        class="each-todo"
-      >
-        <TaskListCard
-          :task="task"
-          :show-func="showFunc"
-          :edit-func="editFunc"
-          :refreshTasksAllData="refreshTasksAllData"
-        ></TaskListCard>
-      </span>
+      <paginate name="paginate-task" :list="sorted_tasks" :per="per">
+        <li
+          v-for="(task, index) in paginated('paginate-task')"
+          :key="index"
+          class="each-todo"
+        >
+          <TaskListCard
+            :task="task"
+            :show-func="showFunc"
+            :edit-func="editFunc"
+            :refreshTasksAllData="refreshTasksAllData"
+          ></TaskListCard>
+        </li>
+      </paginate>
+      <div id="how-many-tasks">
+        <button @click="per = 10" :class="{ displayedNumActive: per === 10 }">
+          10件表示
+        </button>
+        <button @click="per = 30" :class="{ displayedNumActive: per === 30 }">
+          30件表示
+        </button>
+        <button @click="per = 50" :class="{ displayedNumActive: per === 50 }">
+          50件表示
+        </button>
+        <button @click="per = 100" :class="{ displayedNumActive: per === 100 }">
+          100件表示
+        </button>
+      </div>
+      <paginate-links
+        for="paginate-task"
+        class="pagination"
+        :show-step-links="true"
+      ></paginate-links>
     </div>
     <transition name="fade">
       <div
@@ -103,6 +112,7 @@ import TaskShow from "../../components/tasks/Show";
 import TaskNewAndEdit from "../../components/tasks/NewAndEdit.vue";
 import DropdownMenu from "@innologica/vue-dropdown-menu";
 import Search from "../../components/tasks/Search";
+
 export default {
   components: {
     TaskListCard,
@@ -131,6 +141,8 @@ export default {
       hover: false,
       interactive: false,
       is_search: false,
+      paginate: ["paginate-task"],
+      per: 10,
     };
   },
   created() {
@@ -227,6 +239,56 @@ export default {
   },
 };
 </script>
+<style>
+.pagination.paginate-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+.pagination.paginate-links > li.number {
+  list-style: none;
+  background-color: white;
+  margin: 0 10px 10px 10px;
+}
+.pagination.paginate-links > li.number > a {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #53c500;
+  cursor: pointer;
+}
+.pagination.paginate-links > li.left-arrow {
+  list-style: none;
+  cursor: pointer;
+  background-color: white;
+  margin: 0 10px 10px 10px;
+}
+.pagination.paginate-links > li.left-arrow > a {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #53c500;
+}
+.pagination.paginate-links > li.right-arrow {
+  list-style: none;
+  cursor: pointer;
+  background-color: white;
+  margin: 0 10px 10px 10px;
+}
+.pagination.paginate-links > li.right-arrow > a {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #53c500;
+}
+.pagination.paginate-links > li.ellipses {
+  list-style: none;
+  margin: 0;
+  margin: 0 10px 10px 10px;
+}
+.pagination > .number.active > a {
+  background-color: #53c500;
+  color: white;
+}
+</style>
 <style lang="scss" scoped>
 $link-color: #186de9;
 $new-button-border-color: #186de9;
@@ -339,13 +401,47 @@ a {
       display: flex;
       flex-direction: column;
       align-items: center;
-      .each-todo {
-        width: 70%;
-        margin: 20px 0;
-        cursor: pointer;
-        transition: all 0.5s;
-        &:hover {
-          transform: scale(1.02, 1.02);
+
+      ul {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .each-todo {
+          width: 70%;
+          margin: 20px 0;
+          cursor: pointer;
+          transition: all 0.5s;
+          list-style: none;
+          &:hover {
+            transform: scale(1.02, 1.02);
+          }
+        }
+      }
+      .pagination {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+      #how-many-tasks {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        button {
+          background-color: white;
+          padding: 5px 10px;
+          border: 1px solid #53c500;
+          margin: 10px;
+          cursor: pointer;
+          &:hover {
+            background-color: #53c500;
+            color: white;
+          }
+        }
+        button.displayedNumActive {
+          background-color: #53c500;
+          color: white;
         }
       }
     }

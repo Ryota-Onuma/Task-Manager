@@ -18,13 +18,13 @@
     admin: true
   )
 end
-5.times do |n|
+43.times do |n|
   Task.create!(
     title: "タスク#{n + 1}",
     content: 'ああああああ',
     status: 1,
     deadline: DateTime.now,
     important: rand(1..3),
-    user_id: n + 1
+    user_id: rand(1..3)
   )
 end
