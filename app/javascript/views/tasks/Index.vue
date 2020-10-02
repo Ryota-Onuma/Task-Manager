@@ -17,11 +17,7 @@
         </div>
       </transition>
       <div id="pulldown-container">
-        <dropdown-menu
-          v-model="dropdown_show"
-          :hover="hover"
-          :interactive="interactive"
-        >
+        <dropdown-menu v-model="dropdown_show" :hover="hover" :interactive="interactive">
           <button>{{ sort_property }}</button>
           <div slot="dropdown" id="pulldown">
             <button @click="sortClicked(1)">締め切りが早い順</button>
@@ -39,11 +35,7 @@
       id="tasks-container"
     >
       <paginate name="paginate-task" :list="sorted_tasks" :per="10">
-        <li
-          v-for="(task, index) in paginated('paginate-task')"
-          :key="index"
-          class="each-todo"
-        >
+        <li v-for="(task, index) in paginated('paginate-task')" :key="index" class="each-todo">
           <TaskListCard
             :task="task"
             :show-func="showFunc"
@@ -52,11 +44,7 @@
           ></TaskListCard>
         </li>
       </paginate>
-      <paginate-links
-        for="paginate-task"
-        class="pagination"
-        :show-step-links="true"
-      ></paginate-links>
+      <paginate-links for="paginate-task" class="pagination" :show-step-links="true"></paginate-links>
     </div>
     <transition name="fade">
       <div
@@ -269,7 +257,7 @@ export default {
   margin: 0;
   margin: 0 10px 10px 10px;
 }
-.pagination.number.active > a {
+.pagination > .number.active > a {
   background-color: #53c500;
   color: white;
 }
