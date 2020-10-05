@@ -1,7 +1,4 @@
 class Api::AuthController < Api::ApplicationController
-  require 'net/http'
-  require 'json'
-  require 'uri'
   before_action :authenticate!, only: %i[signout current_user]
 
   def signin
@@ -14,11 +11,11 @@ class Api::AuthController < Api::ApplicationController
   end
 
   def signup
-    user = User.new(email: params[:user][:email], password: params[:user][:password], name: params[:user][:name])
-    if @user.save!
-      render json: @user
+    user = User.new(email: params[:user][:email], password_digest: params[:user][:password_digest], name: params[:user][:name])
+    if user.save!
+      render json: user
     else
-      render json: { errors: @user.errors.full_messages }, status: :bad_request
+      render json: { errors: user.errors.full_messages }, status: :bad_request
     end
   end
 

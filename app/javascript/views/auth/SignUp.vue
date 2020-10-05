@@ -15,7 +15,12 @@
         v-model="password_confirm"
       />
       <div id="signup-post">
-        <button>Sign Up</button>
+        <button @click="signUp">Sign Up</button>
+      </div>
+      <div id="go-here-who-already-has-account">
+        <router-link to="/signin"
+          >既にアカウントをお持ちの方はこちら</router-link
+        >
       </div>
     </div>
   </section>
@@ -47,7 +52,7 @@ export default {
       const user = {
         name: this.name,
         email: this.email,
-        password: this.password,
+        password_digest: this.password,
       };
       this.$store.dispatch("auth/signup", {
         user,
@@ -63,8 +68,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   h1 {
     text-align: center;
+    margin-top: 200px;
   }
   #signup-form {
     width: 50%;
@@ -81,6 +88,25 @@ export default {
       justify-content: flex-end;
       padding-right: 40px;
       box-sizing: border-box;
+      button {
+        padding: 10px;
+        background-color: white;
+        border: 0;
+        font-size: 1.1rem;
+        margin: 30px 0;
+        cursor: pointer;
+        &:hover {
+          background-color: rgba(skyblue, 0.2);
+        }
+      }
+    }
+    #go-here-who-already-has-account {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      a {
+        font-size: 0.7rem;
+      }
     }
   }
 }

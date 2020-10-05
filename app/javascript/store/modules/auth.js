@@ -1,3 +1,4 @@
+import router from "../../routes/router.js";
 export default {
   namespaced: true,
   state: {
@@ -33,13 +34,17 @@ export default {
         { url: "/api/auth/signup", data, error: "message.unauthorized" },
         { root: true }
       )
-        .then((res) => commit("create", res.data))
-        .catch((err) => err);
+        .then((res) => {
+          commit("create", res.data);
+          router.push("/");
+        })
+        .catch((err) => console.dir(err));
     },
-    signout({ commit, dispatch }, data) {
+    signout({ commit, dispatch }) {
       commit("destroy");
       dispatch("user/deleteCurrentUserAction");
       localStorage.clear();
+      router.push("/signin");
     },
   },
 };

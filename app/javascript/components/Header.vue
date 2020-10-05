@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header v-if="isSignedIn">
     <div id="product-title">
       <span>Task-Manager</span>
     </div>
@@ -15,12 +15,26 @@ export default {
   data() {
     return {};
   },
-  methods:{
-    signOut(){
-         this.$store.dispatch("user/setCurrentUserAction", currentUser);
-              this.$router.push("/");
-    }
-  }
+  methods: {
+    signOut() {
+      const result = confirm("本当にログアウトしてもよろしいですか？？");
+      if (result) {
+        this.$store.dispatch("auth/signout");
+      }
+    },
+  },
+  computed: {
+    isSignedIn() {
+      if (
+        this.$route.path.indexOf("signin") !== -1 ||
+        this.$route.path.indexOf("signup") !== -1
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -62,6 +76,9 @@ $link-color: #186de9;
         background-color: white;
         font-size: 1rem;
         cursor: pointer;
+        &:focus {
+          outline: 0;
+        }
       }
     }
   }

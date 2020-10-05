@@ -21,7 +21,15 @@ export default {
   },
   getters: {
     getCurrentUser(state) {
-      return state.currentUser;
+      if (
+        state.currentUser.id &&
+        state.currentUser.name &&
+        state.currentUse.email
+      ) {
+        return state.currentUser;
+      } else {
+        return false;
+      }
     },
   },
   actions: {
