@@ -8,6 +8,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
 5.times do |n|
   User.create!(
     name: "りょうた#{n + 1}",
@@ -18,6 +19,9 @@
     admin: true
   )
 end
+
+how_many_users_num = User.all.length
+
 43.times do |n|
   Task.create!(
     title: "タスク#{n + 1}",
@@ -25,6 +29,6 @@ end
     status: 1,
     deadline: DateTime.now,
     important: rand(1..3),
-    user_id: rand(1..3)
+    user_id: rand(1..how_many_users_num )
   )
 end
