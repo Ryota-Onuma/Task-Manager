@@ -17,11 +17,7 @@
         </div>
       </transition>
       <div id="pulldown-container">
-        <dropdown-menu
-          v-model="dropdown_show"
-          :hover="hover"
-          :interactive="interactive"
-        >
+        <dropdown-menu v-model="dropdown_show" :hover="hover" :interactive="interactive">
           <button>{{ sort_property }}</button>
           <div slot="dropdown" id="pulldown">
             <button @click="sortClicked(1)">締め切りが早い順</button>
@@ -39,11 +35,7 @@
       id="tasks-container"
     >
       <paginate name="paginate-task" :list="sorted_tasks" :per="per">
-        <li
-          v-for="(task, index) in paginated('paginate-task')"
-          :key="index"
-          class="each-todo"
-        >
+        <li v-for="(task, index) in paginated('paginate-task')" :key="index" class="each-todo">
           <TaskListCard
             :task="task"
             :show-func="showFunc"
@@ -53,24 +45,12 @@
         </li>
       </paginate>
       <div id="how-many-tasks">
-        <button @click="per = 10" :class="{ displayedNumActive: per === 10 }">
-          10件表示
-        </button>
-        <button @click="per = 30" :class="{ displayedNumActive: per === 30 }">
-          30件表示
-        </button>
-        <button @click="per = 50" :class="{ displayedNumActive: per === 50 }">
-          50件表示
-        </button>
-        <button @click="per = 100" :class="{ displayedNumActive: per === 100 }">
-          100件表示
-        </button>
+        <button @click="per = 10" :class="{ displayedNumActive: per === 10 }">10件表示</button>
+        <button @click="per = 30" :class="{ displayedNumActive: per === 30 }">30件表示</button>
+        <button @click="per = 50" :class="{ displayedNumActive: per === 50 }">50件表示</button>
+        <button @click="per = 100" :class="{ displayedNumActive: per === 100 }">100件表示</button>
       </div>
-      <paginate-links
-        for="paginate-task"
-        class="pagination"
-        :show-step-links="true"
-      ></paginate-links>
+      <paginate-links for="paginate-task" class="pagination" :show-step-links="true"></paginate-links>
     </div>
     <transition name="fade">
       <div

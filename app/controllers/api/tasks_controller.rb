@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::TasksController < ApplicationController
+class Api::TasksController < Api::ApplicationController
   def index
     returnTasksAndUsersAllData
   end

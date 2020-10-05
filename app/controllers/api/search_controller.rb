@@ -1,4 +1,5 @@
-class Api::SearchController < ApplicationController
+class Api::SearchController < Api::ApplicationController
+  before_action :authenticate!
   def todo_search
     @q = Task.ransack(search_params)
     @tasks = @q.result(distinct: true)

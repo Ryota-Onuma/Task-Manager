@@ -6,6 +6,7 @@
     <div id="links">
       <router-link to="/">Your Tasks</router-link>
       <router-link to="/about">About</router-link>
+      <button type="button" @click="signOut">Sign Out</button>
     </div>
   </header>
 </template>
@@ -14,10 +15,15 @@ export default {
   data() {
     return {};
   },
+  methods:{
+    signOut(){
+         this.$store.dispatch("user/setCurrentUserAction", currentUser);
+              this.$router.push("/");
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
-$background-color: white;
 $link-color: #186de9;
 @media only screen and (max-width: 1365px) {
 }
@@ -25,7 +31,7 @@ $link-color: #186de9;
   header {
     width: 100%;
     height: 80px;
-    background-color: $background-color;
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -46,6 +52,16 @@ $link-color: #186de9;
         margin: 0 20px;
         color: $link-color;
         text-decoration: none;
+        font-size: 1rem;
+      }
+      button {
+        display: inline-block;
+        margin: 0 20px;
+        color: red;
+        border: 0;
+        background-color: white;
+        font-size: 1rem;
+        cursor: pointer;
       }
     }
   }
