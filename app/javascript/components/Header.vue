@@ -19,7 +19,16 @@ export default {
     signOut() {
       const result = confirm("本当にログアウトしてもよろしいですか？？");
       if (result) {
-        this.$store.dispatch("auth/signout");
+        const url = "/api/auth/signout";
+        this.axios
+          .delete(url)
+          .then((response) => {
+            this.$store.dispatch("auth/signout");
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("エラーが起きました！");
+          });
       }
     },
   },

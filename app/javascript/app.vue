@@ -12,11 +12,11 @@ export default {
     Header,
   },
   created() {
-    const data = JSON.parse(localStorage.getItem("auth"));
-    if (data) {
+    const token = this.$store.getters["auth/token"];
+    if (token) {
       this.axios.defaults.headers.common = {
         "X-Requested-With": "XMLHttpRequest",
-        Authorization: "Token " + data["auth"]["token"],
+        Authorization: "Token " + token,
       };
       this.axios
         .post("/api/auth/current_user")

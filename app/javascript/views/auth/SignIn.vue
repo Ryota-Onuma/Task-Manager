@@ -54,27 +54,9 @@ export default {
     this.$store.watch(
       (state, getters) => getters["auth/token"],
       (newValue, oldValue) => {
-        const data = JSON.parse(localStorage.getItem("auth"));
-        if (data) {
-          this.axios.defaults.headers.common = {
-            "X-Requested-With": "XMLHttpRequest",
-            Authorization: "Token " + data["auth"]["token"],
-          };
-          this.axios
-            .post("/api/auth/current_user")
-            .then((response) => {
-              console.dir(response.data);
-              const currentUser = {
-                id: response.data.id,
-                name: response.data.name,
-                email: response.data.email,
-              };
-              this.$store.dispatch("user/setCurrentUserAction", currentUser);
-              this.$router.push("/");
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+        const token = this.$store.getters["auth/token"];
+        if (token) {
+          this.$store.dispatch("user/setCurrentUserAction");
         }
       }
     );

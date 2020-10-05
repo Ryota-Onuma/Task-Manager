@@ -194,11 +194,10 @@ export default {
     submit() {
       let url;
       const inputTask = this.inputTask;
+      const token = this.$store.getters["auth/token"];
       this.axios.defaults.headers.common = {
         "X-Requested-With": "XMLHttpRequest",
-        "X-CSRF-TOKEN": document
-          .querySelector('meta[name="csrf-token"]')
-          .getAttribute("content"),
+        Authorization: "Token " + token,
       };
       if (inputTask.title === "") {
         alert("タスクのタイトルが入力されていません。");
@@ -228,6 +227,11 @@ export default {
       if (this.is_new === true) {
         //新規登録の場合
         url = "/api/tasks";
+        const token = this.$store.getters["auth/token"];
+        this.axios.defaults.headers.common = {
+          "X-Requested-With": "XMLHttpRequest",
+          Authorization: "Token " + token,
+        };
         this.axios
           .post(url, {
             inputTask,

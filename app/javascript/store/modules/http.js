@@ -40,5 +40,9 @@ export default {
       requests.method = "delete";
       return dispatch("request", requests);
     },
+    async get({ dispatch }, requests) {
+      requests.method = "get";
+      return dispatch("request", requests);
+    },
   },
 };

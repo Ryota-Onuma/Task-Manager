@@ -7,7 +7,7 @@ export default {
   },
   mutations: {
     create(state, data) {
-      state.token = data.token;
+      state.token = data;
     },
     destroy(state) {
       state.token = "";
@@ -36,15 +36,28 @@ export default {
       )
         .then((res) => {
           commit("create", res.data);
-          router.push("/");
+          dispatch("setToken");
         })
         .catch((err) => console.dir(err));
     },
     signout({ commit, dispatch }) {
       commit("destroy");
-      dispatch("user/deleteCurrentUserAction");
-      localStorage.clear();
+      dispatch("user/deleteCurrentUserAction", null, { root: true });
       router.push("/signin");
+    },
+    setToken({ commit, dispatch }) {
+      dispatch(
+        "http/get",
+        { url: "/api/auth/get_token", error: "no token" },
+        { root: true }
+      )
+        .then((res) => {
+          if (res.data) {
+            commit("create", res.data);
+            dispatch("user/setCurrentUserAction", null, { root: true });
+          }
+        })
+        .catch((err) => err);
     },
   },
 };

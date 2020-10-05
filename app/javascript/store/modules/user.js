@@ -1,3 +1,4 @@
+import router from "../../routes/router.js";
 export default {
   namespaced: true,
   state: {
@@ -33,15 +34,24 @@ export default {
     },
   },
   actions: {
-    setCurrentUserAction(context, payload) {
-      context.commit("setCurrentUser", {
-        id: payload.id,
-        name: payload.name,
-        email: payload.email,
-      });
+    setCurrentUserAction({ commit, dispatch }) {
+      dispatch(
+        "http/get",
+        { url: "/api/auth/current_user", error: "no user" },
+        { root: true }
+      )
+        .then((res) => {
+          commit("setCurrentUser", {
+            id: res.data.id,
+            name: res.data.name,
+            email: res.data.email,
+          });
+          router.push("/").catch(() => {});
+        })
+        .catch((err) => console.log(err));
     },
-    deleteCurrentUserAction(content) {
-      content.commit("deleteCurrentUser");
+    deleteCurrentUserAction(context) {
+      context.commit("deleteCurrentUser");
     },
   },
 };

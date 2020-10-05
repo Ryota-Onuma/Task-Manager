@@ -12,13 +12,6 @@ const store = new Vuex.Store({
     http,
     user,
   },
-  plugins: [
-    createPersistedState({
-      key: "auth",
-      paths: ["auth.token"],
-      storage: window.localStorage,
-    }),
-  ],
 });
 
 export default store;
