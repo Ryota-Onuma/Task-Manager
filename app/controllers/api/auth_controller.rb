@@ -25,7 +25,7 @@ class Api::AuthController < Api::ApplicationController
     if session[:token].clear # sessionを消す
       render json: { message: 'signout成功！！！' }
     else
-      render json: { error: 'サインアウトできませんでした。エラーです'}
+      render json: { error: 'サインアウトできませんでした。エラーです' }
     end
   end
 

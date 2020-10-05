@@ -7,8 +7,9 @@ class Api::TasksController < Api::ApplicationController
   end
 
   def create
+    current_user = User.find_by(token: session[:token])
     task = Task.new(task_params)
-    task.user_id = 1 # まだログイン機能をつけてないので
+    task.user_id = current_user.id
     task.save!
     returnTasksAndUsersAllData
   end
@@ -32,7 +33,8 @@ class Api::TasksController < Api::ApplicationController
 
   def returnTasksAndUsersAllData
     current_logged_in_user = session[:token]
-    tasks = Task.all.order(created_at: 'DESC') # 新しい順です
+    current_user = User.find_by(token: session[:token])
+    tasks = Task.where(user_id: current_user.id).order(created_at: 'DESC') # 新しい順です
     users = User.all
     info = {
       tasks: tasks,
