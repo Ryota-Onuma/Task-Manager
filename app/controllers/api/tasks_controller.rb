@@ -32,7 +32,6 @@ class Api::TasksController < Api::ApplicationController
   private
 
   def returnTasksAndUsersAllData
-    current_logged_in_user = session[:token]
     current_user = User.find_by(token: session[:token])
     tasks = Task.where(user_id: current_user.id).order(created_at: 'DESC') # 新しい順です
     users = User.all

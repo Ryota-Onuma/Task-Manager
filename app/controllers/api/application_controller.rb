@@ -1,10 +1,6 @@
 class Api::ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods  # ActionController::API には ActionController::HttpAuthentication Module は含まれていないから
 
-  require 'net/http'
-  require 'json'
-  require 'uri'
-
   before_action :basic_auth, if: :production?
 
   rescue_from  ActiveRecord::RecordInvalid, with: :rescue_422_error
