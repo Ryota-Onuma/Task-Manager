@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Store from "../store/store.js";
 Vue.use(Router);
-import About from "../views/About.vue";
+import DashBoard from "../views/admin/DashBoard.vue";
 import TaskIndex from "../views/tasks/Index.vue";
 import Signin from "../views/auth/SignIn.vue";
 import SignUp from "../views/auth/SignUp.vue";
@@ -25,8 +25,8 @@ const router = new Router({
       },
     },
     {
-      path: "/about",
-      component: About,
+      path: "/admin/dashboard",
+      component: DashBoard,
       meta: {
         isPublic: false,
       },
