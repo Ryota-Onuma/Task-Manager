@@ -25,7 +25,7 @@ export default {
       if (
         state.currentUser.id &&
         state.currentUser.name &&
-        state.currentUse.email
+        state.currentUser.email
       ) {
         return state.currentUser;
       } else {
