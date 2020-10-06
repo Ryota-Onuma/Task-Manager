@@ -59,6 +59,21 @@ export default {
       });
     },
   },
+  mounted() {
+    if (this.$store.getters["auth/token"]) {
+      //もしすでにlocalstrage にトークンがあったらトップページに飛ばす
+      this.$router.push("/");
+    }
+    this.$store.watch(
+      (state, getters) => getters["auth/token"],
+      (newValue, oldValue) => {
+        const token = this.$store.getters["auth/token"];
+        if (token) {
+          this.$store.dispatch("user/setCurrentUserAction");
+        }
+      }
+    );
+  },
 };
 </script>
 <style lang="scss" scoped>
