@@ -7,30 +7,26 @@
         <td>Name</td>
         <td>Email</td>
         <td>Role</td>
+        <td>Action</td>
       </tr>
-      <tr>
-        <th>見出し</th>
-        <td>データ</td>
-        <td>データ</td>
-        <td>データ</td>
-      </tr>
-      <tr>
-        <th>見出し</th>
-        <td>データ</td>
-        <td>データ</td>
-        <td>データ</td>
-      </tr>
-      <tr>
-        <th>見出し</th>
-        <td>データ</td>
-        <td>データ</td>
-        <td>データ</td>
-      </tr>
-      <tr>
-        <th>見出し</th>
-        <td>データ</td>
-        <td>データ</td>
-        <td>データ</td>
+      <tr v-for="(user_task, index) in users_tasks" :key="index">
+        <td>{{ user_task.user.id }}</td>
+        <td>{{ user_task.user.name }}</td>
+        <td>{{ user_task.user.email }}</td>
+        <td>{{ user_task.user.admin | role }}</td>
+        <td>
+          <router-link
+            :to="{
+              name: 'manage_user',
+              params: {
+                id: user_task.user.id,
+                user: user_task.user,
+                task: user_task.tasks,
+              },
+            }"
+            >管理</router-link
+          >
+        </td>
       </tr>
     </table>
   </section>
@@ -41,6 +37,7 @@ export default {
   data() {
     return {
       title: "dashboardです",
+      users_tasks: null,
     };
   },
   created() {
@@ -49,6 +46,27 @@ export default {
       //adminユーザーじゃなかったら突き返す
       this.$router.push("/");
     }
+    this.getUsersAndTasks();
+  },
+  methods: {
+    async getUsersAndTasks() {
+      const url = "/api/user/admin";
+      const token = this.$store.getters["auth/token"];
+      this.axios.defaults.headers.common = {
+        "X-Requested-With": "XMLHttpRequest",
+        Authorization: "Token " + token,
+      };
+      const response = await this.axios.get(url).catch((error) => {
+        console.log(error);
+        alert("エラーが起きました！");
+      });
+      this.users_tasks = response.data.users_tasks;
+    },
+  },
+  filters: {
+    role(value) {
+      return value ? "Admin" : "Nomal";
+    },
   },
 };
 </script>
@@ -74,6 +92,9 @@ $table-header-color: #77a5f2;
   table td {
     padding: 10px 0;
     text-align: center;
+    a {
+      text-decoration: none;
+    }
   }
   #table-header {
     background-color: $table-header-color;
