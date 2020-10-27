@@ -22,14 +22,7 @@ export default {
       return axios(options)
         .then((res) => res)
         .catch((err) => {
-          if (
-            JSON.parse(err.request.response)["errors"][0] ===
-            "Email has already been taken"
-          ) {
-            alert("このメールアドレスは既に使われています。");
-          } else {
-            alert(JSON.parse(err.request.response)["errors"]);
-          }
+          alert(err.response.data.error);
         });
     },
     async post({ dispatch }, requests) {
