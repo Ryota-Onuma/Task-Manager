@@ -1,11 +1,12 @@
 <template>
-  <header>
+  <header v-if="isSignedIn">
     <div id="product-title">
       <span>Task-Manager</span>
     </div>
     <div id="links">
       <router-link to="/">Your Tasks</router-link>
       <router-link to="/about">About</router-link>
+      <button type="button" @click="signOut">Sign Out</button>
     </div>
   </header>
 </template>
@@ -14,10 +15,38 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    signOut() {
+      const result = confirm("本当にログアウトしてもよろしいですか？？");
+      if (result) {
+        const url = "/api/auth/signout";
+        this.axios
+          .delete(url)
+          .then((response) => {
+            this.$store.dispatch("auth/signout");
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("エラーが起きました！");
+          });
+      }
+    },
+  },
+  computed: {
+    isSignedIn() {
+      if (
+        this.$route.path.indexOf("signin") !== -1 ||
+        this.$route.path.indexOf("signup") !== -1
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-$background-color: white;
 $link-color: #186de9;
 @media only screen and (max-width: 1365px) {
 }
@@ -25,7 +54,7 @@ $link-color: #186de9;
   header {
     width: 100%;
     height: 80px;
-    background-color: $background-color;
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -46,6 +75,19 @@ $link-color: #186de9;
         margin: 0 20px;
         color: $link-color;
         text-decoration: none;
+        font-size: 1rem;
+      }
+      button {
+        display: inline-block;
+        margin: 0 20px;
+        color: red;
+        border: 0;
+        background-color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        &:focus {
+          outline: 0;
+        }
       }
     }
   }

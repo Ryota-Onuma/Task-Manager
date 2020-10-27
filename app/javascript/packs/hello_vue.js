@@ -11,6 +11,7 @@ Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 import VuePaginate from "vue-paginate";
 Vue.use(VuePaginate);
+store.dispatch("auth/setToken");
 document.addEventListener("DOMContentLoaded", () => {
   const app = new Vue({
     store,

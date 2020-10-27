@@ -151,6 +151,11 @@ export default {
   methods: {
     getTodosAndUsers() {
       const url = "/api/tasks";
+      const token = this.$store.getters["auth/token"];
+      this.axios.defaults.headers.common = {
+        "X-Requested-With": "XMLHttpRequest",
+        Authorization: "Token " + token,
+      };
       this.axios
         .get(url)
         .then((response) => {

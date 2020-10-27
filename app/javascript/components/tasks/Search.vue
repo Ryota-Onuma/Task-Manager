@@ -54,11 +54,10 @@ export default {
   },
   methods: {
     search() {
+      const token = this.$store.getters["auth/token"];
       this.axios.defaults.headers.common = {
         "X-Requested-With": "XMLHttpRequest",
-        "X-CSRF-TOKEN": document
-          .querySelector('meta[name="csrf-token"]')
-          .getAttribute("content"),
+        Authorization: "Token " + token,
       };
       const url = "/api/task/search";
       this.axios

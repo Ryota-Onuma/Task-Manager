@@ -1,8 +1,11 @@
 import Vue from "vue";
 import Router from "vue-router";
+import Store from "../store/store.js";
 Vue.use(Router);
 import About from "../views/About.vue";
-import TaskIndex from "../views/tasks/Index.vue"
+import TaskIndex from "../views/tasks/Index.vue";
+import Signin from "../views/auth/SignIn.vue";
+import SignUp from "../views/auth/SignUp.vue";
 const router = new Router({
   mode: "history",
   routes: [
@@ -10,16 +13,49 @@ const router = new Router({
     {
       path: "/",
       component: TaskIndex,
+      meta: {
+        isPublic: false,
+      },
     },
     {
-      path:"/tasks/index",
+      path: "/tasks/index",
       component: TaskIndex,
+      meta: {
+        isPublic: false,
+      },
     },
     {
       path: "/about",
       component: About,
+      meta: {
+        isPublic: false,
+      },
+    },
+    {
+      path: "/signin",
+      component: Signin,
+      meta: {
+        isPublic: true,
+      },
     },
 
+    {
+      path: "/signup",
+      component: SignUp,
+      meta: {
+        isPublic: true,
+      },
+    },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((page) => page.meta.isPublic)) {
+    next();
+  } else if (Store.state.auth.token) {
+    next();
+  } else {
+    next("/signin");
+  }
 });
 export default router;

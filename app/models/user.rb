@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_secure_token
   before_save { self.email = email.downcase } # メールアドレスは大文字・小文字を区別しないので、データベースに登録前に小文字に戻す
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
 
   has_many :tasks, dependent: :destroy
