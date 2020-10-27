@@ -2,9 +2,10 @@ class Api::AdminController < ActionController::API
   before_action :authenticate!
   before_action :admin?
 
-  def index; end
-
-  def new; end
+  def index
+    users = User.preload(:tasks).all
+    render json: users
+  end
 
   def create; end
 
