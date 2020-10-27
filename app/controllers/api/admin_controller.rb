@@ -4,12 +4,14 @@ class Api::AdminController < ActionController::API
 
   def index
     users = User.preload(:tasks).all
-    render json: users
+    tasks = users.tasks
+    render json: { users: users, tasks: tasks }
   end
 
-  def create; end
-
-  def edit; end
+  def create
+    user = User.create!(user_params)
+    render json: { message: 'success' }, status: :ok
+  end
 
   def update; end
 
@@ -19,5 +21,9 @@ class Api::AdminController < ActionController::API
 
   def admin?
     User.find_by(token: session[:token]).admin
+  end
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password_digest)
   end
 end

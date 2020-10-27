@@ -5,8 +5,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     # API用のルーティングはここに書く
-    resources :tasks
-    resources :admin
+    resources :tasks, :only => [:index,:create,:update,:destroy]
+    resources :admin, :only => [:index,:create,:update,:destroy]
     get "task/search" => "search#todo_search"
     post "auth/signin" => "auth#signin"
     post "auth/signup" => "auth#signup"
