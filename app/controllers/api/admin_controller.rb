@@ -1,4 +1,4 @@
-class Api::AdminController < ActionController::API
+class Api::AdminController < Api::ApplicationController
   before_action :authenticate!
   before_action :admin?
 
