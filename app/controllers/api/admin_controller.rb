@@ -4,18 +4,27 @@ class Api::AdminController < Api::ApplicationController
 
   def index
     users = User.preload(:tasks).all
-    tasks = users.tasks
-    render json: { users: users, tasks: tasks }
+    users_tasks = users.map { |user| { "user": user, "tasks": user.tasks } }
+    render json: { users_tasks: users_tasks }
   end
 
   def create
     user = User.create!(user_params)
-    render json: { message: 'success' }, status: :ok
+    render json: { message: '新規ユーザー登録完了' }, status: :ok
   end
 
-  def update; end
+  def update
+    user = User.update!(user_params)
+    render json: { message: 'ユーザー更新完了' }, status: :ok
+  end
 
-  def destroy; end
+  def destroy
+    user = User.find(params[:id])
+    tasks = user.tasks
+    user.destroy!
+    tasks.destroy_all
+    render json: { message: 'ユーザー、及び関連するタスク削除完了' }, status: :ok
+  end
 
   private
 
