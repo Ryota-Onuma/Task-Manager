@@ -3,6 +3,14 @@
 
 ja:
   activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "は既に使用されています。"
+            password:
+              taken: "は既に使用されています。"
     models:
       # view側： User.model_name.human => "ユーザ" / t("activerecord.models.user")と同じ
       user: ユーザー
