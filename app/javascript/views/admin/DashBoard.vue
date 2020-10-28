@@ -1,10 +1,14 @@
 <template>
   <section id="dashboard">
     <h1 id="admin-title">Manage Users</h1>
+    <div id="add-user">
+      <button @click="is_new = !is_new">Add User</button>
+    </div>
     <table>
       <tr id="table-header">
         <th>ID</th>
         <td>Name</td>
+        <td>Tasks</td>
         <td>Email</td>
         <td>Role</td>
         <td>Action</td>
@@ -12,6 +16,7 @@
       <tr v-for="(user_task, index) in users_tasks" :key="index">
         <td>{{ user_task.user.id }}</td>
         <td>{{ user_task.user.name }}</td>
+        <td>{{ user_task.tasks.length }}</td>
         <td>{{ user_task.user.email }}</td>
         <td>{{ user_task.user.admin | role }}</td>
         <td>
@@ -29,6 +34,65 @@
         </td>
       </tr>
     </table>
+    <div id="new-user-form" v-show="is_new">
+      <div id="new-form">
+        <div>
+          <label for="name">Name：</label>
+          <input type="text" id="name" v-model="name" placeholder="Name" />
+        </div>
+        <div>
+          <label for="email">Email：</label>
+          <input type="email" id="email" v-model="email" placeholder="Email" />
+        </div>
+        <div>
+          <label for="password">Password：</label>
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            placeholder="Password"
+          />
+        </div>
+        <div>
+          <label for="password_confirm">Password Confirm：</label>
+          <input
+            type="password"
+            id="password_confirm"
+            v-model="password_confirm"
+            placeholder="Password Confirm"
+          />
+        </div>
+        <div>Permission</div>
+        <div class="radio-container">
+          <div>
+            <label>
+              <input type="radio" v-model="permission" :value="true" />
+              Approve
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" v-model="permission" :value="false" />
+              Ban
+            </label>
+          </div>
+        </div>
+        <div>Admin</div>
+        <div class="radio-container">
+          <div>
+            <label>
+              <input type="radio" v-model="admin" :value="true" />Admin
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" v-model="admin" :value="false" />Nomal
+            </label>
+          </div>
+        </div>
+      </div>
+      <button @click="addUser()">Post</button>
+    </div>
   </section>
 </template>
 
@@ -38,6 +102,13 @@ export default {
     return {
       title: "dashboardです",
       users_tasks: null,
+      is_new: false,
+      name: "",
+      email: "",
+      password: "",
+      password_confirm: "",
+      permission: false,
+      admin: false,
     };
   },
   created() {
@@ -60,9 +131,52 @@ export default {
         console.log(error);
         alert("エラーが起きました！");
       });
+      this.users_tasks = null;
       this.users_tasks = response.data.users_tasks;
     },
+    async addUser() {
+      if (this.email === "" || this.email === null) {
+        alert("Emailが入力されていません");
+        return;
+      }
+      if (this.password === "" || this.password === null) {
+        alert("Passewordが入力されていません");
+        return;
+      }
+      if (this.password_confirm === "" || this.password_confirm === null) {
+        alert("確認Passewordが入力されていません");
+        return;
+      }
+      if (this.password !== this.password_confirm) {
+        alert("Passewordが一致しません");
+        return;
+      }
+      const user = {
+        name: this.name,
+        email: this.email,
+        password_digest: this.password,
+        permission: this.permission,
+        admin: this.admin,
+      };
+      const url = "/api/user/admin";
+      const token = this.$store.getters["auth/token"];
+      this.axios.defaults.headers.common = {
+        "X-Requested-With": "XMLHttpRequest",
+        Authorization: "Token " + token,
+      };
+      const response = await this.axios.post(url, { user }).catch((error) => {
+        console.log(error.response.data.error);
+        alert("エラーが起きました！");
+        this.is_new = false;
+      });
+      if (response && response.status === 200) {
+        alert("ユーザーを作成しました");
+        this.getUsersAndTasks();
+        this.is_new = false;
+      }
+    },
   },
+
   filters: {
     role(value) {
       return value ? "Admin" : "Nomal";
@@ -102,6 +216,21 @@ $table-header-color: #77a5f2;
   }
   table tr:nth-child(odd) {
     background-color: #eee;
+  }
+  #new-user-form {
+    width: 60vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    z-index: 3;
+    background-color: white;
+    #new-form {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }
 </style>
