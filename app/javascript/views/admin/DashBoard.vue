@@ -36,6 +36,10 @@
     </table>
     <div id="new-user-form" v-show="is_new">
       <div id="new-form">
+        <div id="close">
+          <span @click="is_new = !is_new">×</span>
+        </div>
+        <h3>新規ユーザー作成</h3>
         <div>
           <label for="name">Name：</label>
           <input type="text" id="name" v-model="name" placeholder="Name" />
@@ -90,8 +94,10 @@
             </label>
           </div>
         </div>
+        <div id="new-post">
+          <button @click="addUser()">Post</button>
+        </div>
       </div>
-      <button @click="addUser()">Post</button>
     </div>
   </section>
 </template>
@@ -196,6 +202,18 @@ $table-header-color: #77a5f2;
     text-align: center;
     margin-bottom: 40px;
   }
+  #add-user {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 20px 0;
+    button {
+      padding: 10px 20px;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  }
   table {
     width: 80%;
     border-collapse: collapse;
@@ -218,7 +236,7 @@ $table-header-color: #77a5f2;
     background-color: #eee;
   }
   #new-user-form {
-    width: 60vw;
+    width: 100vw;
     height: 100vh;
     position: absolute;
     top: 0;
@@ -226,10 +244,53 @@ $table-header-color: #77a5f2;
     left: 0;
     margin: auto;
     z-index: 3;
-    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     #new-form {
+      width: 60%;
       display: flex;
       flex-direction: column;
+      background-color: white;
+      padding: 30px;
+      box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
+      h3 {
+        text-align: center;
+      }
+      #close {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        span {
+          font-size: 3rem;
+          cursor: pointer;
+        }
+      }
+      input {
+        margin: 20px 0;
+        padding: 5px 10px;
+      }
+      .radio-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding-left: 20px;
+        labeL {
+          margin-right: 10px;
+        }
+      }
+      #new-post {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        button {
+          padding: 10px 20px;
+          background-color: transparent;
+          cursor: pointer;
+        }
+      }
     }
   }
 }
