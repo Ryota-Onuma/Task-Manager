@@ -6,14 +6,14 @@ class Api::AdminController < Api::ApplicationController
     users = User.preload(:tasks).all
     users_tasks = users.map do |user|
       {
-        "user": { 
-          name: user.name, 
-          email: user.email, 
-          introduction: user.introduction, 
-          admin: user.admin, 
-          permission: user.permission 
-          },
-        "tasks": user.tasks 
+        "user": {
+          name: user.name,
+          email: user.email,
+          introduction: user.introduction,
+          admin: user.admin,
+          permission: user.permission
+        },
+        "tasks": user.tasks
       }
     end
     render json: { users_tasks: users_tasks }
