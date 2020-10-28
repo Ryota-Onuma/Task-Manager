@@ -1,7 +1,7 @@
 class Api::AdminController < Api::ApplicationController
   before_action :authenticate!
   before_action :admin?
-
+  rescue_from NoAdminUserError, with: :rescue_not_admin_error
   def index
     users = User.preload(:tasks).all
     users_tasks = users.map { |user| { "user": user, "tasks": user.tasks } }
@@ -34,10 +34,19 @@ class Api::AdminController < Api::ApplicationController
   private
 
   def admin?
-    User.find_by(token: session[:token]).admin
+    is_admin = User.find_by(token: session[:token]).admin
+    if is_admin == false
+      raise NoAdminUserError
+    end
   end
 
   def user_params
     params.require(:user).permit(:name, :email, :password_digest, :permission, :admin)
   end
+
+  def rescue_not_admin_error(error)
+    logger.debug(error)
+    render status: :unauthorized, json: { error: error }
+  end
+
 end
