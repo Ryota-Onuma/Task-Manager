@@ -5,7 +5,7 @@
     </div>
     <div id="links">
       <router-link to="/">Your Tasks</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link to="/admin/dashboard" v-if="is_admin">Admin</router-link>
       <button type="button" @click="signOut">Sign Out</button>
     </div>
   </header>
@@ -15,6 +15,7 @@ export default {
   data() {
     return {};
   },
+
   methods: {
     signOut() {
       const result = confirm("本当にログアウトしてもよろしいですか？？");
@@ -42,6 +43,10 @@ export default {
       } else {
         return true;
       }
+    },
+    is_admin() {
+      const current_user = this.$store.getters["user/getCurrentUser"];
+      return current_user.admin;
     },
   },
 };

@@ -6,6 +6,7 @@ export default {
       id: null,
       name: null,
       email: null,
+      admin: null,
     },
   },
   mutations: {
@@ -13,11 +14,13 @@ export default {
       state.currentUser.id = payload.id;
       state.currentUser.name = payload.name;
       state.currentUser.email = payload.email;
+      state.currentUser.admin = payload.admin;
     },
     deleteCurrentUser(state) {
       state.currentUser.id = null;
       state.currentUser.name = null;
       state.currentUser.email = null;
+      state.currentUser.admin = null;
     },
   },
   getters: {
@@ -45,6 +48,7 @@ export default {
             id: res.data.id,
             name: res.data.name,
             email: res.data.email,
+            admin: res.data.admin,
           });
           router.push("/").catch(() => {});
         })
