@@ -32,7 +32,7 @@ class Api::AdminController < Api::ApplicationController
   def destroy
     current_user = User.find_by(token: session[:token])
     if current_user.id == params[:id] || User.count == 1
-      render json: { message: '自分で自分のアカウントは削除できません。もしくはあなたが最後のアドミンユーザーなのでアカウントを削除できません。' }, status: :unprocessable_entity
+      render json: { message: '自分で自分のアカウントは削除できません。もしくはあなたが最後の管理者ユーザーなのでアカウントを削除できません。' }, status: :unprocessable_entity
     else
       user = User.find(params[:id])
       tasks = user.tasks
@@ -46,7 +46,7 @@ class Api::AdminController < Api::ApplicationController
 
   def admin?
     is_admin = User.find_by(token: session[:token]).admin
-    raise NoAdminUserError if is_admin == false
+    raise NoAdminUserError unless is_admin
   end
 
   def user_params
