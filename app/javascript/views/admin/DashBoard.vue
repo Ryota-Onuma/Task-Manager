@@ -134,11 +134,13 @@ export default {
         Authorization: "Token " + token,
       };
       const response = await this.axios.get(url).catch((error) => {
-        console.log(error);
+        console.log(error.response.data.error);
         alert("エラーが起きました！");
       });
-      this.users_tasks = null;
-      this.users_tasks = response.data.users_tasks;
+      if (response) {
+        this.users_tasks = null;
+        this.users_tasks = response.data.users_tasks;
+      }
     },
     async addUser() {
       if (this.email === "" || this.email === null) {

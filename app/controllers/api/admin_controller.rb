@@ -1,7 +1,7 @@
 class Api::AdminController < Api::ApplicationController
   before_action :authenticate!
   before_action :admin?
-
+  rescue_from NoAdminUserError, with: :rescue_not_admin_error
   def index
     users = User.preload(:tasks).all
     users_tasks = users.map do |user|
@@ -31,8 +31,8 @@ class Api::AdminController < Api::ApplicationController
 
   def destroy
     current_user = User.find_by(token: session[:token])
-    if current_user.id == params[:id]
-      render json: { message: '自分で自分のアカウントは削除できません' }, status: :unprocessable_entity
+    if current_user.id == params[:id] || User.count == 1
+      render json: { message: '自分で自分のアカウントは削除できません。もしくはあなたが最後の管理者ユーザーなのでアカウントを削除できません。' }, status: :unprocessable_entity
     else
       user = User.find(params[:id])
       tasks = user.tasks
@@ -45,10 +45,16 @@ class Api::AdminController < Api::ApplicationController
   private
 
   def admin?
-    User.find_by(token: session[:token]).admin
+    is_admin = User.find_by(token: session[:token]).admin
+    raise NoAdminUserError unless is_admin
   end
 
   def user_params
     params.require(:user).permit(:name, :email, :password_digest, :permission, :admin)
+  end
+
+  def rescue_not_admin_error(error)
+    logger.debug(error)
+    render status: :unauthorized, json: { error: error }
   end
 end

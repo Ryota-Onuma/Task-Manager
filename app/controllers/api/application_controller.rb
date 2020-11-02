@@ -48,4 +48,10 @@ class Api::ApplicationController < ActionController::API
       username == ENV['BASIC_AUTH_USER'] && password == ENV['BASIC_AUTH_PASSWORD']
     end
   end
+
+  class NoAdminUserError < StandardError
+    def initialize(msg = '管理者権限がありません')
+      super
+    end
+  end
 end
