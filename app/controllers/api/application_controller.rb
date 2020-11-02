@@ -50,7 +50,7 @@ class Api::ApplicationController < ActionController::API
   end
 
   class NoAdminUserError < StandardError
-    def initialize(msg = 'Admin権限がありません')
+    def initialize(msg = '管理者権限がありません')
       super
     end
   end
