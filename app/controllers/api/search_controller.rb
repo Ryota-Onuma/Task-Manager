@@ -9,5 +9,5 @@ end
 
 private
 def search_params
-  params.require(:q).permit(:title_cont, :status_eq, :important_eq)
+  params.require(:q).permit(:title_cont, :status_eq, :important_eq, :tag_id_eq)
 end
