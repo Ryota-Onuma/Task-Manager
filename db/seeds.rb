@@ -33,7 +33,12 @@ how_many_users_num = User.all.length
     status: 1,
     deadline: DateTime.now,
     important: rand(1..3),
-    tag_id: rand(1..10),
     user_id: rand(1..how_many_users_num )
   )
+  rand(1..3).times do 
+    Tagtask.create!(
+      tag_id: rand(1..10),
+      task_id: n + 1
+    )
+  end
 end

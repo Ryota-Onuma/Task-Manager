@@ -45,6 +45,6 @@ class Api::TasksController < Api::ApplicationController
   end
 
   def task_params
-    params.require(:inputTask).permit(:id, :user_id, :created_at, :updated_at, :title, :content, :status, :deadline, :important, :tag_id)
+    params.require(:inputTask).permit(:id, :user_id, :created_at, :updated_at, :title, :content, :status, :deadline, :important)
   end
 end
