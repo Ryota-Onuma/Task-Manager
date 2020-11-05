@@ -39,6 +39,7 @@
           <TaskListCard
             :task="task"
             :tags="tags"
+            :tagtasks="tagtasks"
             :show-func="showFunc"
             :edit-func="editFunc"
             :refreshTasksAllData="refreshTasksAllData"
@@ -63,6 +64,7 @@
         <!-- showページのモーダルです -->
         <TaskShow
           :task="whichTaskIsLookedInShow"
+          :tagtasks="tagtasks"
           :user="relatedUser(whichTaskIsLookedInShow.user_id)"
           :tags="tags"
           :is_show.sync="is_show"
@@ -80,6 +82,7 @@
         <TaskNewAndEdit
           :task="taskNewOrEdit"
           :tags="tags"
+          :tagtasks="tagtasks"
           :is_new_and_edit.sync="is_new_and_edit"
           :is_new="is_new"
           :refresh-tasks-all-data="refreshTasksAllData"
@@ -107,6 +110,7 @@ export default {
   data() {
     return {
       tasks: null,
+      tagtasks: null,
       tags: null,
       users: null,
       whichTaskIsLookedInShow: null,
@@ -145,6 +149,7 @@ export default {
         .then((response) => {
           this.tasks = Object.freeze(response.data.tasks); //再代入を禁止にした。これがないと、v-modelの作用がglobalに影響を与えてしまうバグがでた。
           this.tags = response.data.tags
+          this.tagtasks = response.data.tagtasks
           this.users = response.data.users;
         })
         .catch((error) => {
