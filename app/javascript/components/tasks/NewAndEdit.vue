@@ -62,7 +62,7 @@
             <button @click="datepicker = true">{{ isDateSelected() }}</button>
           </div>
           <div id="tag-select-container">
-            <select name="tag">
+            <select name="tag" v-model="inputTask.tag_id">
               <option v-for="tag in tags" :key="tag.id" :value="tag.id">{{ tag.title}}</option>
             </select>
           </div>
@@ -134,6 +134,7 @@ export default {
         status: 1,
         deadline: null,
         important: 3,
+        tag_id: 1 
       },
       format: "HH:mm", // 形式 AMなどの指定もできる
       minInterval: 5,
@@ -167,6 +168,7 @@ export default {
       this.status = 1;
       this.deadline = null;
       this.important = false;
+      
     },
     submit() {
       let url;
@@ -182,6 +184,10 @@ export default {
       }
       if (inputTask.content === "") {
         alert("タスク内容が入力されていません。");
+        return;
+      }
+      if ( inputTask.selected_tag_id === null){
+        alert("タグが選択されていません");
         return;
       }
       if (

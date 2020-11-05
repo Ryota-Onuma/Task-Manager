@@ -30,7 +30,7 @@
       <span id="task-new-button" @click="newFunc()">Add a Task</span>
     </div>
     <div
-      v-if="tasks && users"
+      v-if="tasks && users && tags"
       v-show="!is_show && !is_new_and_edit && !is_search"
       id="tasks-container"
     >

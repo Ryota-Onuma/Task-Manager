@@ -6,7 +6,7 @@
     </span>
     <span class="task-title">{{ task.title }}</span>
     <div class="task-card-buttons">
-      <span class="tag">{{ tag(task.tag_id )}}</span>
+      <span class="status-marker tag">{{ "＃" + tag }}</span>
       <span class="status-marker">
         <span v-if="task.status === 1" class="yet">Yet</span>
         <span v-else-if="task.status === 2" class="doing">Doing</span>
@@ -34,6 +34,7 @@ import moment from "moment";
 export default {
   props: {
     task: Object,
+    tags:Array,
     showFunc: Function,
     editFunc: Function,
     refreshTasksAllData: Function,
@@ -71,13 +72,16 @@ export default {
   },
   computed: {
     tag() {
-      return function(tag_id) {
+      if (this.tags){
+        let target = "タグはありません";
         this.tags.forEach(tag => {
-          if (tag.id === tag_id){
-            return tag.title
+          if (tag.id === this.task.tag_id) {
+            target = tag.title
           }
+        
         })
-      }
+        return target
+      } 
     }
   },
   filters: {
@@ -145,6 +149,10 @@ $done-color: white;
           background-color: $done;
           color: $done-color;
         }
+      }
+      .tag {
+        font-size: 1rem;
+        color: #b7d300;
       }
       .show-task-button {
         color: $show-task-button-color;
