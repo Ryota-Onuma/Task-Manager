@@ -11,7 +11,7 @@ class Api::TasksController < Api::ApplicationController
     task = Task.new(task_params)
     tag_ids = params[:tags].map(&:to_i)
     tag_ids.each do |tag_id|
-      task.tag.create!(tag_id: tag_id)
+      Tagtask.create!(task_id: task.id, tag_id: tag_id)
     end
     task.user_id = current_user.id
     task.save!
@@ -25,7 +25,7 @@ class Api::TasksController < Api::ApplicationController
 
     create_targets = sent_tag_ids - old_tag_ids # 更新により誕生したtaskたち
     create_targets.each do |tag_id|
-      task.tagtask.create!(tag_id: tag_id)
+      Tagtask.create!(task_id: task.id, tag_id: tag_id)
     end
 
     delete_targets = old_tag_ids - sent_tag_ids # 更新により削除が運命づけられたtaskたち
