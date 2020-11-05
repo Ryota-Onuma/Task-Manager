@@ -29,7 +29,7 @@
       <h3 class="search-headline">Tag</h3>
       <div id="tag-container" class="label-box">
         <div v-for="tag in tags" :key="tag.id">
-          <input v-model="query.tag_id_eq" type="radio" :id="'tag-' + tag.id " :value="tag.id" />
+          <input v-model="tag_id" type="radio" :id="'tag-' + tag.id " :value="tag.id" />
           <label :for="'tag-' + tag.id ">{{ tag.title }}</label>
         </div>
       </div>
@@ -52,9 +52,9 @@ export default {
       query: {
         title_cont: null,
         status_eq: "",
-        tag_id_eq: "",
         important_eq: "",
       },
+      tag_id: null,
     };
   },
   methods: {
@@ -69,6 +69,7 @@ export default {
         .get(url, {
           params: {
             q: this.query,
+            tag_id: this.tag_id
           },
           paramsSerializer: function (params) {
             return Qs.stringify(params, { arrayFormat: "brackets" });
