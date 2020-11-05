@@ -9,17 +9,18 @@ class Api::TasksController < Api::ApplicationController
   def create
     current_user = User.find_by(token: session[:token])
     task = Task.new(task_params)
+    task.user_id = current_user.id
+    task.save!
     tag_ids = params[:tags].map(&:to_i)
     tag_ids.each do |tag_id|
       Tagtask.create!(task_id: task.id, tag_id: tag_id)
     end
-    task.user_id = current_user.id
-    task.save!
     returnTasksAndUsersAllData
   end
 
   def update
     task = Task.preload(:tagtasks).find(params[:id])
+    task.update!(task_params)
     sent_tag_ids = params[:tags].map(&:to_i)
     old_tag_ids = task.tagtasks.map(&:to_i)
 
@@ -32,7 +33,7 @@ class Api::TasksController < Api::ApplicationController
     delete_targets.each do |tag_id|
       Tagtask.find_by(task_id: task.id, tag_id: tag_id).destroy!
     end
-    task.update!(task_params)
+
     returnTasksAndUsersAllData
   end
 
