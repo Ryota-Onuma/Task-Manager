@@ -62,7 +62,7 @@
             <button @click="datepicker = true">{{ isDateSelected() }}</button>
           </div>
           <div id="tag-select-container">
-            <select name="tag" v-model="inputTask.tags" multiple>
+            <select name="tag" v-model="selected_tags" multiple>
               <option v-for="tag in tags" :key="tag.id" :value="tag.id">{{ tag.title }}</option>
             </select>
           </div>
@@ -134,8 +134,8 @@ export default {
         status: 1,
         deadline: null,
         important: 3,
-        tags: [] 
       },
+      selected_tags:[],
       format: "HH:mm", // 形式 AMなどの指定もできる
       minInterval: 5,
       stringTime: "15:00",
@@ -173,6 +173,7 @@ export default {
     submit() {
       let url;
       const inputTask = this.inputTask;
+      const tags = this.selected_tags;
       const token = this.$store.getters["auth/token"];
       this.axios.defaults.headers.common = {
         "X-Requested-With": "XMLHttpRequest",
@@ -186,7 +187,7 @@ export default {
         alert("タスク内容が入力されていません。");
         return;
       }
-      if ( inputTask.selected_tag_id === null){
+      if ( this.selected_tags === null){
         alert("タグが選択されていません");
         return;
       }
@@ -218,6 +219,7 @@ export default {
         this.axios
           .post(url, {
             inputTask,
+            tags
           })
           .then((response) => {
             this.refreshTasksAllData(response.data);
@@ -240,6 +242,7 @@ export default {
         this.axios
           .patch(url, {
             inputTask,
+            tags
           })
           .then((response) => {
             this.refreshTasksAllData(response.data);

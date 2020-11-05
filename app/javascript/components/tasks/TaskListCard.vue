@@ -6,7 +6,7 @@
     </span>
     <span class="task-title">{{ task.title }}</span>
     <div class="task-card-buttons">
-      <span class="status-marker tag">{{ "＃" + tag.join(' ＃ ') }}</span>
+      <span class="status-marker tag" v-if="tags">{{ "＃" + tag}}</span>
       <span class="status-marker">
         <span v-if="task.status === 1" class="yet">Yet</span>
         <span v-else-if="task.status === 2" class="doing">Doing</span>
@@ -76,9 +76,10 @@ export default {
       const array = []
       this.tagtasks.forEach(tagtask => {
         if (tagtask.task_id === this.task.id){
-          this.tags.forEach(tag => {if(tag.id === tagtask.tag_id ) array.push(tag)})
+          this.tags.forEach(tag => {if(tag.id === tagtask.tag_id ) array.push(tag.title)})
         }
       })
+      return array.join(' ＃')
     }
   },
   filters: {
