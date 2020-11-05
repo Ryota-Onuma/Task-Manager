@@ -36,6 +36,7 @@ export default {
   props: {
     task: Object,
     tags: Array,
+    tagtasks: Array,
     user: Object,
     is_show: Boolean,
   },
@@ -46,13 +47,12 @@ export default {
   },
   computed: {
     tag() { 
-      return function(tag_id) {
-        this.tags.forEach(tag => {
-          if(tag.id === tag_id){
-            return tag.title
-          }
-        })
-      }
+      const array = []
+      this.tagtasks.forEach(tagtask => {
+        if (tagtask.task_id === this.task.id){
+          this.tags.forEach(tag => {if(tag.id === tagtask.tag_id ) array.push(tag)})
+        }
+      })
     }
   }
 };

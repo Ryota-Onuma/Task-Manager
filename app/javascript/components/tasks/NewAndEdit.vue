@@ -62,8 +62,8 @@
             <button @click="datepicker = true">{{ isDateSelected() }}</button>
           </div>
           <div id="tag-select-container">
-            <select name="tag" v-model="inputTask.tag_id">
-              <option v-for="tag in tags" :key="tag.id" :value="tag.id">{{ tag.title}}</option>
+            <select name="tag" v-model="inputTask.tags" multiple>
+              <option v-for="tag in tags" :key="tag.id" :value="tag.id">{{ tag.title }}</option>
             </select>
           </div>
           <div id="status-and-priority-container">
@@ -134,7 +134,7 @@ export default {
         status: 1,
         deadline: null,
         important: 3,
-        tag_id: 1 
+        tags: [] 
       },
       format: "HH:mm", // 形式 AMなどの指定もできる
       minInterval: 5,

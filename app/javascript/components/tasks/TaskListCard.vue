@@ -6,7 +6,7 @@
     </span>
     <span class="task-title">{{ task.title }}</span>
     <div class="task-card-buttons">
-      <span class="status-marker tag">{{ "＃" + tag }}</span>
+      <span class="status-marker tag">{{ "＃" + tag.join(' ＃ ') }}</span>
       <span class="status-marker">
         <span v-if="task.status === 1" class="yet">Yet</span>
         <span v-else-if="task.status === 2" class="doing">Doing</span>
@@ -35,6 +35,7 @@ export default {
   props: {
     task: Object,
     tags:Array,
+    tagtasks:Array,
     showFunc: Function,
     editFunc: Function,
     refreshTasksAllData: Function,
@@ -71,17 +72,13 @@ export default {
     },
   },
   computed: {
-    tag() {
-      if (this.tags){
-        let target = "タグはありません";
-        this.tags.forEach(tag => {
-          if (tag.id === this.task.tag_id) {
-            target = tag.title
-          }
-        
-        })
-        return target
-      } 
+    tag() { 
+      const array = []
+      this.tagtasks.forEach(tagtask => {
+        if (tagtask.task_id === this.task.id){
+          this.tags.forEach(tag => {if(tag.id === tagtask.tag_id ) array.push(tag)})
+        }
+      })
     }
   },
   filters: {
