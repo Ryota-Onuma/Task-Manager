@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 class Tag < ApplicationRecord
-  has_many :tag_tasks
-  has_many :tasks, through: :tag_tasks
+  has_many :tagtasks
+  has_many :tasks, through: :tagtasks
 end
