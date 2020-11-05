@@ -34,9 +34,11 @@ class Api::TasksController < Api::ApplicationController
   def returnTasksAndUsersAllData
     current_user = User.find_by(token: session[:token])
     tasks = Task.where(user_id: current_user.id).order(created_at: 'DESC') # 新しい順です
+    tags = Tag.all
     users = User.all
     info = {
       tasks: tasks,
+      tags: tags,
       users: users
     }
     render json: info
