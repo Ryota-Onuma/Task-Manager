@@ -2,11 +2,10 @@ class Api::SearchController < Api::ApplicationController
   before_action :authenticate!
   def todo_search
     @q = Task.ransack(search_params)
-    @tasks = @q.result(distinct: true).to_a
-    copied_tasks = @tasks
+    @tasks = @q.result(distinct: true)
     if params[:tag_id].present?
-      copied_tasks.each_with_index do |task, index|
-        @tasks = @tasks.delete_at(index) unless task.tagtasks.map { |tagtask| tagtask.tag_id }.include?(params[:tag_id])
+      @tasks = @tasks.preload(:tagtasks).select do |task|
+        task.tagtasks.map { |tagtask| tagtask.tag_id.to_s }.include?(params[:tag_id])
       end
     end
     render json: { tasks: @tasks }
