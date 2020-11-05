@@ -181,6 +181,8 @@ export default {
     refreshTasksAllData(data) {
       this.tasks = data.tasks;
       this.users = data.users;
+      this.tagtasks = data.tagtasks
+      this.tags = data.tags
     },
     sortClicked(property) {
       if (property === 1) {

@@ -22,7 +22,7 @@ class Api::TasksController < Api::ApplicationController
     task = Task.preload(:tagtasks).find(params[:id])
     task.update!(task_params)
     sent_tag_ids = params[:tags].map(&:to_i)
-    old_tag_ids = task.tagtasks.map(&:to_i)
+    old_tag_ids = task.tagtasks.map { |tagtask| tagtask.tag_id}
 
     create_targets = sent_tag_ids - old_tag_ids # 更新により誕生したtaskたち
     create_targets.each do |tag_id|
