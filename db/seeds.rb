@@ -8,7 +8,11 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
+10.times do 
+  Tag.create!(
+    title: Faker::Games::Pokemon.name
+  )
+end
 5.times do |n|
   User.create!(
     name: "りょうた#{n + 1}",
@@ -29,6 +33,7 @@ how_many_users_num = User.all.length
     status: 1,
     deadline: DateTime.now,
     important: rand(1..3),
+    tag_id: rand(1..10),
     user_id: rand(1..how_many_users_num )
   )
 end

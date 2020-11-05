@@ -8,6 +8,7 @@ class CreateTasks < ActiveRecord::Migration[6.0]
       t.integer :status
       t.datetime :deadline
       t.boolean :important
+      t.integer :tag_id
       t.references :user, null: false, foreign_key: true
 
       t.timestamps
