@@ -55,58 +55,34 @@
           </transition>
           <div id="deadline-button-container">
             <h3 v-if="deadline_date && stringTime">
-              終了期限：&ensp;&ensp;<br />
+              終了期限：&ensp;&ensp;
+              <br />
               {{ deadline_date | dateFormant }}&ensp;&ensp;{{ stringTime }}
             </h3>
             <button @click="datepicker = true">{{ isDateSelected() }}</button>
           </div>
+          <div id="tag-select-container">
+            <select name="tag">
+              <option v-for="tag in tags" :key="tag.id" :value="tag.id">{{ tag.title}}</option>
+            </select>
+          </div>
           <div id="status-and-priority-container">
             <div class="status-and-priority-container-inner">
               <h3>Status</h3>
-              <input
-                v-model="inputTask.status"
-                type="radio"
-                id="status-yet"
-                value="1"
-              />
+              <input v-model="inputTask.status" type="radio" id="status-yet" value="1" />
               <label for="status-yet">Yet</label>
-              <input
-                id="status-doing"
-                v-model="inputTask.status"
-                type="radio"
-                value="2"
-              />
+              <input id="status-doing" v-model="inputTask.status" type="radio" value="2" />
               <label for="status-doing">Doing</label>
-              <input
-                id="status-done"
-                v-model="inputTask.status"
-                type="radio"
-                value="3"
-              />
+              <input id="status-done" v-model="inputTask.status" type="radio" value="3" />
               <label for="status-done">Done</label>
             </div>
             <div class="status-and-priority-container-inner">
               <h3>Priority</h3>
-              <input
-                v-model="inputTask.important"
-                type="radio"
-                id="priority-high"
-                value="1"
-              />
+              <input v-model="inputTask.important" type="radio" id="priority-high" value="1" />
               <label for="priority-high">High</label>
-              <input
-                id="priority-middle"
-                v-model="inputTask.important"
-                type="radio"
-                value="2"
-              />
+              <input id="priority-middle" v-model="inputTask.important" type="radio" value="2" />
               <label for="priority-middle">Middle</label>
-              <input
-                id="priority-low"
-                v-model="inputTask.important"
-                type="radio"
-                value="3"
-              />
+              <input id="priority-low" v-model="inputTask.important" type="radio" value="3" />
               <label for="priority-low">Low</label>
             </div>
           </div>
@@ -145,6 +121,7 @@ export default {
   },
   props: {
     task: Object,
+    tags: Array,
     refreshTasksAllData: Function,
     is_new_and_edit: Boolean,
     is_new: Boolean,

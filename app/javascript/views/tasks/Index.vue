@@ -13,15 +13,11 @@
           <div id="search-close-container">
             <span id="search-close" @click="is_search = false">×</span>
           </div>
-          <Search :tasks.sync="tasks" :is_search.sync="is_search"></Search>
+          <Search :tasks.sync="tasks" :tags="tags" :is_search.sync="is_search"></Search>
         </div>
       </transition>
       <div id="pulldown-container">
-        <dropdown-menu
-          v-model="dropdown_show"
-          :hover="hover"
-          :interactive="interactive"
-        >
+        <dropdown-menu v-model="dropdown_show" :hover="hover" :interactive="interactive">
           <button>{{ sort_property }}</button>
           <div slot="dropdown" id="pulldown">
             <button @click="sortClicked(1)">締め切りが早い順</button>
@@ -39,13 +35,10 @@
       id="tasks-container"
     >
       <paginate name="paginate-task" :list="sorted_tasks" :per="per">
-        <li
-          v-for="(task, index) in paginated('paginate-task')"
-          :key="index"
-          class="each-todo"
-        >
+        <li v-for="(task, index) in paginated('paginate-task')" :key="index" class="each-todo">
           <TaskListCard
             :task="task"
+            :tags="tags"
             :show-func="showFunc"
             :edit-func="editFunc"
             :refreshTasksAllData="refreshTasksAllData"
@@ -53,24 +46,12 @@
         </li>
       </paginate>
       <div id="how-many-tasks">
-        <button @click="per = 10" :class="{ displayedNumActive: per === 10 }">
-          10件表示
-        </button>
-        <button @click="per = 30" :class="{ displayedNumActive: per === 30 }">
-          30件表示
-        </button>
-        <button @click="per = 50" :class="{ displayedNumActive: per === 50 }">
-          50件表示
-        </button>
-        <button @click="per = 100" :class="{ displayedNumActive: per === 100 }">
-          100件表示
-        </button>
+        <button @click="per = 10" :class="{ displayedNumActive: per === 10 }">10件表示</button>
+        <button @click="per = 30" :class="{ displayedNumActive: per === 30 }">30件表示</button>
+        <button @click="per = 50" :class="{ displayedNumActive: per === 50 }">50件表示</button>
+        <button @click="per = 100" :class="{ displayedNumActive: per === 100 }">100件表示</button>
       </div>
-      <paginate-links
-        for="paginate-task"
-        class="pagination"
-        :show-step-links="true"
-      ></paginate-links>
+      <paginate-links for="paginate-task" class="pagination" :show-step-links="true"></paginate-links>
     </div>
     <transition name="fade">
       <div
@@ -83,6 +64,7 @@
         <TaskShow
           :task="whichTaskIsLookedInShow"
           :user="relatedUser(whichTaskIsLookedInShow.user_id)"
+          :tags="tags"
           :is_show.sync="is_show"
         ></TaskShow>
       </div>
@@ -97,6 +79,7 @@
         <!-- newとeditページのモーダルです -->
         <TaskNewAndEdit
           :task="taskNewOrEdit"
+          :tags="tags"
           :is_new_and_edit.sync="is_new_and_edit"
           :is_new="is_new"
           :refresh-tasks-all-data="refreshTasksAllData"
@@ -124,6 +107,7 @@ export default {
   data() {
     return {
       tasks: null,
+      tags: null,
       users: null,
       whichTaskIsLookedInShow: null,
       taskNewOrEdit: {
@@ -160,6 +144,7 @@ export default {
         .get(url)
         .then((response) => {
           this.tasks = Object.freeze(response.data.tasks); //再代入を禁止にした。これがないと、v-modelの作用がglobalに影響を与えてしまうバグがでた。
+          this.tags = response.data.tags
           this.users = response.data.users;
         })
         .catch((error) => {

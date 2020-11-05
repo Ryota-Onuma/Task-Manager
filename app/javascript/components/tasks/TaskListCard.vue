@@ -6,6 +6,7 @@
     </span>
     <span class="task-title">{{ task.title }}</span>
     <div class="task-card-buttons">
+      <span class="tag">{{ tag(task.tag_id )}}</span>
       <span class="status-marker">
         <span v-if="task.status === 1" class="yet">Yet</span>
         <span v-else-if="task.status === 2" class="doing">Doing</span>
@@ -67,6 +68,17 @@ export default {
           alert("エラーが起きました！");
         });
     },
+  },
+  computed: {
+    tag() {
+      return function(tag_id) {
+        this.tags.forEach(tag => {
+          if (tag.id === tag_id){
+            return tag.title
+          }
+        })
+      }
+    }
   },
   filters: {
     convert_time_format: function (value) {
