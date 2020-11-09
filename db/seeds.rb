@@ -35,9 +35,10 @@ how_many_users_num = User.all.length
     important: rand(1..3),
     user_id: rand(1..how_many_users_num )
   )
-  rand(1..3).times do 
+  num = rand(1..7)
+  3.times do |m|
     Tagtask.create!(
-      tag_id: rand(1..10),
+      tag_id: num + m,
       task_id: n + 1
     )
   end
