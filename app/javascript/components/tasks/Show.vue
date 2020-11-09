@@ -7,12 +7,9 @@
     <div id="task-show-white-box">
       <!-- showの白いBox -->
       <h1 id="task-show-title">Task Info</h1>
-
       <div id="todo-info-container">
         <div id="task-id" class="task-info-parts">id：&ensp;{{ task.id }}</div>
-        <div id="task-title" class="task-info-parts">
-          Title：&ensp;{{ task.title }}
-        </div>
+        <div id="task-title" class="task-info-parts">Title：&ensp;{{ task.title }}</div>
         <div class="status-marker task-info-parts">
           Status：&ensp;
           <span v-if="task.status === 1" class="yet">Yet</span>
@@ -25,13 +22,10 @@
           <span v-else-if="task.important === 2" class="doing">Middle</span>
           <span v-else-if="task.important === 3" class="done">Log</span>
         </div>
-        <div id="assigned-user" class="task-info-parts">
-          Assignee:&ensp;{{ user.name }}
-        </div>
+        <div id="tag-content" class="task-info-parts">Tag:&ensp;{{ "＃" + tag(task.tag_id) }}</div>
+        <div id="assigned-user" class="task-info-parts">Assignee:&ensp;{{ user.name }}</div>
         <div id="task-content" class="task-info-parts">Content</div>
-        <div id="task-content-box">
-          {{ task.content }}
-        </div>
+        <div id="task-content-box">{{ task.content }}</div>
       </div>
     </div>
   </section>
@@ -40,6 +34,8 @@
 export default {
   props: {
     task: Object,
+    tags: Array,
+    tagtasks: Array,
     user: Object,
     is_show: Boolean,
   },
@@ -47,7 +43,19 @@ export default {
     close() {
       this.$emit("update:is_show", false);
     },
-  },
+    tag() { 
+      const related_tags = []
+      let tagtasks = this.tagtasks.filter(tagtask => tagtask.task_id === this.task.id) //編集対象のタスクに関係するtasktagレコードをフィルター
+      tagtasks.forEach(tagtask => {
+        this.tags.forEach(tag => {
+           if (tagtask.tag_id === tag.id){
+             related_tags.push(tag.title)
+           }
+         })
+      })
+      return related_tags.join('　#')
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
