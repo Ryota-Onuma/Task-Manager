@@ -2,13 +2,9 @@
   <div id="todo-search">
     <h1>タスク検索</h1>
     <div id="search-forms-container">
-      <h3 class="serch-headline">Title</h3>
-      <input
-        type="text"
-        v-model="query.title_cont"
-        placeholder="タイトルを入力"
-      />
-      <h3 class="serch-headline">Status</h3>
+      <h3 class="search-headline">Title</h3>
+      <input type="text" v-model="query.title_cont" placeholder="タイトルを入力" />
+      <h3 class="search-headline">Status</h3>
       <div id="status-container" class="label-box">
         <input v-model="query.status_eq" type="radio" id="yet" value="1" />
         <label for="yet">Yet</label>
@@ -16,10 +12,10 @@
         <label for="doing">Doing</label>
         <input id="done" v-model="query.status_eq" type="radio" value="3" />
         <label for="done">Done</label>
-        <input id="no" v-model="query.status_eq" type="radio" value="" />
+        <input id="no" v-model="query.status_eq" type="radio" value />
         <label for="no">No Specification</label>
       </div>
-      <h3 class="serch-headline">Priority</h3>
+      <h3 class="search-headline">Priority</h3>
       <div id="important-container" class="label-box">
         <input v-model="query.important_eq" type="radio" id="high" value="1" />
         <label for="high">High</label>
@@ -27,10 +23,17 @@
         <label for="mid">Middle</label>
         <input id="low" v-model="query.important_eq" type="radio" value="3" />
         <label for="low">Low</label>
-        <input id="no2" v-model="query.important_eq" type="radio" value="" />
+        <input id="no2" v-model="query.important_eq" type="radio" value />
         <label for="no2">No Specification</label>
       </div>
-      <div id="serch-button-container">
+      <h3 class="search-headline">Tag</h3>
+      <div id="tag-container" class="label-box">
+        <div v-for="tag in tags" :key="tag.id" class="tag">
+          <input v-model="tag_id" type="radio" :id="'tag-' + tag.id " :value="tag.id" />
+          <label :for="'tag-' + tag.id ">{{ tag.title }}</label>
+        </div>
+      </div>
+      <div id="search-button-container">
         <button @click="search">Search</button>
       </div>
     </div>
@@ -41,6 +44,7 @@ import Qs from "qs";
 export default {
   props: {
     tasks: Array,
+    tags: Array,
     is_search: Boolean,
   },
   data() {
@@ -50,6 +54,7 @@ export default {
         status_eq: "",
         important_eq: "",
       },
+      tag_id: null,
     };
   },
   methods: {
@@ -64,6 +69,7 @@ export default {
         .get(url, {
           params: {
             q: this.query,
+            tag_id: this.tag_id
           },
           paramsSerializer: function (params) {
             return Qs.stringify(params, { arrayFormat: "brackets" });
@@ -109,8 +115,21 @@ $done-color: white;
     flex-direction: column;
     align-items: flex-start;
     margin: 50px;
-    .serch-headline {
+    .search-headline {
       margin: 10px;
+    }
+    #tag-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      .tag {
+        min-width: 300px;
+        input[type="radio"]:checked + label {
+          background-color: red;
+          color: white;
+        }
+      }
     }
     input[type="text"] {
       width: 60%;
@@ -199,7 +218,7 @@ $done-color: white;
         color: $done-color;
       }
     }
-    #serch-button-container {
+    #search-button-container {
       width: 100%;
       display: flex;
       flex-direction: row;

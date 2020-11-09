@@ -6,6 +6,7 @@
     </span>
     <span class="task-title">{{ task.title }}</span>
     <div class="task-card-buttons">
+      <span class="status-marker tag" v-if="tags">{{ "＃" + tag}}</span>
       <span class="status-marker">
         <span v-if="task.status === 1" class="yet">Yet</span>
         <span v-else-if="task.status === 2" class="doing">Doing</span>
@@ -33,6 +34,8 @@ import moment from "moment";
 export default {
   props: {
     task: Object,
+    tags:Array,
+    tagtasks:Array,
     showFunc: Function,
     editFunc: Function,
     refreshTasksAllData: Function,
@@ -67,6 +70,17 @@ export default {
           alert("エラーが起きました！");
         });
     },
+  },
+  computed: {
+    tag() { 
+      const array = []
+      this.tagtasks.forEach(tagtask => {
+        if (tagtask.task_id === this.task.id){
+          this.tags.forEach(tag => {if(tag.id === tagtask.tag_id ) array.push(tag.title)})
+        }
+      })
+      return array.join(' ＃')
+    }
   },
   filters: {
     convert_time_format: function (value) {
@@ -133,6 +147,10 @@ $done-color: white;
           background-color: $done;
           color: $done-color;
         }
+      }
+      .tag {
+        font-size: 1rem;
+        color: #b7d300;
       }
       .show-task-button {
         color: $show-task-button-color;

@@ -13,15 +13,11 @@
           <div id="search-close-container">
             <span id="search-close" @click="is_search = false">×</span>
           </div>
-          <Search :tasks.sync="tasks" :is_search.sync="is_search"></Search>
+          <Search :tasks.sync="tasks" :tags="tags" :is_search.sync="is_search"></Search>
         </div>
       </transition>
       <div id="pulldown-container">
-        <dropdown-menu
-          v-model="dropdown_show"
-          :hover="hover"
-          :interactive="interactive"
-        >
+        <dropdown-menu v-model="dropdown_show" :hover="hover" :interactive="interactive">
           <button>{{ sort_property }}</button>
           <div slot="dropdown" id="pulldown">
             <button @click="sortClicked(1)">締め切りが早い順</button>
@@ -34,18 +30,16 @@
       <span id="task-new-button" @click="newFunc()">Add a Task</span>
     </div>
     <div
-      v-if="tasks && users"
+      v-if="tasks && users && tags"
       v-show="!is_show && !is_new_and_edit && !is_search"
       id="tasks-container"
     >
       <paginate name="paginate-task" :list="sorted_tasks" :per="per">
-        <li
-          v-for="(task, index) in paginated('paginate-task')"
-          :key="index"
-          class="each-todo"
-        >
+        <li v-for="(task, index) in paginated('paginate-task')" :key="index" class="each-todo">
           <TaskListCard
             :task="task"
+            :tags="tags"
+            :tagtasks="tagtasks"
             :show-func="showFunc"
             :edit-func="editFunc"
             :refreshTasksAllData="refreshTasksAllData"
@@ -53,24 +47,12 @@
         </li>
       </paginate>
       <div id="how-many-tasks">
-        <button @click="per = 10" :class="{ displayedNumActive: per === 10 }">
-          10件表示
-        </button>
-        <button @click="per = 30" :class="{ displayedNumActive: per === 30 }">
-          30件表示
-        </button>
-        <button @click="per = 50" :class="{ displayedNumActive: per === 50 }">
-          50件表示
-        </button>
-        <button @click="per = 100" :class="{ displayedNumActive: per === 100 }">
-          100件表示
-        </button>
+        <button @click="per = 10" :class="{ displayedNumActive: per === 10 }">10件表示</button>
+        <button @click="per = 30" :class="{ displayedNumActive: per === 30 }">30件表示</button>
+        <button @click="per = 50" :class="{ displayedNumActive: per === 50 }">50件表示</button>
+        <button @click="per = 100" :class="{ displayedNumActive: per === 100 }">100件表示</button>
       </div>
-      <paginate-links
-        for="paginate-task"
-        class="pagination"
-        :show-step-links="true"
-      ></paginate-links>
+      <paginate-links for="paginate-task" class="pagination" :show-step-links="true"></paginate-links>
     </div>
     <transition name="fade">
       <div
@@ -82,7 +64,9 @@
         <!-- showページのモーダルです -->
         <TaskShow
           :task="whichTaskIsLookedInShow"
+          :tagtasks="tagtasks"
           :user="relatedUser(whichTaskIsLookedInShow.user_id)"
+          :tags="tags"
           :is_show.sync="is_show"
         ></TaskShow>
       </div>
@@ -97,6 +81,8 @@
         <!-- newとeditページのモーダルです -->
         <TaskNewAndEdit
           :task="taskNewOrEdit"
+          :tags="tags"
+          :tagtasks="tagtasks"
           :is_new_and_edit.sync="is_new_and_edit"
           :is_new="is_new"
           :refresh-tasks-all-data="refreshTasksAllData"
@@ -124,6 +110,8 @@ export default {
   data() {
     return {
       tasks: null,
+      tagtasks: null,
+      tags: null,
       users: null,
       whichTaskIsLookedInShow: null,
       taskNewOrEdit: {
@@ -160,6 +148,8 @@ export default {
         .get(url)
         .then((response) => {
           this.tasks = Object.freeze(response.data.tasks); //再代入を禁止にした。これがないと、v-modelの作用がglobalに影響を与えてしまうバグがでた。
+          this.tags = response.data.tags
+          this.tagtasks = response.data.tagtasks
           this.users = response.data.users;
         })
         .catch((error) => {
@@ -191,6 +181,8 @@ export default {
     refreshTasksAllData(data) {
       this.tasks = data.tasks;
       this.users = data.users;
+      this.tagtasks = data.tagtasks
+      this.tags = data.tags
     },
     sortClicked(property) {
       if (property === 1) {
