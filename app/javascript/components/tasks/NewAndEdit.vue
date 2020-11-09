@@ -62,6 +62,7 @@
             <button @click="datepicker = true">{{ isDateSelected() }}</button>
           </div>
           <div id="tag-select-container">
+            <h3>Tag</h3>
             <select name="tag" v-model="selected_tags" multiple>
               <option v-for="tag in tags" :key="tag.id" :value="tag.id">{{ tag.title }}</option>
             </select>
@@ -122,6 +123,7 @@ export default {
   props: {
     task: Object,
     tags: Array,
+    tagtasks: Array,
     refreshTasksAllData: Function,
     is_new_and_edit: Boolean,
     is_new: Boolean,
@@ -148,6 +150,7 @@ export default {
   watch: {
     task: function (task) {
       this.inputTask = task;
+      this.selected_tags = this.findTags(task.id)
       if (this.inputTask.deadline) {
         this.deadline_date = this.inputTask.deadline;
         this.stringTime = moment(this.inputTask.deadline).format("HH:mm");
@@ -167,7 +170,7 @@ export default {
       this.content = "";
       this.status = 1;
       this.deadline = null;
-      this.important = false;
+      this.important = 3;
       
     },
     submit() {
@@ -270,6 +273,14 @@ export default {
         ? "終了期限を変更"
         : "終了期限を設定";
     },
+    findTags(task) {
+      let task_tags_filterd = this.tagtasks.filter(tagtask => tagtask.task_id === this.task.id) //編集対象のタスクに関係するtasktagレコードをフィルター
+      let related_tags = []
+      task_tags_filterd.forEach(tasktag => {　//フィルターされたtasktagに紐づいたtagの情報を related_tagsにpush
+        related_tags.push(this.tags.find(tag => tag.id === tasktag.tag_id));
+      })
+      return related_tags.map(tag => tag.id)
+    }
   },
   filters: {
     dateFormant(value) {
@@ -317,7 +328,7 @@ $done-color: white;
         text-align: center;
       }
       #todo-info-container {
-        width: 80%;
+        width: 100%;
         margin: 50px auto 0 auto;
         @include flex-column(flex-start, center);
         .task-form-parts {
@@ -334,7 +345,7 @@ $done-color: white;
         }
         #todo-status-container {
           width: 100%;
-          @include flex-row(flex-end, flex-end);
+          @include flex-row(space-between, flex-end);
           box-sizing: border-box;
           padding: 30px 50px;
 
@@ -409,6 +420,18 @@ $done-color: white;
                 background-color: $done;
                 color: $done-color;
               }
+            }
+          }
+          #tag-select-container {
+            width: 300px;
+            margin: 0 20px;
+            h3 {
+              margin-bottom: 10px;
+            }
+            select {
+              width: 100%;
+              height: 60px;
+              font-size: 1.3rem;
             }
           }
           #deadline-button-container {

@@ -28,7 +28,7 @@
       </div>
       <h3 class="search-headline">Tag</h3>
       <div id="tag-container" class="label-box">
-        <div v-for="tag in tags" :key="tag.id">
+        <div v-for="tag in tags" :key="tag.id" class="tag">
           <input v-model="tag_id" type="radio" :id="'tag-' + tag.id " :value="tag.id" />
           <label :for="'tag-' + tag.id ">{{ tag.title }}</label>
         </div>
@@ -117,6 +117,19 @@ $done-color: white;
     margin: 50px;
     .search-headline {
       margin: 10px;
+    }
+    #tag-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      .tag {
+        min-width: 300px;
+        input[type="radio"]:checked + label {
+          background-color: red;
+          color: white;
+        }
+      }
     }
     input[type="text"] {
       width: 60%;
