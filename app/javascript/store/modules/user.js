@@ -50,7 +50,6 @@ export default {
             email: res.data.email,
             admin: res.data.admin,
           });
-          router.push("/").catch(() => {});
         })
         .catch((err) => console.log(err));
     },

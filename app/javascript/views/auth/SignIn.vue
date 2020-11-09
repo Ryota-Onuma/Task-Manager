@@ -3,18 +3,12 @@
     <h1>Sign In</h1>
     <div id="signin-form">
       <input type="email" placeholder="Enter your Email" v-model="email" />
-      <input
-        type="password"
-        placeholder="Enter your Password"
-        v-model="password"
-      />
+      <input type="password" placeholder="Enter your Password" v-model="password" />
       <div id="signin-post">
         <button @click="signIn">Sign In</button>
       </div>
       <div id="go-here-who-has-no-account">
-        <router-link to="/signup"
-          >アカウントをお持ちでない方はこちら</router-link
-        >
+        <router-link to="/signup">アカウントをお持ちでない方はこちら</router-link>
       </div>
     </div>
   </section>
@@ -57,6 +51,7 @@ export default {
         const token = this.$store.getters["auth/token"];
         if (token) {
           this.$store.dispatch("user/setCurrentUserAction");
+          this.$router.push("/")
         }
       }
     );
