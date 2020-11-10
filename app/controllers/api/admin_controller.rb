@@ -7,6 +7,7 @@ class Api::AdminController < Api::ApplicationController
     users_tasks = users.map do |user|
       {
         "user": {
+          id: user.id,
           name: user.name,
           email: user.email,
           introduction: user.introduction,

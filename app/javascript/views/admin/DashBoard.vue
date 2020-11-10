@@ -24,13 +24,11 @@
             :to="{
               name: 'manage_user',
               params: {
-                id: user_task.user.id,
                 user: user_task.user,
                 task: user_task.tasks,
               },
             }"
-            >管理</router-link
-          >
+          >管理</router-link>
         </td>
       </tr>
     </table>
@@ -50,12 +48,7 @@
         </div>
         <div>
           <label for="password">Password：</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            placeholder="Password"
-          />
+          <input type="password" id="password" v-model="password" placeholder="Password" />
         </div>
         <div>
           <label for="password_confirm">Password Confirm：</label>
@@ -136,6 +129,11 @@ export default {
       const response = await this.axios.get(url).catch((error) => {
         console.log(error.response.data.error);
         alert("エラーが起きました！");
+        if (error.response.status === 500) {
+          this.$router.push('/500error')
+        } else {
+          alert('エラーが発生しました！')
+        }
       });
       if (response) {
         this.users_tasks = null;
@@ -174,8 +172,12 @@ export default {
       };
       const response = await this.axios.post(url, { user }).catch((error) => {
         console.log(error.response.data.error);
-        alert("エラーが起きました！");
         this.is_new = false;
+        if (error.response.status === 500) {
+          this.$router.push('/500error')
+        } else {
+          alert('エラーが発生しました！')
+        }
       });
       if (response && response.status === 200) {
         alert("ユーザーを作成しました");

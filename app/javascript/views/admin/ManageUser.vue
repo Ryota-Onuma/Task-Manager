@@ -2,22 +2,30 @@
   <section id="management-user">
     <h2 id="management-user-title">Manage User</h2>
     <div id="buttons">
-      <button id="edit" @click="is_edit = !is_edit">
-        {{ is_edit ? "Cansell Edit" : "Edit" }}
-      </button>
+      <button id="edit" @click="is_edit = !is_edit">{{ is_edit ? "Cansell Edit" : "Edit" }}</button>
       <button id="delete" @click="destroy">Delete</button>
     </div>
     <div id="user-infomation" v-show="!is_edit">
-      <h4><span class="header">Name：</span> {{ user.name }}</h4>
-      <h4><span class="header">Email: </span>{{ user.email }}</h4>
       <h4>
-        <span class="header">Permission: </span> {{ user.permission | status }}
+        <span class="header">Name：</span>
+        {{ user.name }}
       </h4>
-      <h4><span class="header">Role: </span> {{ user.admin | role }}</h4>
-      <h4><span class="header">Introduction</span></h4>
-      <div id="introduction">
-        {{ user.introduction }}
-      </div>
+      <h4>
+        <span class="header">Email:</span>
+        {{ user.email }}
+      </h4>
+      <h4>
+        <span class="header">Permission:</span>
+        {{ user.permission | status }}
+      </h4>
+      <h4>
+        <span class="header">Role:</span>
+        {{ user.admin | role }}
+      </h4>
+      <h4>
+        <span class="header">Introduction</span>
+      </h4>
+      <div id="introduction">{{ user.introduction }}</div>
     </div>
     <div id="edit-user-infomation" v-show="is_edit">
       <div>
@@ -31,37 +39,29 @@
       <div>Permission</div>
       <div class="radio-container">
         <div>
-          <label
-            ><input type="radio" v-model="user.permission" :value="true" />
-            Approve</label
-          >
+          <label>
+            <input type="radio" v-model="user.permission" :value="true" />
+            Approve
+          </label>
         </div>
         <div>
-          <label
-            ><input type="radio" v-model="user.permission" :value="false" />
-            Ban</label
-          >
+          <label>
+            <input type="radio" v-model="user.permission" :value="false" />
+            Ban
+          </label>
         </div>
       </div>
       <div>Admin</div>
       <div class="radio-container">
         <div>
-          <label
-            ><input
-              type="radio"
-              v-model="user.admin"
-              :value="true"
-            />Admin</label
-          >
+          <label>
+            <input type="radio" v-model="user.admin" :value="true" />Admin
+          </label>
         </div>
         <div>
-          <label
-            ><input
-              type="radio"
-              v-model="user.admin"
-              :value="false"
-            />Nomal</label
-          >
+          <label>
+            <input type="radio" v-model="user.admin" :value="false" />Nomal
+          </label>
         </div>
       </div>
       <div id="edit-confirm">
@@ -83,12 +83,8 @@
         </span>
         <span class="status-marker">
           <span v-if="task.important === 1" class="yet">Priority High</span>
-          <span v-else-if="task.important === 2" class="doing"
-            >Priority Middle</span
-          >
-          <span v-else-if="task.important === 3" class="done"
-            >Priority Low</span
-          >
+          <span v-else-if="task.important === 2" class="doing">Priority Middle</span>
+          <span v-else-if="task.important === 3" class="done">Priority Low</span>
         </span>
         <span class="show-task-button" @click="SetShowFunc(task)">
           <i class="fas fa-info-circle"></i>
@@ -103,11 +99,7 @@
         class="modal-container"
       >
         <!-- showページのモーダルです -->
-        <TaskShow
-          :task="whichTaskIsLookedInShow"
-          :user="user"
-          :is_show.sync="is_show"
-        ></TaskShow>
+        <TaskShow :task="whichTaskIsLookedInShow" :user="user" :is_show.sync="is_show"></TaskShow>
       </div>
     </transition>
   </section>
@@ -152,13 +144,18 @@ export default {
           "X-Requested-With": "XMLHttpRequest",
           Authorization: "Token " + token,
         };
-        const response = await this.axios.delete(url).catch((error) => {
-          console.log(error);
-          alert("エラーが起きました！");
-        });
-        if (response.status === 200) {
+        try {
+          const response = await this.axios.delete(url)
           alert("削除しました！");
           this.$router.push("/admin/dashboard");
+          
+        } catch (error) {
+          console.dir(error)
+          if (error.response.status === 500) {
+            this.$router.push('/500error')
+          } else {
+            alert('エラーが発生しました！')
+          }
         }
       }
     },
@@ -175,13 +172,18 @@ export default {
         "X-Requested-With": "XMLHttpRequest",
         Authorization: "Token " + token,
       };
-      const response = await this.axios.patch(url, { user }).catch((error) => {
-        console.log(error);
-        alert("エラーが起きました！");
-      });
-      if (response.status === 200) {
+      try {
+        const response = await this.axios.patch(url, { user })
         alert("更新しました！");
         this.$router.push("/admin/dashboard");
+      } catch (error) {
+        console.dir(error)
+        if (error.response.status === 500) {
+          this.$router.push('/500error')
+          return
+        } else {
+          alert('エラーが発生しました！')
+        }
       }
     },
   },

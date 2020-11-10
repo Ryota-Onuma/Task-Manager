@@ -35,7 +35,7 @@ const router = new Router({
       },
     },
     {
-      path: "/admin/user/:id",
+      path: "/admin/user",
       name: "manage_user",
       component: ManageUser,
       props: true,

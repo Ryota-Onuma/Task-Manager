@@ -2,7 +2,7 @@
   <section id="error-500">
     <div id="error-500-body">
       <h1>500</h1>
-      <h2>お探しのページは見つかりません</h2>
+      <h2>Internal Server Error</h2>
     </div>
   </section>
 </template>
