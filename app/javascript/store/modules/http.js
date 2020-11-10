@@ -1,4 +1,5 @@
 import axios from "axios";
+import errors from "../../mixins/errors/error";
 
 export default {
   namespaced: true,
@@ -21,8 +22,8 @@ export default {
 
       return axios(options)
         .then((res) => res)
-        .catch((err) => {
-          alert(err.response.data.error);
+        .catch((error) => {
+          errors.methods.rescue(error);
         });
     },
     async post({ dispatch }, requests) {
