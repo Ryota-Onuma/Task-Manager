@@ -231,12 +231,7 @@ export default {
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
-            console.dir(error);
-            if(error.response.status === 500){
-              this.$router.push('/500error')
-            }else{
-              alert('エラーが発生しました！')
-            }
+            this.rescue(error)
           });
       } else {
         //更新の場合
@@ -253,12 +248,7 @@ export default {
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
-            console.dir(error);
-            if(error.response.status === 500){
-              this.$router.push('/500error')
-            }else{
-              alert('エラーが発生しました！')
-            }
+            this.rescue(error)
           });
       }
     },

@@ -150,12 +150,7 @@ export default {
           this.$router.push("/admin/dashboard");
           
         } catch (error) {
-          console.dir(error)
-          if (error.response.status === 500) {
-            this.$router.push('/500error')
-          } else {
-            alert('エラーが発生しました！')
-          }
+            this.rescue(error)
         }
       }
     },
@@ -177,13 +172,7 @@ export default {
         alert("更新しました！");
         this.$router.push("/admin/dashboard");
       } catch (error) {
-        console.dir(error)
-        if (error.response.status === 500) {
-          this.$router.push('/500error')
-          return
-        } else {
-          alert('エラーが発生しました！')
-        }
+          this.rescue(error)
       }
     },
   },

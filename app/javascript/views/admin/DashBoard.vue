@@ -126,18 +126,14 @@ export default {
         "X-Requested-With": "XMLHttpRequest",
         Authorization: "Token " + token,
       };
-      const response = await this.axios.get(url).catch((error) => {
-        console.log(error.response.data.error);
-        alert("エラーが起きました！");
-        if (error.response.status === 500) {
-          this.$router.push('/500error')
-        } else {
-          alert('エラーが発生しました！')
+      try{
+        const response = await this.axios.get(url)
+        if (response) {
+          this.users_tasks = null;
+          this.users_tasks = response.data.users_tasks;
         }
-      });
-      if (response) {
-        this.users_tasks = null;
-        this.users_tasks = response.data.users_tasks;
+      } catch (error) {
+          this.rescue(error)
       }
     },
     async addUser() {
@@ -170,20 +166,18 @@ export default {
         "X-Requested-With": "XMLHttpRequest",
         Authorization: "Token " + token,
       };
-      const response = await this.axios.post(url, { user }).catch((error) => {
-        console.log(error.response.data.error);
-        this.is_new = false;
-        if (error.response.status === 500) {
-          this.$router.push('/500error')
-        } else {
-          alert('エラーが発生しました！')
+      try {
+        const response = await this.axios.post(url, { user })
+        if (response && response.status === 200) {
+          alert("ユーザーを作成しました");
+          this.getUsersAndTasks();
+          this.is_new = false;
         }
-      });
-      if (response && response.status === 200) {
-        alert("ユーザーを作成しました");
-        this.getUsersAndTasks();
-        this.is_new = false;
-      }
+      } catch (error) {
+          this.is_new = false;
+          this.rescue(error)
+      };
+    
     },
   },
 

@@ -27,8 +27,7 @@ export default {
             this.$store.dispatch("auth/signout");
           })
           .catch((error) => {
-            console.log(error);
-            alert("エラーが起きました！");
+            this.rescue(error)
           });
       }
     },

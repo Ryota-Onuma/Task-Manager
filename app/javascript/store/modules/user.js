@@ -52,12 +52,7 @@ export default {
           });
         })
         .catch((error) => {
-          console.dir(error);
-          if (error.response.status === 500) {
-            router.push("/500error");
-          } else {
-            alert("エラーが発生しました！");
-          }
+          this.rescue(error);
         });
     },
     deleteCurrentUserAction(context) {
