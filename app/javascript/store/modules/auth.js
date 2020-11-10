@@ -26,7 +26,14 @@ export default {
         { root: true }
       )
         .then((res) => commit("create", res.data))
-        .catch((err) => err);
+        .catch((error) => {
+          console.dir(error);
+          if (error.response.status === 500) {
+            this.$router.push("/500error");
+          } else {
+            alert("エラーが発生しました！");
+          }
+        });
     },
     signup({ commit, dispatch }, data) {
       dispatch(
@@ -38,7 +45,14 @@ export default {
           commit("create", res.data);
           dispatch("setToken");
         })
-        .catch((err) => console.dir(err));
+        .catch((error) => {
+          console.dir(error);
+          if (error.response.status === 500) {
+            router.push("/500error");
+          } else {
+            alert("エラーが発生しました！");
+          }
+        });
     },
     signout({ commit, dispatch }) {
       commit("destroy");
@@ -57,7 +71,14 @@ export default {
             dispatch("user/setCurrentUserAction", null, { root: true });
           }
         })
-        .catch((err) => err);
+        .catch((err) => {
+          console.dir(error);
+          if (error.response.status === 500) {
+            router.push("/500error");
+          } else {
+            alert("エラーが発生しました！");
+          }
+        });
     },
   },
 };

@@ -153,8 +153,12 @@ export default {
           this.users = response.data.users;
         })
         .catch((error) => {
-          console.log(error);
-          alert("エラーが起きました！");
+          console.dir(error);
+          if(error.response.status === 500){
+            this.$router.push('/500error')
+          }else{
+            alert('エラーが発生しました！')
+          }
         });
     },
     showFunc(task) {

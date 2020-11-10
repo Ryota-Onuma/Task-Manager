@@ -51,7 +51,14 @@ export default {
             admin: res.data.admin,
           });
         })
-        .catch((err) => console.log(err));
+        .catch((error) => {
+          console.dir(error);
+          if (error.response.status === 500) {
+            router.push("/500error");
+          } else {
+            alert("エラーが発生しました！");
+          }
+        });
     },
     deleteCurrentUserAction(context) {
       context.commit("deleteCurrentUser");

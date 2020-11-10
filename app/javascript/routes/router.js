@@ -59,6 +59,13 @@ const router = new Router({
       },
     },
     {
+      path: "/500error",
+      component: Error500,
+      meta: {
+        isPublic: true,
+      },
+    },
+    {
       path: "*",
       component: Error404,
       meta: {

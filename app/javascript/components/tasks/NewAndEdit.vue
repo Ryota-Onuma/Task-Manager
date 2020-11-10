@@ -232,12 +232,11 @@ export default {
           })
           .catch((error) => {
             console.dir(error);
-            alert(
-              error.response.data.error.replace(
-                "バリデーションに失敗しました:",
-                ""
-              )
-            );
+            if(error.response.status === 500){
+              this.$router.push('/500error')
+            }else{
+              alert('エラーが発生しました！')
+            }
           });
       } else {
         //更新の場合
@@ -255,12 +254,11 @@ export default {
           })
           .catch((error) => {
             console.dir(error);
-            alert(
-              error.response.data.error.replace(
-                "バリデーションに失敗しました:",
-                ""
-              )
-            );
+            if(error.response.status === 500){
+              this.$router.push('/500error')
+            }else{
+              alert('エラーが発生しました！')
+            }
           });
       }
     },

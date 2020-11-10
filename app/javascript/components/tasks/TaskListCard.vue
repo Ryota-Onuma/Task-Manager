@@ -53,11 +53,10 @@ export default {
         return;
       }
       const url = "/api/tasks/" + this.task.id;
+      const token = this.$store.getters["auth/token"];
       this.axios.defaults.headers.common = {
         "X-Requested-With": "XMLHttpRequest",
-        "X-CSRF-TOKEN": document
-          .querySelector('meta[name="csrf-token"]')
-          .getAttribute("content"),
+        Authorization: "Token " + token,
       };
       this.axios
         .delete(url)
@@ -66,8 +65,12 @@ export default {
           alert("削除が完了しました！");
         })
         .catch((error) => {
-          console.log(error);
-          alert("エラーが起きました！");
+          console.dir(error);
+          if(error.response.status === 500){
+            this.$router.push('/500error')
+          }else{
+            alert('エラーが発生しました！')
+          }
         });
     },
   },

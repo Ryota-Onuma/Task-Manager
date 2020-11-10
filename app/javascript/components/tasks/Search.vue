@@ -76,7 +76,6 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response.data.tasks);
           if (response.data.tasks.length > 0) {
             this.$emit("update:tasks", response.data.tasks);
             this.$emit("update:is_search", false);
@@ -86,6 +85,11 @@ export default {
         })
         .catch((error) => {
           console.dir(error);
+          if(error.response.status === 500){
+            this.$router.push('/500error')
+          }else{
+            alert('エラーが発生しました！')
+          }
         });
     },
   },

@@ -8,7 +8,23 @@
 </template>
 <script>
 export default {
-  
+  data(){
+    return{
+      from: null,
+      to: null
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.from = from,
+      vm.to = to
+    })
+  },
+  watch: {
+    to: function (to) {
+      history.replaceState('', '', this.from.path);
+    },
+},
 }
 </script>
 <style lang="scss" scoped>
