@@ -7,6 +7,8 @@ import ManageUser from "../views/admin/ManageUser.vue";
 import TaskIndex from "../views/tasks/Index.vue";
 import Signin from "../views/auth/SignIn.vue";
 import SignUp from "../views/auth/SignUp.vue";
+import Error404 from "../views/errors/404.vue";
+import Error500 from "../views/errors/500.vue";
 const router = new Router({
   mode: "history",
   routes: [
@@ -33,7 +35,7 @@ const router = new Router({
       },
     },
     {
-      path: "/admin/user/:id",
+      path: "/admin/user",
       name: "manage_user",
       component: ManageUser,
       props: true,
@@ -52,6 +54,20 @@ const router = new Router({
     {
       path: "/signup",
       component: SignUp,
+      meta: {
+        isPublic: true,
+      },
+    },
+    {
+      path: "/500error",
+      component: Error500,
+      meta: {
+        isPublic: true,
+      },
+    },
+    {
+      path: "*",
+      component: Error404,
       meta: {
         isPublic: true,
       },

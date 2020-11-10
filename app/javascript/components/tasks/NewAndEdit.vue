@@ -231,13 +231,7 @@ export default {
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
-            console.dir(error);
-            alert(
-              error.response.data.error.replace(
-                "バリデーションに失敗しました:",
-                ""
-              )
-            );
+            this.rescue(error)
           });
       } else {
         //更新の場合
@@ -254,13 +248,7 @@ export default {
             this.$emit("update:is_new_and_edit", false);
           })
           .catch((error) => {
-            console.dir(error);
-            alert(
-              error.response.data.error.replace(
-                "バリデーションに失敗しました:",
-                ""
-              )
-            );
+            this.rescue(error)
           });
       }
     },

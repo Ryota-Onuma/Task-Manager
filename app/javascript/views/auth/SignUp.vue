@@ -4,11 +4,7 @@
     <div id="signup-form">
       <input type="text" placeholder="Enter your Name" v-model="name" />
       <input type="email" placeholder="Enter your Email" v-model="email" />
-      <input
-        type="password"
-        placeholder="Enter your Password"
-        v-model="password"
-      />
+      <input type="password" placeholder="Enter your Password" v-model="password" />
       <input
         type="password"
         placeholder="Enter your Password Confirmation"
@@ -18,9 +14,7 @@
         <button @click="signUp">Sign Up</button>
       </div>
       <div id="go-here-who-already-has-account">
-        <router-link to="/signin"
-          >既にアカウントをお持ちの方はこちら</router-link
-        >
+        <router-link to="/signin">既にアカウントをお持ちの方はこちら</router-link>
       </div>
     </div>
   </section>
@@ -70,6 +64,7 @@ export default {
         const token = this.$store.getters["auth/token"];
         if (token) {
           this.$store.dispatch("user/setCurrentUserAction");
+          this.$router.push("/")
         }
       }
     );

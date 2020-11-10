@@ -24,13 +24,11 @@
             :to="{
               name: 'manage_user',
               params: {
-                id: user_task.user.id,
                 user: user_task.user,
                 task: user_task.tasks,
               },
             }"
-            >管理</router-link
-          >
+          >管理</router-link>
         </td>
       </tr>
     </table>
@@ -50,12 +48,7 @@
         </div>
         <div>
           <label for="password">Password：</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            placeholder="Password"
-          />
+          <input type="password" id="password" v-model="password" placeholder="Password" />
         </div>
         <div>
           <label for="password_confirm">Password Confirm：</label>
@@ -133,13 +126,14 @@ export default {
         "X-Requested-With": "XMLHttpRequest",
         Authorization: "Token " + token,
       };
-      const response = await this.axios.get(url).catch((error) => {
-        console.log(error.response.data.error);
-        alert("エラーが起きました！");
-      });
-      if (response) {
-        this.users_tasks = null;
-        this.users_tasks = response.data.users_tasks;
+      try{
+        const response = await this.axios.get(url)
+        if (response) {
+          this.users_tasks = null;
+          this.users_tasks = response.data.users_tasks;
+        }
+      } catch (error) {
+          this.rescue(error)
       }
     },
     async addUser() {
@@ -172,16 +166,18 @@ export default {
         "X-Requested-With": "XMLHttpRequest",
         Authorization: "Token " + token,
       };
-      const response = await this.axios.post(url, { user }).catch((error) => {
-        console.log(error.response.data.error);
-        alert("エラーが起きました！");
-        this.is_new = false;
-      });
-      if (response && response.status === 200) {
-        alert("ユーザーを作成しました");
-        this.getUsersAndTasks();
-        this.is_new = false;
-      }
+      try {
+        const response = await this.axios.post(url, { user })
+        if (response && response.status === 200) {
+          alert("ユーザーを作成しました");
+          this.getUsersAndTasks();
+          this.is_new = false;
+        }
+      } catch (error) {
+          this.is_new = false;
+          this.rescue(error)
+      };
+    
     },
   },
 

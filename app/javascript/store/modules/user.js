@@ -50,9 +50,10 @@ export default {
             email: res.data.email,
             admin: res.data.admin,
           });
-          router.push("/").catch(() => {});
         })
-        .catch((err) => console.log(err));
+        .catch((error) => {
+          this.rescue(error);
+        });
     },
     deleteCurrentUserAction(context) {
       context.commit("deleteCurrentUser");
