@@ -24,7 +24,7 @@ export default {
     to: function (to) {
       history.replaceState('', '', this.from.path);
     },
-},
+  },
 }
 </script>
 <style lang="scss" scoped>
